@@ -3,7 +3,7 @@
 // Provide info to EE
 $plugin_info = array(
 	'pi_name'        => 'Low Options',
-	'pi_version'     => '0.0.1',
+	'pi_version'     => '0.0.2',
 	'pi_author'      => 'Lodewijk Schutte ~ Low',
 	'pi_author_url'  => '#',
 	'pi_description' => 'Get options from select field.',
@@ -86,6 +86,22 @@ class Low_options {
 	public function __call($method, $arguments = array())
 	{
 		$this->_set_field_options($method);
+		return $this->_parse_field_options();
+	}
+
+	/**
+	 * Pre EE2.5 method, uses field="" param 
+	 *
+	 * @access      public
+	 * @return      string
+	 */
+	public function get()
+	{
+		if ($field = $this->EE->TMPL->fetch_param('field'))
+		{
+			$this->_set_field_options($field);
+		}
+
 		return $this->_parse_field_options();
 	}
 
