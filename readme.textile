@@ -1,0 +1,14 @@
+h1. Low Options plugin for ExpressionEngine
+
+Low Options displays the list items or options for a given channel field.
+
+h2. Installation
+
+* "Download":https://github.com/lodewijk/low_options/zipball/master and unzip;
+* Copy the @low_options@ folder to your @system/expressionengine/third_party@ directory.
+
+h2. Usage
+
+bc. {exp:low_options:channel_field_short_name}
+  {option:value} - {option:label}
+{/exp:low_options:channel_field_short_name}
