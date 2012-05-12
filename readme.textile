@@ -12,11 +12,15 @@ h2. Usage
 h3. ExpressionEngine 2.5 and up
 
 bc. {exp:low_options:channel_field_short_name}
-  {option:value} - {option:label}
+  {if option:group != ''}<optgroup label="{option:group}">{/if}
+  {options}<option value="{option:value}">{option:label}</option>{/options}
+  {if option:group != ''}</optgroup>{/if}
 {/exp:low_options:channel_field_short_name}
 
 h3. ExpressionEngine 2.4 and down
 
 bc. {exp:low_options:get field="channel_field_short_name"}
-  {option:value} - {option:label}
+  {if option:group != ''}<optgroup label="{option:group}">{/if}
+  {options}<option value="{option:value}">{option:label}</option>{/options}
+  {if option:group != ''}</optgroup>{/if}
 {/exp:low_options:get}

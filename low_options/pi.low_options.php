@@ -3,7 +3,7 @@
 // Provide info to EE
 $plugin_info = array(
 	'pi_name'        => 'Low Options',
-	'pi_version'     => '0.0.2',
+	'pi_version'     => '0.0.3',
 	'pi_author'      => 'Lodewijk Schutte ~ Low',
 	'pi_author_url'  => '#',
 	'pi_description' => 'Get options from select field.',
@@ -172,12 +172,28 @@ class Low_options {
 	private function _parse_field_options()
 	{
 		$data = array();
-		
+
 		foreach ($this->field_options AS $key => $val)
 		{
+			$options = array();
+
+			if (is_array($val))
+			{
+				foreach ($val AS $k => $v)
+				{
+					$options[] = $this->_option($k, $v);
+				}
+				$group_name = $key;
+			}
+			else
+			{
+				$options[] = $this->_option($key, $val);
+				$group_name = '';
+			}
+			
 			$data[] = array(
-				'option:value' => $key,
-				'option:label' => $val
+				'option:group' => $group_name,
+				'options' => $options
 			);
 		}
 
@@ -190,6 +206,22 @@ class Low_options {
 	}
 
 	/**
+	* Return an option row in array form
+	*
+	* @access      public
+	* @param       string
+	* @param       string
+	* @return      array
+	*/
+	private function _option($value, $label)
+	{
+		return array(
+			'option:value' => $value,
+			'option:label' => $label
+		);
+	}
+
+	/**
 	* Usage
 	*
 	* @access      public
@@ -199,7 +231,9 @@ class Low_options {
 	{
 		return <<<EOF
 	{exp:low_options:my_channel_field}
-		<option value="{option:value}">{option:label}</option>
+		{options}
+			<option value="{option:value}">{option:label}</option>
+		{/options}
 	{/exp:low_options:my_channel_field}
 EOF;
 	}
