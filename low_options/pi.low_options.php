@@ -90,7 +90,7 @@ class Low_options {
 	}
 
 	/**
-	 * Pre EE2.5 method, uses field="" param 
+	 * Pre EE2.5 method, uses field="" param
 	 *
 	 * @access      public
 	 * @return      string
@@ -105,10 +105,12 @@ class Low_options {
 		return $this->_parse_field_options();
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * Get field options from cache or DB
 	 *
-	 * @access      public
+	 * @access      private
 	 * @param       string
 	 * @return      void
 	 */
@@ -116,6 +118,7 @@ class Low_options {
 	{
 		// Serves as local cache
 		static $fields = array();
+		static $ids = array();
 
 		// If this is an unknown field name, get it from the DB
 		if ( ! isset($fields[$field_name]))
@@ -124,7 +127,7 @@ class Low_options {
 			$options = array();
 
 			// Get stuff from DB
-			$query = $this->EE->db->select('field_list_items, field_settings')
+			$query = $this->EE->db->select('field_id, field_list_items, field_settings')
 			       ->from('channel_fields')
 			       ->where('field_name', $field_name)
 			       ->limit(1)
@@ -157,16 +160,61 @@ class Low_options {
 
 			// Add to local cache
 			$fields[$field_name] = $options;
+			$ids[$field_name] = $query->row('field_id');
 		}
 
 		// Set the options
 		$this->field_options = $fields[$field_name];
+
+		if ($this->EE->TMPL->fetch_param('show_empty') == 'no' && isset($ids[$field_name]))
+		{
+			$vals = $this->_get_existing($ids[$field_name]);
+			$this->_filter($vals);
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Filter out non-existing stuff
+	 *
+	 * @access     private
+	 * @param      array
+	 * @return     void
+	 */
+	private function _filter($some = array())
+	{
+		foreach ($this->field_options AS $key => $val)
+		{
+			// 1 level nesting
+			if (is_array($val))
+			{
+				foreach ($val AS $k => $v)
+				{
+					if ( ! in_array($k, $some))
+					{
+						unset($this->field_options[$key][$k]);
+					}
+				}
+			}
+			else
+			{
+				if ( ! in_array($key, $some))
+				{
+					unset($this->field_options[$key]);
+				}
+			}
+		}
+
+		// Danger! Anything with value '0' gets filtered out, too
+		// Fix when needed
+		$this->field_options = array_filter($this->field_options);
 	}
 
 	/**
 	 * Parse options
 	 *
-	 * @access      public
+	 * @access      private
 	 * @return      string
 	 */
 	private function _parse_field_options()
@@ -190,7 +238,7 @@ class Low_options {
 				$options[] = $this->_option($key, $val);
 				$group_name = '';
 			}
-			
+
 			$data[] = array(
 				'option:group' => $group_name,
 				'options' => $options
@@ -206,13 +254,13 @@ class Low_options {
 	}
 
 	/**
-	* Return an option row in array form
-	*
-	* @access      public
-	* @param       string
-	* @param       string
-	* @return      array
-	*/
+	 * Return an option row in array form
+	 *
+	 * @access      private
+	 * @param       string
+	 * @param       string
+	 * @return      array
+	 */
 	private function _option($value, $label)
 	{
 		return array(
@@ -222,11 +270,176 @@ class Low_options {
 	}
 
 	/**
-	* Usage
-	*
-	* @access      public
-	* @return      string
-	*/
+	 * Check the unique values for given field
+	 *
+	 * @access      private
+	 * @param       string
+	 * @param       string
+	 * @return      array
+	 */
+	private function _get_existing($field_id)
+	{
+
+		// --------------------------------------
+		// Start composing query
+		// --------------------------------------
+		$sql_field = 'field_id_'.$field_id;
+
+		$this->EE->db->select("DISTINCT({$sql_field}) AS val")
+		     ->from('channel_data d')
+		     ->join('channel_titles t', 'd.entry_id = t.entry_id')
+		     ->where($sql_field.' !=', '');
+
+		// --------------------------------------
+		// Filter by channel
+		// --------------------------------------
+
+		if ($channels = $this->EE->TMPL->fetch_param('channel'))
+		{
+			// Determine which channels to filter by
+			list($channels, $in) = $this->_explode_param($channels);
+
+			// Join channels table
+			$this->EE->db->join('channels c', 't.channel_id = c.channel_id');
+			$this->EE->db->{($in ? 'where_in' : 'where_not_in')}('c.channel_name', $channels);
+		}
+
+		// --------------------------------------
+		// Filter by site
+		// --------------------------------------
+
+		$this->EE->db->where_in('t.site_id', $this->EE->TMPL->site_ids);
+
+		// --------------------------------------
+		// Filter by status - defaults to open
+		// --------------------------------------
+
+		if ($status = $this->EE->TMPL->fetch_param('status', 'open'))
+		{
+			// Determine which statuses to filter by
+			list($status, $in) = $this->_explode_param($status);
+
+			// Adjust query accordingly
+			$this->EE->db->{($in ? 'where_in' : 'where_not_in')}('t.status', $status);
+		}
+
+		// --------------------------------------
+		// Filter by expired entries
+		// --------------------------------------
+
+		if ($this->EE->TMPL->fetch_param('show_expired') != 'yes')
+		{
+			$this->EE->db->where("(t.expiration_date = '0' OR t.expiration_date > '{$this->EE->localize->now}')");
+		}
+
+		// --------------------------------------
+		// Filter by future entries
+		// --------------------------------------
+
+		if ($this->EE->TMPL->fetch_param('show_future_entries') != 'yes')
+		{
+			$this->EE->db->where("t.entry_date < '{$this->EE->localize->now}'");
+		}
+
+		// --------------------------------------
+		// Filter by category
+		// --------------------------------------
+
+		if ($categories_param = $this->EE->TMPL->fetch_param('category'))
+		{
+			// Determine which categories to filter by
+			list($categories, $in) = $this->_explode_param($categories_param);
+
+			if (strpos($categories_param, '&'))
+			{
+				// Execute query the old-fashioned way, so we don't interfere with active record
+				// Get the entry ids that have all given categories assigned
+				$query = $this->EE->db->query(
+					"SELECT entry_id, COUNT(*) AS num
+					FROM exp_category_posts
+					WHERE cat_id IN (".implode(',', $categories).")
+					GROUP BY entry_id HAVING num = ". count($categories));
+
+				// If no entries are found, make sure we limit the query accordingly
+				if ( ! ($entry_ids = low_flatten_results($query->result_array(), 'entry_id')))
+				{
+					$entry_ids = array(0);
+				}
+
+				$this->EE->db->where_in('entry_id', $entry_ids);
+			}
+			else
+			{
+				// Join category table
+				$this->EE->db->join('category_posts cp', 'cp.entry_id = t.entry_id');
+				$this->EE->db->{($in ? 'where_in' : 'where_not_in')}('cp.cat_id', $categories);
+			}
+		}
+
+		// --------------------------------------
+		// Get results
+		// --------------------------------------
+
+		$query = $this->EE->db->get();
+		$vals = array();
+
+		foreach ($query->result() AS $row)
+		{
+			$split = strpos($row->val, "\n") ? "\n" : '|';
+			$val   = explode($split, $row->val);
+			$vals  = array_merge($vals, $val);
+		}
+
+		$vals = array_unique($vals);
+
+		return $vals;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Converts EE parameter to workable php vars
+	 *
+	 * @access      private
+	 * @param       string    String like 'not 1|2|3' or '40|15|34|234'
+	 * @return      array     [0] = array of ids, [1] = boolean whether to include or exclude: TRUE means include, FALSE means exclude
+	 */
+	private function _explode_param($str)
+	{
+		// --------------------------------------
+		// Initiate $in var to TRUE
+		// --------------------------------------
+
+		$in = TRUE;
+
+		// --------------------------------------
+		// Check if parameter is "not bla|bla"
+		// --------------------------------------
+
+		if (strtolower(substr($str, 0, 4)) == 'not ')
+		{
+			// Change $in var accordingly
+			$in = FALSE;
+
+			// Strip 'not ' from string
+			$str = substr($str, 4);
+		}
+
+		// --------------------------------------
+		// Return two values in an array
+		// --------------------------------------
+
+		return array(preg_split('/(&|\|)/', $str), $in);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Usage
+	 *
+	 * @access      public
+	 * @return      string
+	 */
 	public function usage()
 	{
 		return <<<EOF
