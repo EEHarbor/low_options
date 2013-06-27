@@ -11,6 +11,19 @@ $plugin_info = array(
 );
 
 /**
+ * < EE 2.6.0 backward compat
+ */
+if ( ! function_exists('ee'))
+{
+	function ee()
+	{
+		static $EE;
+		if ( ! $EE) $EE = get_instance();
+		return $EE;
+	}
+}
+
+/**
  * Low Options Plugin class
  *
  * @package         low_options
@@ -34,14 +47,6 @@ class Low_options {
 	// --------------------------------------------------------------------
 
 	/**
-	 * EE Instance
-	 *
-	 * @access      private
-	 * @var         object
-	 */
-	private $EE;
-
-	/**
 	 * Requested field options
 	 *
 	 * @access      private
@@ -52,28 +57,6 @@ class Low_options {
 	// --------------------------------------------------------------------
 	// METHODS
 	// --------------------------------------------------------------------
-
-	/**
-	 * Legacy constructor
-	 *
-	 * @access      public
-	 * @return      string
-	 */
-	public function Low_options()
-	{
-		$this->__construct();
-	}
-
-	/**
-	 * Constructor: sets EE instance
-	 *
-	 * @access      public
-	 * @return      string
-	 */
-	public function __construct()
-	{
-		$this->EE =& get_instance();
-	}
 
 	/**
 	 * Call method
@@ -97,7 +80,7 @@ class Low_options {
 	 */
 	public function get()
 	{
-		if ($field = $this->EE->TMPL->fetch_param('field'))
+		if ($field = ee()->TMPL->fetch_param('field'))
 		{
 			$this->_set_field_options($field);
 		}
@@ -127,7 +110,7 @@ class Low_options {
 			$options = array();
 
 			// Get stuff from DB
-			$query = $this->EE->db->select('field_id, field_list_items, field_settings')
+			$query = ee()->db->select('field_id, field_list_items, field_settings')
 			       ->from('channel_fields')
 			       ->where('field_name', $field_name)
 			       ->limit(1)
@@ -166,7 +149,7 @@ class Low_options {
 		// Set the options
 		$this->field_options = $fields[$field_name];
 
-		if ($this->EE->TMPL->fetch_param('show_empty') == 'no' && isset($ids[$field_name]))
+		if (ee()->TMPL->fetch_param('show_empty') == 'no' && isset($ids[$field_name]))
 		{
 			$vals = $this->_get_existing($ids[$field_name]);
 			$this->_filter($vals);
@@ -247,8 +230,8 @@ class Low_options {
 
 		$this->return_data
 			= ($data)
-			? $this->EE->TMPL->parse_variables($this->EE->TMPL->tagdata, $data)
-			: $this->EE->TMPL->no_results();
+			? ee()->TMPL->parse_variables(ee()->TMPL->tagdata, $data)
+			: ee()->TMPL->no_results();
 
 		return $this->return_data;
 	}
@@ -279,13 +262,12 @@ class Low_options {
 	 */
 	private function _get_existing($field_id)
 	{
-
 		// --------------------------------------
 		// Start composing query
 		// --------------------------------------
 		$sql_field = 'field_id_'.$field_id;
 
-		$this->EE->db->select("DISTINCT({$sql_field}) AS val")
+		ee()->db->select("DISTINCT({$sql_field}) AS val")
 		     ->from('channel_data d')
 		     ->join('channel_titles t', 'd.entry_id = t.entry_id')
 		     ->where($sql_field.' !=', '');
@@ -294,58 +276,58 @@ class Low_options {
 		// Filter by channel
 		// --------------------------------------
 
-		if ($channels = $this->EE->TMPL->fetch_param('channel'))
+		if ($channels = ee()->TMPL->fetch_param('channel'))
 		{
 			// Determine which channels to filter by
 			list($channels, $in) = $this->_explode_param($channels);
 
 			// Join channels table
-			$this->EE->db->join('channels c', 't.channel_id = c.channel_id');
-			$this->EE->db->{($in ? 'where_in' : 'where_not_in')}('c.channel_name', $channels);
+			ee()->db->join('channels c', 't.channel_id = c.channel_id');
+			ee()->db->{($in ? 'where_in' : 'where_not_in')}('c.channel_name', $channels);
 		}
 
 		// --------------------------------------
 		// Filter by site
 		// --------------------------------------
 
-		$this->EE->db->where_in('t.site_id', $this->EE->TMPL->site_ids);
+		ee()->db->where_in('t.site_id', ee()->TMPL->site_ids);
 
 		// --------------------------------------
 		// Filter by status - defaults to open
 		// --------------------------------------
 
-		if ($status = $this->EE->TMPL->fetch_param('status', 'open'))
+		if ($status = ee()->TMPL->fetch_param('status', 'open'))
 		{
 			// Determine which statuses to filter by
 			list($status, $in) = $this->_explode_param($status);
 
 			// Adjust query accordingly
-			$this->EE->db->{($in ? 'where_in' : 'where_not_in')}('t.status', $status);
+			ee()->db->{($in ? 'where_in' : 'where_not_in')}('t.status', $status);
 		}
 
 		// --------------------------------------
 		// Filter by expired entries
 		// --------------------------------------
 
-		if ($this->EE->TMPL->fetch_param('show_expired') != 'yes')
+		if (ee()->TMPL->fetch_param('show_expired') != 'yes')
 		{
-			$this->EE->db->where("(t.expiration_date = '0' OR t.expiration_date > '{$this->EE->localize->now}')");
+			ee()->db->where("(t.expiration_date = '0' OR t.expiration_date > '{ee()->localize->now}')");
 		}
 
 		// --------------------------------------
 		// Filter by future entries
 		// --------------------------------------
 
-		if ($this->EE->TMPL->fetch_param('show_future_entries') != 'yes')
+		if (ee()->TMPL->fetch_param('show_future_entries') != 'yes')
 		{
-			$this->EE->db->where("t.entry_date < '{$this->EE->localize->now}'");
+			ee()->db->where("t.entry_date < '{ee()->localize->now}'");
 		}
 
 		// --------------------------------------
 		// Filter by category
 		// --------------------------------------
 
-		if ($categories_param = $this->EE->TMPL->fetch_param('category'))
+		if ($categories_param = ee()->TMPL->fetch_param('category'))
 		{
 			// Determine which categories to filter by
 			list($categories, $in) = $this->_explode_param($categories_param);
@@ -354,7 +336,7 @@ class Low_options {
 			{
 				// Execute query the old-fashioned way, so we don't interfere with active record
 				// Get the entry ids that have all given categories assigned
-				$query = $this->EE->db->query(
+				$query = ee()->db->query(
 					"SELECT entry_id, COUNT(*) AS num
 					FROM exp_category_posts
 					WHERE cat_id IN (".implode(',', $categories).")
@@ -366,13 +348,13 @@ class Low_options {
 					$entry_ids = array(0);
 				}
 
-				$this->EE->db->where_in('entry_id', $entry_ids);
+				ee()->db->where_in('entry_id', $entry_ids);
 			}
 			else
 			{
 				// Join category table
-				$this->EE->db->join('category_posts cp', 'cp.entry_id = t.entry_id');
-				$this->EE->db->{($in ? 'where_in' : 'where_not_in')}('cp.cat_id', $categories);
+				ee()->db->join('category_posts cp', 'cp.entry_id = t.entry_id');
+				ee()->db->{($in ? 'where_in' : 'where_not_in')}('cp.cat_id', $categories);
 			}
 		}
 
@@ -380,7 +362,7 @@ class Low_options {
 		// Get results
 		// --------------------------------------
 
-		$query = $this->EE->db->get();
+		$query = ee()->db->get();
 		$vals = array();
 
 		foreach ($query->result() AS $row)
