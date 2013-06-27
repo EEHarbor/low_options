@@ -27,6 +27,7 @@ Low Options displays the list items or options for a given channel field.
 
 ## Parameters
 
+- `ignore=""` : Pipe-separated list of *values* to ignore
 - `show_empty=""` : Set to `no` to only show values that have been assigned to entries
 - `channel=""` : Use in combination with `show_empty="no"` to filter assigned entries
 - `status=""` : Use in combination with `show_empty="no"` to filter assigned entries
