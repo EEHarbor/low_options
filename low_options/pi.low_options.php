@@ -202,6 +202,10 @@ class Low_options {
 	 */
 	private function _parse_field_options()
 	{
+		// Get optional ignore parameter
+		list($ignore, $in) = $this->_explode_param(ee()->TMPL->fetch_param('ignore'));
+
+		// Initiate variables
 		$data = array();
 
 		foreach ($this->field_options AS $key => $val)
@@ -212,12 +216,19 @@ class Low_options {
 			{
 				foreach ($val AS $k => $v)
 				{
+					// Skip ignored
+					if (($in && in_array($k, $ignore)) || ( ! $in && ! in_array($k, $ignore))) continue;
+
 					$options[] = $this->_option($k, $v);
 				}
+
 				$group_name = $key;
 			}
 			else
 			{
+				// Skip ignored
+				if (($in && in_array($key, $ignore)) || ( ! $in && ! in_array($key, $ignore))) continue;
+
 				$options[] = $this->_option($key, $val);
 				$group_name = '';
 			}
@@ -265,6 +276,8 @@ class Low_options {
 		// --------------------------------------
 		// Start composing query
 		// --------------------------------------
+
+		$sql_now   = ee()->localize->now;
 		$sql_field = 'field_id_'.$field_id;
 
 		ee()->db->select("DISTINCT({$sql_field}) AS val")
@@ -311,7 +324,7 @@ class Low_options {
 
 		if (ee()->TMPL->fetch_param('show_expired') != 'yes')
 		{
-			ee()->db->where("(t.expiration_date = '0' OR t.expiration_date > '{ee()->localize->now}')");
+			ee()->db->where("(t.expiration_date = '0' OR t.expiration_date > '{$sql_now}')");
 		}
 
 		// --------------------------------------
@@ -320,7 +333,7 @@ class Low_options {
 
 		if (ee()->TMPL->fetch_param('show_future_entries') != 'yes')
 		{
-			ee()->db->where("t.entry_date < '{ee()->localize->now}'");
+			ee()->db->where("t.entry_date < '{$sql_now}'");
 		}
 
 		// --------------------------------------
