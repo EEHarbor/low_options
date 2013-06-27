@@ -3,7 +3,7 @@
 // Provide info to EE
 $plugin_info = array(
 	'pi_name'        => 'Low Options',
-	'pi_version'     => '0.1.0',
+	'pi_version'     => '0.2.0',
 	'pi_author'      => 'Lodewijk Schutte ~ Low',
 	'pi_author_url'  => 'http://gotolow.com/',
 	'pi_description' => 'Get options from select field.',
