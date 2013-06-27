@@ -5,9 +5,9 @@ $plugin_info = array(
 	'pi_name'        => 'Low Options',
 	'pi_version'     => '0.1.0',
 	'pi_author'      => 'Lodewijk Schutte ~ Low',
-	'pi_author_url'  => '#',
+	'pi_author_url'  => 'http://gotolow.com/',
 	'pi_description' => 'Get options from select field.',
-	'pi_usage'       => Low_options::usage()
+	'pi_usage'       => 'See https://github.com/low/low_options for more details.'
 );
 
 /**
@@ -434,20 +434,4 @@ class Low_options {
 
 	// --------------------------------------------------------------------
 
-	/**
-	 * Usage
-	 *
-	 * @access      public
-	 * @return      string
-	 */
-	public function usage()
-	{
-		return <<<EOF
-	{exp:low_options:my_channel_field}
-		{options}
-			<option value="{option:value}">{option:label}</option>
-		{/options}
-	{/exp:low_options:my_channel_field}
-EOF;
-	}
 }
