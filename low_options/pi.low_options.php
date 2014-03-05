@@ -110,9 +110,11 @@ class Low_options {
 			$options = array();
 
 			// Get stuff from DB
+			$site_id = ee()->config->item('site_id');
 			$query = ee()->db->select('field_id, field_list_items, field_settings')
 			       ->from('channel_fields')
 			       ->where('field_name', $field_name)
+			       ->where('site_id', $site_id)
 			       ->limit(1)
 			       ->get();
 
