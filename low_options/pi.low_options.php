@@ -3,7 +3,7 @@
 // Provide info to EE
 $plugin_info = array(
 	'pi_name'        => 'Low Options',
-	'pi_version'     => '0.2.0',
+	'pi_version'     => '0.2.1',
 	'pi_author'      => 'Lodewijk Schutte ~ Low',
 	'pi_author_url'  => 'http://gotolow.com/',
 	'pi_description' => 'Get options from select field.',
@@ -28,7 +28,7 @@ if ( ! function_exists('ee'))
  *
  * @package         low_options
  * @author          Lodewijk Schutte ~ Low <hi@gotolow.com>
- * @copyright       Copyright (c) 2011-2012, Lodewijk Schutte
+ * @copyright       Copyright (c) 2011-2014, Lodewijk Schutte
  */
 class Low_options {
 
@@ -113,6 +113,7 @@ class Low_options {
 			$query = ee()->db->select('field_id, field_list_items, field_settings')
 			       ->from('channel_fields')
 			       ->where('field_name', $field_name)
+			       ->where_in('site_id', ee()->TMPL->site_ids)
 			       ->limit(1)
 			       ->get();
 
