@@ -3,7 +3,7 @@
 // Provide info to EE
 $plugin_info = array(
 	'pi_name'        => 'Low Options',
-	'pi_version'     => '0.2.1',
+	'pi_version'     => '0.3.1',
 	'pi_author'      => 'Lodewijk Schutte ~ Low',
 	'pi_author_url'  => 'http://gotolow.com/',
 	'pi_description' => 'Get options from select field.',
@@ -138,6 +138,24 @@ class Low_options {
 					if (isset($settings['options']))
 					{
 						$options = $settings['options'];
+					}
+					else
+					{
+						// If no actual options were found,
+						// populate options by getting the existing values of this field
+						$options = $this->_get_existing($row->field_id);
+
+						// Sort 'em
+						natcasesort($options);
+
+						// Possibly reverse 'em
+						if (ee()->TMPL->fetch_param('sort') == 'desc')
+						{
+							$options = array_reverse($options);
+						}
+
+						// Set them both as keys and values
+						$options = array_combine($options, $options);
 					}
 				}
 			}
@@ -357,7 +375,7 @@ class Low_options {
 					GROUP BY entry_id HAVING num = ". count($categories));
 
 				// If no entries are found, make sure we limit the query accordingly
-				if ( ! ($entry_ids = low_flatten_results($query->result_array(), 'entry_id')))
+				if ( ! ($entry_ids = $this->_flatten($query->result_array(), 'entry_id')))
 				{
 					$entry_ids = array(0);
 				}
@@ -430,4 +448,35 @@ class Low_options {
 
 	// --------------------------------------------------------------------
 
+	/**
+	 * Flatten a result set
+	 *
+	 * Given a DB result set, this will return an (associative) array
+	 * based on the keys given
+	 *
+	 * @param      array
+	 * @param      string    key of array to use as value
+	 * @param      string    key of array to use as key (optional)
+	 * @return     array
+	 */
+	private function _flatten($resultset, $val, $key = FALSE)
+	{
+		$array = array();
+
+		foreach ($resultset AS $row)
+		{
+			if ($key !== FALSE)
+			{
+				$array[$row[$key]] = $row[$val];
+			}
+			else
+			{
+				$array[] = $row[$val];
+			}
+		}
+
+		return $array;
+	}
+
+	// --------------------------------------------------------------------
 }

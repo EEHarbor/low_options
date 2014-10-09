@@ -1,6 +1,6 @@
 # Low Options plugin for ExpressionEngine
 
-Low Options displays the list items or options for a given channel field.
+Low Options displays the list items or options for a given channel field. These options are the values given in the settings of the field (eg: dropdown fields). If no such options are given (eg: regular text input fields), a list of unique values of that field will be generated based on the given parameters.
 
 ## Installation
 
@@ -34,3 +34,4 @@ Low Options displays the list items or options for a given channel field.
 - `category=""` : Use in combination with `show_empty="no"` to filter assigned entries
 - `show_future_entries=""` : Use in combination with `show_empty="no"` to filter assigned entries
 - `show_expired=""` : Use in combination with `show_empty="no"` to filter assigned entries
+- `sort=""` : Only applies to text fields: set to `desc` to display generated options in reverse order
