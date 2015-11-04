@@ -1,10 +1,12 @@
-# Low Options plugin for ExpressionEngine
+# Low Options for ExpressionEngine
 
 Low Options displays the list items or options for a given channel field. These options are the values given in the settings of the field (eg: dropdown fields). If no such options are given (eg: regular text input fields), a list of unique values of that field will be generated based on the given parameters.
 
+Requires **EE 2.2.0+** and is especially useful in combination with [Low Search](http://gotolow/addons/low-search). The EE3 compatible version [is available here](https://github.com/low/low_list/tree/ee3).
+
 ## Installation
 
-- [Download](https://github.com/low/low_options/zipball/master) and unzip;
+- [Download](https://github.com/low/low_options/archive/ee2.zip) and unzip;
 - Copy the `low_options` folder to your `system/expressionengine/third_party` directory.
 
 ## Usage
