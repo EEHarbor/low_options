@@ -1,28 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-// Provide info to EE
-$plugin_info = array(
-	'pi_name'        => 'Low Options',
-	'pi_version'     => '0.3.1',
-	'pi_author'      => 'Lodewijk Schutte ~ Low',
-	'pi_author_url'  => 'http://gotolow.com/',
-	'pi_description' => 'Get options from select field.',
-	'pi_usage'       => 'See https://github.com/low/low_options for more details.'
-);
-
-/**
- * < EE 2.6.0 backward compat
- */
-if ( ! function_exists('ee'))
-{
-	function ee()
-	{
-		static $EE;
-		if ( ! $EE) $EE = get_instance();
-		return $EE;
-	}
-}
-
 /**
  * Low Options Plugin class
  *
@@ -34,16 +11,6 @@ class Low_options {
 
 	// --------------------------------------------------------------------
 	// PROPERTIES
-	// --------------------------------------------------------------------
-
-	/**
-	 * Plugin return data
-	 *
-	 * @access      public
-	 * @var         string
-	 */
-	public $return_data;
-
 	// --------------------------------------------------------------------
 
 	/**
@@ -104,26 +71,26 @@ class Low_options {
 		static $ids = array();
 
 		// If this is an unknown field name, get it from the DB
-		if ( ! isset($fields[$field_name]))
+		if ( ! array_key_exists($field_name, $fields))
 		{
 			// Initiate options
 			$options = array();
 
 			// Get stuff from DB
-			$query = ee()->db->select('field_id, field_list_items, field_settings')
-			       ->from('channel_fields')
-			       ->where('field_name', $field_name)
-			       ->where_in('site_id', ee()->TMPL->site_ids)
-			       ->limit(1)
-			       ->get();
+			$row = ee('Model')
+				->get('ChannelField')
+				->fields('field_id', 'field_list_items', 'field_settings')
+				->filter('field_name', $field_name)
+				->filter('site_id', 'IN', ee()->TMPL->site_ids)
+				->first();
 
 			// If we have a match, prep the options
-			if ($row = $query->row())
+			if ($row)
 			{
 				// Check default list items first
 				if ( ! empty($row->field_list_items))
 				{
-					foreach (explode("\n", $row->field_list_items) AS $item)
+					foreach (explode("\n", trim($row->field_list_items)) as $item)
 					{
 						$options[$item] = $item;
 					}
@@ -131,13 +98,10 @@ class Low_options {
 				// Check settings for 3rd party stuff
 				else
 				{
-					// Decode settings
-					$settings = @unserialize(base64_decode($row->field_settings));
-
 					// Check for options
-					if (isset($settings['options']))
+					if (isset($row->field_settings['options']) && is_array($row->field_settings['options']))
 					{
-						$options = $settings['options'];
+						$options = $row->field_settings['options'];
 					}
 					else
 					{
@@ -162,7 +126,7 @@ class Low_options {
 
 			// Add to local cache
 			$fields[$field_name] = $options;
-			$ids[$field_name] = $query->row('field_id');
+			$ids[$field_name]    = $row ? $row->field_id : 0;
 		}
 
 		// Set the options
@@ -258,12 +222,9 @@ class Low_options {
 			);
 		}
 
-		$this->return_data
-			= ($data)
+		return $data
 			? ee()->TMPL->parse_variables(ee()->TMPL->tagdata, $data)
 			: ee()->TMPL->no_results();
-
-		return $this->return_data;
 	}
 
 	/**
