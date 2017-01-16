@@ -103,6 +103,11 @@ class Low_options {
 					{
 						$options = $row->field_settings['options'];
 					}
+					// EE3.5 value/label pairs
+					elseif (isset($row->field_settings['value_label_pairs']) && is_array($row->field_settings['value_label_pairs']))
+					{
+						$options = $row->field_settings['value_label_pairs'];
+					}
 					else
 					{
 						// If no actual options were found,

@@ -6,7 +6,7 @@
  * @package        low_options
  * @author         Lodewijk Schutte <hi@gotolow.com>
  * @link           http://gotolow.com/
- * @copyright      Copyright (c) 2015, Low
+ * @copyright      Copyright (c) 2017, Low
  */
 
 return array(
@@ -15,6 +15,6 @@ return array(
 	'docs_url'       => 'https://github.com/low/low_options',
 	'name'           => 'Low Options',
 	'description'    => 'Get options from select field.',
-	'version'        => '1.0.0',
+	'version'        => '1.1.0',
 	'namespace'      => 'Low\Options'
 );
