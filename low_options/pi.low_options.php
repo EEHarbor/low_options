@@ -76,12 +76,16 @@ class Low_options {
 			// Initiate options
 			$options = array();
 
+			// Site ids
+			$site_ids = ee()->TMPL->site_ids;
+			$site_ids[] = 0;
+
 			// Get stuff from DB
 			$row = ee('Model')
 				->get('ChannelField')
 				->fields('field_id', 'field_list_items', 'field_settings')
 				->filter('field_name', $field_name)
-				->filter('site_id', 'IN', ee()->TMPL->site_ids)
+				->filter('site_id', 'IN', $site_ids)
 				->first();
 
 			// If we have a match, prep the options
