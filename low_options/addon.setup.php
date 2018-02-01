@@ -15,6 +15,6 @@ return array(
 	'docs_url'       => 'https://github.com/low/low_options',
 	'name'           => 'Low Options',
 	'description'    => 'Get options from select field.',
-	'version'        => '1.1.0',
+	'version'        => '1.1.1',
 	'namespace'      => 'Low\Options'
 );
