@@ -5,7 +5,7 @@
  *
  * @package         low_options
  * @author          Lodewijk Schutte ~ Low <hi@gotolow.com>
- * @copyright       Copyright (c) 2011-2014, Lodewijk Schutte
+ * @copyright       Copyright (c) 2011-2018, Lodewijk Schutte
  */
 class Low_options {
 
@@ -20,6 +20,19 @@ class Low_options {
 	 * @var         array
 	 */
 	private $field_options = array();
+
+	/**
+	 * Query Builder
+	 *
+	 * @access      private
+	 * @var         object
+	 */
+	private $builder;
+
+	/**
+	 * Keep track of which tables were joined
+	 */
+	private $joined = array();
 
 	// --------------------------------------------------------------------
 	// METHODS
@@ -143,6 +156,7 @@ class Low_options {
 
 		if (ee()->TMPL->fetch_param('show_empty') == 'no' && isset($ids[$field_name]))
 		{
+
 			$vals = $this->_get_existing($ids[$field_name]);
 			$this->_filter($vals);
 		}
@@ -262,121 +276,128 @@ class Low_options {
 	 */
 	private function _get_existing($field_id)
 	{
-		// --------------------------------------
-		// Start composing query
-		// --------------------------------------
+		// Initiate the quwery builder
+		$this->builder = ee('Model')->get('ChannelEntry');
 
-		$sql_now   = ee()->localize->now;
-		$sql_field = 'field_id_'.$field_id;
+		// This is now!
+		$now = ee()->localize->now;
 
-		ee()->db->select("DISTINCT({$sql_field}) AS val")
-		     ->from('channel_data d')
-		     ->join('channel_titles t', 'd.entry_id = t.entry_id')
-		     ->where($sql_field.' !=', '');
+		// Filter by site ID
+		$this->builder->filter('site_id', 'IN', ee()->TMPL->site_ids);
 
-		// --------------------------------------
-		// Filter by channel
-		// --------------------------------------
+		// The SQL format of the given field ID
+		$field = 'field_id_'.$field_id;
 
-		if ($channels = ee()->TMPL->fetch_param('channel'))
+		// Select the stuff
+		$this->builder->fields('entry_id', 'channel_id', $field);
+
+		// Only get non-empty field values, including 0 for numeric fields that default to 0
+		$this->builder
+			->filter($field, '!=', '')
+			->filter($field, 'IS NOT', NULL);
+
+		// Filter by channel name; needs join with Channel
+		if ($val = ee()->TMPL->fetch_param('channel'))
 		{
-			// Determine which channels to filter by
-			list($channels, $in) = $this->_explode_param($channels);
-
-			// Join channels table
-			ee()->db->join('channels c', 't.channel_id = c.channel_id');
-			ee()->db->{($in ? 'where_in' : 'where_not_in')}('c.channel_name', $channels);
+			$this->where('channel_name', $val, 'Channel');
 		}
 
-		// --------------------------------------
-		// Filter by site
-		// --------------------------------------
-
-		ee()->db->where_in('t.site_id', ee()->TMPL->site_ids);
-
-		// --------------------------------------
-		// Filter by status - defaults to open
-		// --------------------------------------
-
-		if ($status = ee()->TMPL->fetch_param('status', 'open'))
+		// Filter by status; needs default value
+		if ($val = ee()->TMPL->fetch_param('status', 'open'))
 		{
-			// Determine which statuses to filter by
-			list($status, $in) = $this->_explode_param($status);
-
-			// Adjust query accordingly
-			ee()->db->{($in ? 'where_in' : 'where_not_in')}('t.status', $status);
+			$this->where('status', $val);
 		}
 
-		// --------------------------------------
-		// Filter by expired entries
-		// --------------------------------------
-
-		if (ee()->TMPL->fetch_param('show_expired') != 'yes')
-		{
-			ee()->db->where("(t.expiration_date = '0' OR t.expiration_date > '{$sql_now}')");
-		}
-
-		// --------------------------------------
 		// Filter by future entries
-		// --------------------------------------
-
 		if (ee()->TMPL->fetch_param('show_future_entries') != 'yes')
 		{
-			ee()->db->where("t.entry_date < '{$sql_now}'");
+			$this->builder->filter('entry_date', '<', $now);
 		}
 
-		// --------------------------------------
-		// Filter by category
-		// --------------------------------------
-
-		if ($categories_param = ee()->TMPL->fetch_param('category'))
+		// Filter by expired entries
+		if (ee()->TMPL->fetch_param('show_expired') != 'yes')
 		{
-			// Determine which categories to filter by
-			list($categories, $in) = $this->_explode_param($categories_param);
+			$this->builder
+				->filterGroup()
+				->filter('expiration_date', 0)
+				->orFilter('expiration_date', '>', $now)
+				->endFilterGroup();
+		}
 
-			if (strpos($categories_param, '&'))
+		// Filter by category
+		if ($val = ee()->TMPL->fetch_param('category'))
+		{
+			if (strpos($val, '&') > 0)
 			{
+				// Convert to array_pop
+				$val = explode('&', $val);
+				$val = array_filter($val, function($v){
+					return is_numeric($v);
+				});
+
 				// Execute query the old-fashioned way, so we don't interfere with active record
 				// Get the entry ids that have all given categories assigned
-				$query = ee()->db->query(
+				$q = ee()->db->query(
 					"SELECT entry_id, COUNT(*) AS num
 					FROM exp_category_posts
-					WHERE cat_id IN (".implode(',', $categories).")
-					GROUP BY entry_id HAVING num = ". count($categories));
+					WHERE cat_id IN (".implode(',', $val).")
+					GROUP BY entry_id HAVING num = ". count($val));
 
 				// If no entries are found, make sure we limit the query accordingly
-				if ( ! ($entry_ids = $this->_flatten($query->result_array(), 'entry_id')))
+				if ($q->num_rows())
+				{
+					$q = new \EllisLab\ExpressionEngine\Library\Data\Collection($q->result_array());
+					$entry_ids = $q->pluck('entry_id');
+				}
+				else
 				{
 					$entry_ids = array(0);
 				}
 
-				ee()->db->where_in('entry_id', $entry_ids);
+				$this->builder->filter('entry_id', 'IN', $entry_ids);
 			}
 			else
 			{
-				// Join category table
-				ee()->db->join('category_posts cp', 'cp.entry_id = t.entry_id');
-				ee()->db->{($in ? 'where_in' : 'where_not_in')}('cp.cat_id', $categories);
+				$this->where('cat_id', $val, 'Categories');
 			}
 		}
 
-		// --------------------------------------
-		// Get results
-		// --------------------------------------
-
-		$query = ee()->db->get();
+		$rows = $this->builder->all()->pluck($field);
 		$vals = array();
 
-		foreach ($query->result() AS $row)
+		foreach ($rows as $row)
 		{
-			$split = strpos($row->val, "\n") ? "\n" : '|';
-			$val   = explode($split, $row->val);
+			$split = strpos($row, "\n") ? "\n" : '|';
+			$val   = explode($split, $row);
 			$vals  = array_merge($vals, $val);
 		}
 
 		$vals = array_unique($vals);
 
 		return $vals;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Simple where filter
+	 */
+	private function where($key, $val, $with = NULL)
+	{
+		if ($with)
+		{
+			if ( ! in_array($with, $this->joined))
+			{
+				$this->builder->with($with);
+				$this->joined[] = $with;
+			}
+
+			$key = $with.'.'.$key;
+		}
+
+		list($val, $in) = $this->_explode_param($val);
+
+		$this->builder->filter($key, ($in ? 'IN' : 'NOT IN'), $val);
 	}
 
 	// --------------------------------------------------------------------
