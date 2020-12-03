@@ -5,7 +5,7 @@
  *
  * @package         low_options
  * @author          Lodewijk Schutte ~ Low <hi@gotolow.com>
- * @copyright       Copyright (c) 2011-2018, Lodewijk Schutte
+ * @copyright       Copyright (c) 2011-2020, Lodewijk Schutte
  */
 class Low_options {
 
