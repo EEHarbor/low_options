@@ -83,6 +83,12 @@ class Low_options {
 		static $fields = array();
 		static $ids = array();
 
+		// Grid field?
+		if (strpos($field_name, ':') !== FALSE)
+		{
+			list($grid_name, $column_name) = explode(':', $field_name, 2);
+		}
+
 		// If this is an unknown field name, get it from the DB
 		if ( ! array_key_exists($field_name, $fields))
 		{
@@ -97,9 +103,28 @@ class Low_options {
 			$row = ee('Model')
 				->get('ChannelField')
 				->fields('field_id', 'field_list_items', 'field_settings')
-				->filter('field_name', $field_name)
+				->filter('field_name', $grid_name ?? $field_name)
 				->filter('site_id', 'IN', $site_ids)
 				->first();
+
+			if ($row && !empty($column_name))
+			{
+				$col = ee()->db
+					->select('col_id, col_name, col_settings')
+					->from('grid_columns')
+					->where('field_id', $row->field_id)
+					->where('col_name', $column_name)
+					->get();
+
+				if ($col->num_rows)
+				{
+					$col = $col->row();
+					$id  = $row->field_id.':'.$col->col_id;
+					$row = json_decode($col->col_settings);
+					$row->field_id = $id;
+					$row->field_settings = json_decode($col->col_settings, TRUE);
+				}
+			}
 
 			// If we have a match, prep the options
 			if ($row)
@@ -156,7 +181,6 @@ class Low_options {
 
 		if (ee()->TMPL->fetch_param('show_empty') == 'no' && isset($ids[$field_name]))
 		{
-
 			$vals = $this->_get_existing($ids[$field_name]);
 			$this->_filter($vals);
 		}
@@ -276,6 +300,12 @@ class Low_options {
 	 */
 	private function _get_existing($field_id)
 	{
+		// No support for Grid columns just yet
+		if (strpos($field_id, ':') !== FALSE)
+		{
+			return [];
+		}
+
 		// Initiate the quwery builder
 		$this->builder = ee('Model')->get('ChannelEntry');
 
