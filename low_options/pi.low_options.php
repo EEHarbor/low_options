@@ -9,7 +9,11 @@
  * @author          Lodewijk Schutte ~ Low <hi@gotolow.com>
  * @copyright       Copyright (c) 2011-2018, Lodewijk Schutte
  */
-class Low_options
+
+include_once "addon.setup.php";
+use Low\Options\FluxCapacitor\Base\Pi;
+
+class Low_options extends Pi
 {
 
     // --------------------------------------------------------------------
@@ -315,9 +319,9 @@ class Low_options
                 // Get the entry ids that have all given categories assigned
                 $q = ee()->db->query(
                     "SELECT entry_id, COUNT(*) AS num
-					FROM exp_category_posts
-					WHERE cat_id IN (".implode(',', $val).")
-					GROUP BY entry_id HAVING num = ". count($val)
+                    FROM exp_category_posts
+                    WHERE cat_id IN (".implode(',', $val).")
+                    GROUP BY entry_id HAVING num = ". count($val)
                 );
 
                 // If no entries are found, make sure we limit the query accordingly
