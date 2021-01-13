@@ -1,0 +1,14 @@
+{
+  "name": "Low Options",
+  "shortname": "low_options",
+  "version": "1.1.2",
+  "foundation_version": "",
+  "description": "Get options from select field.",
+  "license": "EEHarbor",
+  "namespace": "Low\\Options",
+  "require": {
+    "php": ">=5.6.*",
+    "expressionengine/core": ">=3"
+  },
+  "resources": {}
+}
