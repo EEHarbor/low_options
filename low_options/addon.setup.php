@@ -1,20 +1,15 @@
 <?php
 
-/**
- * Low Options config file
- *
- * @package         low_options
- * @author          Lodewijk Schutte ~ Low <hi@gotolow.com>
- * @link            http://gotolow.com/addons/low-options
- * @copyright       Copyright (c) 2011-2018, Lodewijk Schutte
- */
+require_once 'autoload.php';
+$addonJson = json_decode(file_get_contents(__DIR__ . '/addon.json'));
 
 return array(
-	'author'         => 'Low',
-	'author_url'     => 'http://gotolow.com/',
-	'docs_url'       => 'http://gotolow.com/addons/low-options',
-	'name'           => 'Low Options',
-	'description'    => 'Get options from select field.',
-	'version'        => '1.1.2',
-	'namespace'      => 'Low\Options'
+    'name'              => $addonJson->name,
+    'description'       => $addonJson->description,
+    'version'           => $addonJson->version,
+    'namespace'         => $addonJson->namespace,
+    'author'            => 'EEHarbor',
+    'author_url'        => 'http://eeharbor.com/low_options',
+    'docs_url'          => 'http://eeharbor.com/low_options/documentation',
+    'settings_exist'    => false,
 );
