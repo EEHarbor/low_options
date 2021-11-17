@@ -1,4 +1,6 @@
-<?php if (! defined('BASEPATH')) {
+<?php
+
+if (! defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
@@ -113,15 +115,14 @@ class Low_options extends Pi
                     foreach (explode("\n", trim($row->field_list_items)) as $item) {
                         $options[$item] = $item;
                     }
-                }
-                // Check settings for 3rd party stuff
-                else {
+                } else {
+                    // Check settings for 3rd party stuff
+
                     // Check for options
                     if (isset($row->field_settings['options']) && is_array($row->field_settings['options'])) {
                         $options = $row->field_settings['options'];
-                    }
-                    // EE3.5 value/label pairs
-                    elseif (isset($row->field_settings['value_label_pairs']) && is_array($row->field_settings['value_label_pairs'])) {
+                    } elseif (isset($row->field_settings['value_label_pairs']) && is_array($row->field_settings['value_label_pairs'])) {
+                        // EE3.5 value/label pairs
                         $options = $row->field_settings['value_label_pairs'];
                     } else {
                         // If no actual options were found,
@@ -272,7 +273,7 @@ class Low_options extends Pi
         $this->builder->filter('site_id', 'IN', ee()->TMPL->site_ids);
 
         // The SQL format of the given field ID
-        $field = 'field_id_'.$field_id;
+        $field = 'field_id_' . $field_id;
 
         // Select the stuff
         $this->builder->fields('entry_id', 'channel_id', $field);
@@ -320,8 +321,8 @@ class Low_options extends Pi
                 $q = ee()->db->query(
                     "SELECT entry_id, COUNT(*) AS num
                     FROM exp_category_posts
-                    WHERE cat_id IN (".implode(',', $val).")
-                    GROUP BY entry_id HAVING num = ". count($val)
+                    WHERE cat_id IN (" . implode(',', $val) . ")
+                    GROUP BY entry_id HAVING num = " . count($val)
                 );
 
                 // If no entries are found, make sure we limit the query accordingly
@@ -365,7 +366,7 @@ class Low_options extends Pi
                 $this->joined[] = $with;
             }
 
-            $key = $with.'.'.$key;
+            $key = $with . '.' . $key;
         }
 
         list($val, $in) = $this->_explode_param($val);
