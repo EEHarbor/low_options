@@ -1,6 +1,7 @@
 <?php
+
 /**
- * EEHarbor PHAR Loader for low_options
+ * EEHarbor PHAR Loader for Low Options
  * Register a new auto-loader to handle loading files from the
  * PHAR in various environments (w/ opcache, w/o phar stream, etc).
  *
