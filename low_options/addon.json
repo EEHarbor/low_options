@@ -1,7 +1,7 @@
 {
     "name": "Low Options",
     "shortname": "low_options",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "foundation_version": "4.9.0",
     "description": "Get options from select field.",
     "license": "EEHarbor",
