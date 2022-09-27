@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.2] - 2022-09-27
+- Verified ExpressionEngine 7 Compatibility
 
 ## [2.0.1] - 2021-11-17
 ### Changed
@@ -33,7 +35,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - First Release!
 
-[Unreleased]: https://github.com/packettide/wygwam/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/packettide/wygwam/compare/v2.0.2...HEAD
+[2.0.2]: https://github.com/packettide/wygwam/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/packettide/wygwam/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/packettide/wygwam/compare/v1.1.2...v2.0.0
 [1.1.2]: https://github.com/packettide/wygwam/compare/v1.1.1...v1.1.2
