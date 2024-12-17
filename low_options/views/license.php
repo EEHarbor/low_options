@@ -65,7 +65,7 @@
     margin: 15px 0;
     padding: 10px;
     line-height: 18px;
-    background-color: #f5f5f5;
+    background: var(--ee-input-bg, #f5f5f5);
     border: 1px solid #e8e8e8;
     }
 .license_status h4 {
@@ -81,17 +81,17 @@
     color: #e0251c;
     text-align: center;
     border: 1px solid #f59792;
-    background-color: #fcf5f5;
+    background: var(--ee-input-bg, #f5f5f5);
     }
 .license_status_disabled .license_status {
     border: 2px solid #ff0000;
-    background-color: #fcf5f5;
+    background: var(--ee-input-bg, #f5f5f5);
     }
 .license_status_disabled .license_status ol {
     margin: 0 0 0 35px !important;
     }
 .ee6 .license_status {
-    background-color: var(--ee-bg-5);
+    background: var(--ee-input-bg, #f5f5f5);
 }
 </style>
 <!-- <div class="tbl-ctrls"> -->
