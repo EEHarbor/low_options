@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [2.2.0] - 2024-12-17
+### Changed
+- PHP 8.4 Ready
+- Foundation Updated to 4.11.0
+
 ## [2.1.1] - 2023-03-23
 ### Fixed
 - Foundation Bug
