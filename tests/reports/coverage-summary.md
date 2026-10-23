@@ -9,7 +9,7 @@ Basic-block execution is distinct from decision outcomes. Raw outgoing data and 
 | low_options/low_options.phar/<stub>.php | 7/154 | 0/109 | 0/104 |
 | low_options/low_options.phar/FluxCapacitor/Base/Ext.php | 59/61 | 31/33 | 13/18 |
 | low_options/low_options.phar/FluxCapacitor/Base/Ft.php | 40/56 | 23/44 | 12/34 |
-| low_options/low_options.phar/FluxCapacitor/Base/Mcp.php | 22/83 | 13/50 | 7/44 |
+| low_options/low_options.phar/FluxCapacitor/Base/Mcp.php | 73/83 | 43/50 | 31/44 |
 | low_options/low_options.phar/FluxCapacitor/Base/Mod.php | 10/10 | 6/7 | 4/4 |
 | low_options/low_options.phar/FluxCapacitor/Base/Pi.php | 5/10 | 2/3 | 0/0 |
 | low_options/low_options.phar/FluxCapacitor/Base/Tab.php | 22/24 | 14/16 | 6/8 |

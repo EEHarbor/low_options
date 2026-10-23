@@ -15,8 +15,8 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php74"
     },
     "counts": {
-      "tests": 192,
-      "assertions": 781,
+      "tests": 203,
+      "assertions": 828,
       "errors": 4,
       "failures": 12,
       "warnings": 0,
@@ -42,8 +42,8 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php80"
     },
     "counts": {
-      "tests": 192,
-      "assertions": 779,
+      "tests": 203,
+      "assertions": 826,
       "errors": 5,
       "failures": 10,
       "warnings": 0,
@@ -69,8 +69,8 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php81"
     },
     "counts": {
-      "tests": 192,
-      "assertions": 778,
+      "tests": 203,
+      "assertions": 825,
       "errors": 6,
       "failures": 10,
       "warnings": 0,
@@ -96,9 +96,9 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php82"
     },
     "counts": {
-      "tests": 192,
-      "assertions": 778,
-      "errors": 6,
+      "tests": 203,
+      "assertions": 821,
+      "errors": 7,
       "failures": 10,
       "warnings": 0,
       "skipped": 0,
@@ -123,9 +123,9 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php83"
     },
     "counts": {
-      "tests": 192,
-      "assertions": 778,
-      "errors": 6,
+      "tests": 203,
+      "assertions": 821,
+      "errors": 7,
       "failures": 10,
       "warnings": 0,
       "skipped": 0,
@@ -150,9 +150,9 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php84"
     },
     "counts": {
-      "tests": 192,
-      "assertions": 778,
-      "errors": 6,
+      "tests": 203,
+      "assertions": 821,
+      "errors": 7,
       "failures": 10,
       "warnings": 0,
       "skipped": 0,
@@ -177,9 +177,9 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php85"
     },
     "counts": {
-      "tests": 192,
-      "assertions": 778,
-      "errors": 6,
+      "tests": 203,
+      "assertions": 821,
+      "errors": 7,
       "failures": 10,
       "warnings": 0,
       "skipped": 0,

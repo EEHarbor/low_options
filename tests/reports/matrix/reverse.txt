@@ -1,13 +1,13 @@
 PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
 
-..........F............F...............EF......................  63 / 192 ( 32%)
-..................E.........................................EE. 126 / 192 ( 65%)
-......F.FFFF......E.........F..........................F....... 189 / 192 ( 98%)
-.E.                                                             192 / 192 (100%)
+..........F............F...............EF......................  63 / 203 ( 31%)
+...................E......E.................................... 126 / 203 ( 62%)
+........EE.......F.FFFF......E.........F....................... 189 / 203 ( 93%)
+...F........E.                                                  203 / 203 (100%)
 
-Time: 00:01.034, Memory: 26.97 MB
+Time: 00:01.085, Memory: 28.97 MB
 
-There were 6 errors:
+There were 7 errors:
 
 1) LowOptionsTests\LowOptionsTest::testPrivateParameterNullRobustnessRemainsDiagnosticFree
 ErrorException: substr(): Passing null to parameter #1 ($string) of type string is deprecated
@@ -23,25 +23,31 @@ phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/F
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Upd.php:64
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveMcpTest.php:101
 
-3) LowOptionsTests\ArchiveConduitTest::testMalformedSettingsDoNotEmitSuppressedUnserializeDiagnostic
+3) LowOptionsTests\ArchiveMcpSaveTest::testPaginationCountsWithoutLimitingOriginalQuery
+ErrorException: Creation of dynamic property Low\Options\FluxCapacitor\Base\Mcp::$data is deprecated
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Mcp.php:165
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveMcpSaveTest.php:181
+
+4) LowOptionsTests\ArchiveConduitTest::testMalformedSettingsDoNotEmitSuppressedUnserializeDiagnostic
 ErrorException: unserialize(): Error at offset 0 of 14 bytes
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php:33
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:209
 
-4) LowOptionsTests\ArchiveConduitTest::testMissingNamedSettingDoesNotEmitSuppressedUndefinedKeyDiagnostic
+5) LowOptionsTests\ArchiveConduitTest::testMissingNamedSettingDoesNotEmitSuppressedUndefinedKeyDiagnostic
 ErrorException: Undefined array key "absent"
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php:21
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:196
 
-5) LowOptionsTests\ArchiveBridgeTest::testLegacyBaseUrlIsDiagnosticFree
+6) LowOptionsTests\ArchiveBridgeTest::testLegacyBaseUrlIsDiagnosticFree
 ValueError: version_compare(): Argument #3 ($operator) must be a valid comparison operator
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php:47
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:236
 
-6) LowOptionsTests\ArchiveBaseTest::testStaticPluginMetadataIsCallable
+7) LowOptionsTests\ArchiveBaseTest::testStaticPluginMetadataIsCallable
 Error: Using $this when not in object context
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Pi.php:30
@@ -113,4 +119,4 @@ Failed asserting that two strings are identical.
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:141
 
 ERRORS!
-Tests: 192, Assertions: 778, Errors: 6, Failures: 10.
+Tests: 203, Assertions: 821, Errors: 7, Failures: 10.

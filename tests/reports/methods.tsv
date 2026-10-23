@@ -31,8 +31,8 @@ low_options/low_options.phar/FluxCapacitor/Base/Ft.php	_package_display_settings
 low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	__construct	27-36	4/5	2/3	1/2	measured	34	29->16	36
 low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	index	38-41	1/1	1/1	0/0	measured	-	-	-
 low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	license	43-66	14/14	6/6	4/4	measured	-	-	-
-low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	save_license	68-138	0/38	0/19	0/20	measured	70,72,73,74,75,76,78,79,82,83,84,88,89,92,94,96,97,98,100,101,104,105,106,110,112,114,115,116,120,121,124,125,127,128,133,135,136,137	70->53,70->63,82->71,82->88,88->112,88->208,94->124,94->167,97->143,97->147,110->171,110->208,120->212,120->250,121->220,121->222,124->223,124->229,124->230,124->250	104,112
-low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	paginateModel	140-175	0/18	0/12	0/10	measured	143,146,147,149,152,154,155,159,161,162,165,166,167,168,169,170,171,174	140->20,140->26,152->38,152->42,154->43,154->46,154->47,154->51,154->52,154->61	-
+low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	save_license	68-138	35/38	19/19	19/20	measured	106,116,137	121->222	104,112
+low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	paginateModel	140-175	16/18	11/12	5/10	measured	147,174	140->20,152->42,154->46,154->51,154->61	-
 low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	canIncludeNav	183-196	2/6	4/8	2/8	measured	186,187,189,190	185->10,185->11,186->18,186->24,189->30,189->32	190
 low_options/low_options.phar/FluxCapacitor/Base/Mod.php	__construct	21-25	3/3	1/1	0/0	measured	-	-	23
 low_options/low_options.phar/FluxCapacitor/Base/Mod.php	getParameter	35-49	6/6	5/5	4/4	measured	-	-	45
