@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/bootstrap.php" colors="true" failOnRisky="true" failOnWarning="true" cacheResult="false">
+  <testsuites>
+    <testsuite name="Low Options complete suite">
+      <directory suffix="Test.php">tests/tests/Unit</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <ini name="display_errors" value="1"/>
+  </php>
+  <coverage processUncoveredFiles="true" pathCoverage="true">
+    <include>
+      <directory suffix=".php">low_options</directory>
+    </include>
+  </coverage>
+</phpunit>
