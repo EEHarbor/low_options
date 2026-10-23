@@ -1,6 +1,6 @@
 # Low Options campaign status
 
-Status: **incomplete, reviewed native runner/terminal checkpoint published**. The native runner/terminal code and evidence checkpoint is published at `aa09998ca74922dfefa164b0548c4c65b5f234e6`. Production defects and instrumentation/source constraints prevent a green 100% line-and-outcome milestone. Useful remaining coverage work is listed separately; this is not a claim that every uncovered method is blocked.
+Status: **incomplete, final legacy/state checkpoint awaits independent review**. The prior native runner/terminal checkpoint and ledger are published through `15073ec366f9dd98ff6ac314660b3159f3cd61b2`. Production defects and instrumentation/source constraints prevent a green 100% line-and-outcome milestone. Useful remaining coverage work is listed separately; this is not a claim that every uncovered method is blocked.
 
 ## Baseline and scope
 
@@ -23,15 +23,15 @@ Commands and complete output are retained in `reports/matrix.json` and `reports/
 
 | Herd PHP | Cases | Assertions | Errors | Failures | Warnings | Risky | Skipped | Incomplete |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 7.4.33 | 290 | 1311 | 14 | 16 | 0 | 0 | 0 | 0 |
-| 8.0.30 | 290 | 1309 | 15 | 14 | 0 | 0 | 0 | 0 |
-| 8.1.33 | 290 | 1308 | 16 | 14 | 0 | 0 | 0 | 0 |
-| 8.2.30 | 290 | 1304 | 17 | 14 | 0 | 0 | 0 | 0 |
-| 8.3.28 | 290 | 1304 | 17 | 14 | 0 | 0 | 0 | 0 |
-| 8.4.15 | 290 | 1304 | 17 | 14 | 0 | 0 | 0 | 0 |
-| 8.5.0 | 290 | 1304 | 17 | 14 | 0 | 0 | 0 | 0 |
+| 7.4.33 | 312 | 1428 | 14 | 18 | 0 | 0 | 0 | 0 |
+| 8.0.30 | 312 | 1422 | 15 | 16 | 0 | 0 | 0 | 0 |
+| 8.1.33 | 312 | 1421 | 16 | 16 | 0 | 0 | 0 | 0 |
+| 8.2.30 | 312 | 1417 | 17 | 16 | 0 | 0 | 0 | 0 |
+| 8.3.28 | 312 | 1417 | 17 | 16 | 0 | 0 | 0 | 0 |
+| 8.4.15 | 312 | 1417 | 17 | 16 | 0 | 0 | 0 | 0 |
+| 8.5.0 | 312 | 1417 | 17 | 16 | 0 | 0 | 0 | 0 |
 
-All commands exit 2 due to retained source regressions. The matrix orchestrator exits 1 when any suite is red. PHP74/85 random seed 20261023 and PHP82 reverse runs reproduce their default counts and source issue identities. All 33 test/support PHP files lint on PHP74 and PHP85. No tool/harness deprecations remain; Reflection accessibility changes are guarded below PHP8.1.
+All commands exit 2 due to retained source regressions. The matrix orchestrator exits 1 when any suite is red. PHP74/85 random seed 20261023 and PHP82 reverse runs reproduce their default counts and source issue identities. All 36 test/support PHP files lint on PHP74 and PHP85. No tool/harness deprecations remain; Reflection accessibility changes are guarded below PHP8.1.
 
 
 
@@ -180,3 +180,19 @@ Self-review checked the moved crypto boundary, bounded child lifetime, large out
 ## Native runner/terminal publication evidence
 
 Published reviewed test/support commit8213083 and evidence commit aa09998ca74922dfefa164b0548c4c65b5f234e6 to origin/unit-tests-2026 without force. Their combined full-index binary diff from c619f400dd11061a3a806577a17222f2e91e002a exactly matches approved SHA25630d9a2d64e8b5dc0918c72dc6f650bd7ba3c27f3d9d5b5295b6755d92d8b6271, and final tree691464b2e7bdbc0ba5380afb00125e1b4b73fa41 matches the reviewed tree. Fresh pre-publication origin tracking parity was0/0. Subsequent fetch and live ls-remote verified exact aa09998ca74922dfefa164b0548c4c65b5f234e6, tracking parity0/0, clean checkout and empty production baseline diff. This STATUS-only ledger records publication; it changes no executable tests or coverage evidence. Historical/native/live EE/SQL/platform and broad outcome gaps remain explicit, and full campaign completion is not claimed.
+
+## Final legacy/state checkpoint
+
+This delta starts at15073ec366f9dd98ff6ac314660b3159f3cd61b2 and adds22 cases. Native original-library probes isolate APP_VER constants, session/cookie/fingerprint values, preserved S/D directives, dynamic view handoffs and page/offset pagination behavior. They directly import unchanged AbstractBridge/StaticCache/EE2 entries from the original PHAR, bypass package-loader selection and do not boot a historical EE installation. Every dynamic view is written beneath that child's unique temporary PATH_THIRD; no production view is written. The view loader records the boundary and configured result rather than rendering EE templates. Session userdata follows the current real EE isset/default contract, with direct zero/false/null/missing vectors.
+
+The source's documented EE2.6.0–2.7.3 session workaround is now tested at both boundaries. It should use admin_session_type and the configured admin token. Invalid operator =< instead selects cp_session_type on PHP74, leaving S=0; PHP8 throws before returning a URL. These two intended behavior vectors remain ordinary red source failures. Earlier URL controls on2.5.5 verify session/fingerprint/cookie, zero/null/missing userdata and preserved directives. Historical constants test the shipped version conditions; they do not certify historical framework compatibility on current PHP.
+
+Database journals now retain each owning builder's immutable call/cache snapshot. Existing eight settings insert/update vectors require exactly one DML mutation, the correct table/data, the immediate site/count/site-update trace on the same writer, the appropriate clone/fresh-query cache state and an unchanged primary pending query/cache. A direct seam vector keeps the clone and fresh builder alive while checking identity; assertions use the writer's snapshot, so later object-id reuse cannot merge unrelated traces. The fixture observes calls and scripted results; it does not execute SQL.
+
+NativeLoadTest and ArchiveNavigationTest now share the already tested NativeProcess helper. Their former sequential output pipes and unbounded lifetime are replaced by isolated output files, a monotonic deadline and finally cleanup. Large-output, invalid-deadline and stalled-child controls remain green. All30 native load/selection cases and all7 installed-nav cases run independently on74/85 with only the original source failures.
+
+Every full configured suite runs312 cases: PHP74=1428 assertions/14 errors/18 failures;80=1422/15/16;81=1421/16/16;82–85=1417/17/16. Warnings, risky, skipped and incomplete categories are zero. Only the two historical workaround source failures are added; prior issue identities remain. Focused new state/settings-owner vectors run30/157 with two source failures on74 and30/153 on80–85. The new class alone runs22/101 on74 and22/97 on85, with those same two failures. Random74/85 and reverse82 preserve full counts and issue identities. External focused caller FIFO probes preserve empty/seeded states on all seven runtimes, and complete suites preserve both on74/85 (0/4 and0/2). All36 PHP test/support scripts lint74/85; all27 source inventory entries regenerate identically.
+
+Fresh PHP82 parent coverage remains byte-identical, including main134/135 lines and97/106 decision outcomes. Six crypto, three terminal and the installed-nav all-context graph were freshly rerun after the shared fixture/runner changes. Forty new legacy graphs remain separate:20 on PHP74/Xdebug3.1.6 and20 onPHP82/Xdebug3.5.3. Each retains complete options, PHP/Xdebug/EE/request/locale/source provenance, original raw JSON and SHA256, every out/out_hit and all27 unit/method reports. Artifacts are xdebug-legacy-php74/82.json.gz and legacy-php74/82-coverage.json.gz. Native view paths reach5/5 lines and5/5 basic blocks in positive contexts; individual graphs still expose their unobserved outcomes. No process/runtime/context graphs are merged, and no 100% source claim is made.
+
+Self-review checked current EE Session/Loader contracts, original PHAR imports, source-version conditions, typed outputs, exact database mutation ownership, owned dynamic views/CWD/environment cleanup, bounded process handling, strict suppressed diagnostics, caller FIFO and source/report hashes. Independent exact-diff review is pending. This is the final implementation tranche before coordinator-directed breadth rotation; tests/REMAINING.md distinguishes feasible follow-up from proven source/contract/platform/instrumentation constraints. Sixteen later hydration prototype cases remain private and excluded from this312-case checkpoint. No production fixes are authorized.

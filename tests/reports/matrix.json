@@ -15,10 +15,10 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php74"
     },
     "counts": {
-      "tests": 290,
-      "assertions": 1311,
+      "tests": 312,
+      "assertions": 1428,
       "errors": 14,
-      "failures": 16,
+      "failures": 18,
       "warnings": 0,
       "skipped": 0,
       "risky": 0,
@@ -42,10 +42,10 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php80"
     },
     "counts": {
-      "tests": 290,
-      "assertions": 1309,
+      "tests": 312,
+      "assertions": 1422,
       "errors": 15,
-      "failures": 14,
+      "failures": 16,
       "warnings": 0,
       "skipped": 0,
       "risky": 0,
@@ -69,10 +69,10 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php81"
     },
     "counts": {
-      "tests": 290,
-      "assertions": 1308,
+      "tests": 312,
+      "assertions": 1421,
       "errors": 16,
-      "failures": 14,
+      "failures": 16,
       "warnings": 0,
       "skipped": 0,
       "risky": 0,
@@ -96,10 +96,10 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php82"
     },
     "counts": {
-      "tests": 290,
-      "assertions": 1304,
+      "tests": 312,
+      "assertions": 1417,
       "errors": 17,
-      "failures": 14,
+      "failures": 16,
       "warnings": 0,
       "skipped": 0,
       "risky": 0,
@@ -123,10 +123,10 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php83"
     },
     "counts": {
-      "tests": 290,
-      "assertions": 1304,
+      "tests": 312,
+      "assertions": 1417,
       "errors": 17,
-      "failures": 14,
+      "failures": 16,
       "warnings": 0,
       "skipped": 0,
       "risky": 0,
@@ -150,10 +150,10 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php84"
     },
     "counts": {
-      "tests": 290,
-      "assertions": 1304,
+      "tests": 312,
+      "assertions": 1417,
       "errors": 17,
-      "failures": 14,
+      "failures": 16,
       "warnings": 0,
       "skipped": 0,
       "risky": 0,
@@ -177,10 +177,10 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php85"
     },
     "counts": {
-      "tests": 290,
-      "assertions": 1304,
+      "tests": 312,
+      "assertions": 1417,
       "errors": 17,
-      "failures": 14,
+      "failures": 16,
       "warnings": 0,
       "skipped": 0,
       "risky": 0,

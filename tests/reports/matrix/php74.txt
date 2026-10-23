@@ -2,16 +2,16 @@ PHP 7.4.33 (cli) (built: Dec 13 2023 21:52:05) ( NTS )
 Copyright (c) The PHP Group
 Zend Engine v3.4.0, Copyright (c) Zend Technologies
 
-COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-154803-gjgzjq3b/php74.xml']
+COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-160519-y332zwa1/php74.xml']
 PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
 
-.E........F................................F...................  63 / 290 ( 21%)
-........FEEE.FFFF.F..EF............EE.....EEEE................. 126 / 290 ( 43%)
-................................E.............................. 189 / 290 ( 65%)
-.EE..F..........F.................F.....F..............F....... 252 / 290 ( 86%)
-.........F............F...............                          290 / 290 (100%)
+.E........F................................F...................  63 / 312 ( 20%)
+........FEEE.FFFF.F..EF............EE.....EEEE................. 126 / 312 ( 40%)
+..........................FF..........................E........ 189 / 312 ( 60%)
+.......................EE..F..........F.................F.....F 252 / 312 ( 80%)
+..............F................F............F...............    312 / 312 (100%)
 
-Time: 00:03.172, Memory: 34.00 MB
+Time: 00:04.070, Memory: 34.00 MB
 
 There were 14 errors:
 
@@ -64,28 +64,28 @@ phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/F
 8) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #0 ('EE3')
 RuntimeException: Cannot overwrite custom on the loader.
 
-/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:477
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:479
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php:344
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
 
 9) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #1 ('EE4')
 RuntimeException: Cannot overwrite custom on the loader.
 
-/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:477
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:479
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php:344
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
 
 10) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #2 ('EE5')
 RuntimeException: Cannot overwrite custom on the loader.
 
-/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:477
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:479
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php:344
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
 
 11) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #3 ('EE6')
 RuntimeException: Cannot overwrite custom on the loader.
 
-/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:477
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:479
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php:344
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
 
@@ -103,14 +103,14 @@ ErrorException: rmdir(nested): Directory not empty
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubHelperTest.php:183
 
 14) LowOptionsTests\ArchiveStubHelperTest::testTemporaryExtractionTreeCleanup with data set "dangling symlink robustness" (array(), array(), array('absent'))
-ErrorException: rmdir(/var/folders/07/g6ql86ns3m75y257j7nb6pv00000gn/T/low-options-stub-3978cc4852c39eff): Directory not empty
+ErrorException: rmdir(/var/folders/07/g6ql86ns3m75y257j7nb6pv00000gn/T/low-options-stub-e0d8e990bd275502): Directory not empty
 
 /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:285
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubHelperTest.php:183
 
 --
 
-There were 16 failures:
+There were 18 failures:
 
 1) LowOptionsTests\ArchiveBaseTest::testLegacyRegistrationAliasPreservesExplicitArguments
 Failed asserting that two strings are identical.
@@ -127,7 +127,7 @@ Failed asserting that Array &0 (
     0 => 1
 ) is false.
 
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:164
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:176
 
 3) LowOptionsTests\ArchiveCacheFilesystemTest::testHasAcceptsProcessedHashKey
 Failed asserting that false is true.
@@ -171,7 +171,39 @@ Failed asserting that two arrays are identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:137
 
-10) LowOptionsTests\ArchiveStubTerminalTest::testNativeEntryTermination with data set "size" ('size', 'Invalid internal .phar file (... != 5)')
+10) LowOptionsTests\ArchiveLegacyStateTest::testHistoricalSessionUrls with data set "workaround start" ('2.6.0', '/admin.php?S=0', array('s', 'c'), array('admin'), 'admin', 'cp')
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+     'C' => 'addons_modules'
+     'D' => 'cp'
+     'M' => 'show_module_cp'
+-    'S' => 'admin'
++    'S' => '0'
+     'method' => 'history'
+     'module' => 'low_options'
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveLegacyStateTest.php:89
+
+11) LowOptionsTests\ArchiveLegacyStateTest::testHistoricalSessionUrls with data set "workaround end" ('2.7.3', '/admin.php?S=0', array('s', 'c'), array('admin'), 'admin', 'cp')
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+     'C' => 'addons_modules'
+     'D' => 'cp'
+     'M' => 'show_module_cp'
+-    'S' => 'admin'
++    'S' => '0'
+     'method' => 'history'
+     'module' => 'low_options'
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveLegacyStateTest.php:89
+
+12) LowOptionsTests\ArchiveStubTerminalTest::testNativeEntryTermination with data set "size" ('size', 'Invalid internal .phar file (... != 5)')
 Failed asserting that two arrays are identical.
 --- Expected
 +++ Actual
@@ -193,7 +225,7 @@ Failed asserting that two arrays are identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubTerminalTest.php:25
 
-11) LowOptionsTests\ArchiveVersionTest::testVersionCheckEncryptedPayload with data set "installed" (array('2.1.0'), '2.1.0')
+13) LowOptionsTests\ArchiveVersionTest::testVersionCheckEncryptedPayload with data set "installed" (array('2.1.0'), '2.1.0')
 Failed asserting that two arrays are identical.
 --- Expected
 +++ Actual
@@ -210,7 +242,7 @@ Failed asserting that two arrays are identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveVersionTest.php:166
 
-12) LowOptionsTests\LowOptionsTest::testSettingsOptions with data set "options override value label pairs" (array(array('Zero', 'Ex'), array('Ignored')), array(array('', array(array(0, 'Zero'))), array('', array(array('x', 'Ex')))))
+14) LowOptionsTests\LowOptionsTest::testSettingsOptions with data set "options override value label pairs" (array(array('Zero', 'Ex'), array('Ignored')), array(array('', array(array(0, 'Zero'))), array('', array(array('x', 'Ex')))))
 Failed asserting that two arrays are identical.
 --- Expected
 +++ Actual
@@ -233,7 +265,7 @@ Failed asserting that two arrays are identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:109
 
-13) LowOptionsTests\LowOptionsTest::testExistingValuesAreUniqueNaturallySortedAndReversed
+15) LowOptionsTests\LowOptionsTest::testExistingValuesAreUniqueNaturallySortedAndReversed
 Failed asserting that two arrays are identical.
 --- Expected
 +++ Actual
@@ -246,24 +278,24 @@ Failed asserting that two arrays are identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:181
 
-14) LowOptionsTests\LowOptionsTest::testZeroOptionSurvivesShowEmptyWhenEntryContainsZero
+16) LowOptionsTests\LowOptionsTest::testZeroOptionSurvivesShowEmptyWhenEntryContainsZero
 Failed asserting that two strings are not identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:352
 
-15) LowOptionsTests\NativeLoadTest::testNativeArchiveClassLoadsWithoutDiagnostics with data set "FluxCapacitor/Conduit/McpNav.php" ('Conduit\McpNav')
+17) LowOptionsTests\NativeLoadTest::testNativeArchiveClassLoadsWithoutDiagnostics with data set "FluxCapacitor/Conduit/McpNav.php" ('Conduit\McpNav')
 ErrorException: include_once(/Users/tomjaeger/Sites/add-ons/low_options/low_options/Conduit/McpNav.php): failed to open stream: No such file or directory at phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php:7
 
 Failed asserting that 1 is identical to 0.
 
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:59
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:32
 
-16) LowOptionsTests\NativeLoadTest::testArchiveSelfExtractsWhenPharWrapperIsUnavailable
+18) LowOptionsTests\NativeLoadTest::testArchiveSelfExtractsWhenPharWrapperIsUnavailable
 ErrorException: mkdir(): File exists at /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:177
 
 Failed asserting that 1 is identical to 0.
 
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:140
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:113
 
 ERRORS!
-Tests: 290, Assertions: 1311, Errors: 14, Failures: 16.
+Tests: 312, Assertions: 1428, Errors: 14, Failures: 18.
