@@ -23,7 +23,7 @@ Basic-block execution is distinct from decision outcomes. Raw outgoing data and 
 | low_options/low_options.phar/FluxCapacitor/Bridge/EE6.php | 2/2 | 0/1 | 0/0 |
 | low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php | 23/23 | 12/13 | 6/6 |
 | low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php | 0/0 | 0/0 | 0/0 |
-| low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php | 51/70 | 35/45 | 25/36 |
+| low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php | 64/70 | 42/45 | 33/36 |
 | low_options/low_options.phar/FluxCapacitor/Conduit/StaticCache.php | 18/18 | 15/16 | 6/6 |
 | low_options/low_options.phar/FluxCapacitor/Conduit/Version.php | 99/100 | 56/60 | 39/44 |
 | low_options/low_options.phar/FluxCapacitor/FluxCapacitor.php | 5/5 | 1/2 | 0/0 |

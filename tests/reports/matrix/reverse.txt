@@ -1,13 +1,13 @@
 PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
 
-..........F............F...............EF......................  63 / 232 ( 27%)
-...............................E......E........................ 126 / 232 ( 54%)
-...................EEEE.....EE............FE..F.FFFF......E.... 189 / 232 ( 81%)
-.....F..........................F........E.                     232 / 232 (100%)
+..........F............F...............EF......................  63 / 248 ( 25%)
+...............................E......E........................ 126 / 248 ( 50%)
+...................EEEE.....EE............FE..F.FFFF.EEEF...... 189 / 248 ( 76%)
+...........E.........F..........................F........E.     248 / 248 (100%)
 
-Time: 00:01.456, Memory: 28.97 MB
+Time: 00:01.559, Memory: 28.97 MB
 
-There were 12 errors:
+There were 15 errors:
 
 1) LowOptionsTests\LowOptionsTest::testPrivateParameterNullRobustnessRemainsDiagnosticFree
 ErrorException: substr(): Passing null to parameter #1 ($string) of type string is deprecated
@@ -76,13 +76,34 @@ phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/F
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:21
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:124
 
-11) LowOptionsTests\ArchiveBridgeTest::testLegacyBaseUrlIsDiagnosticFree
+11) LowOptionsTests\ArchiveCacheFilesystemTest::testCorruptCacheReturnsFalseWithoutDiagnostic
+ErrorException: unserialize(): Error at offset 0 of 14 bytes
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:181
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:45
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveCacheFilesystemTest.php:229
+
+12) LowOptionsTests\ArchiveCacheFilesystemTest::testBlockedDirectoryCreationReturnsFalse with data set #1 ('module')
+ErrorException: mkdir(): Not a directory
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:215
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:57
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveCacheFilesystemTest.php:206
+
+13) LowOptionsTests\ArchiveCacheFilesystemTest::testBlockedDirectoryCreationReturnsFalse with data set #0 ('base')
+ErrorException: mkdir(): Not a directory
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:196
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:57
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveCacheFilesystemTest.php:206
+
+14) LowOptionsTests\ArchiveBridgeTest::testLegacyBaseUrlIsDiagnosticFree
 ValueError: version_compare(): Argument #3 ($operator) must be a valid comparison operator
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php:47
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:232
 
-12) LowOptionsTests\ArchiveBaseTest::testStaticPluginMetadataIsCallable
+15) LowOptionsTests\ArchiveBaseTest::testStaticPluginMetadataIsCallable
 Error: Using $this when not in object context
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Pi.php:30
@@ -90,7 +111,7 @@ phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/F
 
 --
 
-There were 11 failures:
+There were 12 failures:
 
 1) LowOptionsTests\NativeLoadTest::testArchiveSelfExtractsWhenPharWrapperIsUnavailable
 ErrorException: mkdir(): File exists at /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:177
@@ -148,14 +169,19 @@ Failed asserting that false is identical to 0.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-10) LowOptionsTests\ArchiveBridgeTest::testCacheRoutingAndDeletion with data set #0 ('EE2')
+10) LowOptionsTests\ArchiveCacheFilesystemTest::testHasAcceptsProcessedHashKey
+Failed asserting that false is true.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveCacheFilesystemTest.php:187
+
+11) LowOptionsTests\ArchiveBridgeTest::testCacheRoutingAndDeletion with data set #0 ('EE2')
 Failed asserting that Array &0 (
     0 => 1
 ) is false.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:164
 
-11) LowOptionsTests\ArchiveBaseTest::testLegacyRegistrationAliasPreservesExplicitArguments
+12) LowOptionsTests\ArchiveBaseTest::testLegacyRegistrationAliasPreservesExplicitArguments
 Failed asserting that two strings are identical.
 --- Expected
 +++ Actual
@@ -166,4 +192,4 @@ Failed asserting that two strings are identical.
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:141
 
 ERRORS!
-Tests: 232, Assertions: 957, Errors: 12, Failures: 11.
+Tests: 248, Assertions: 1051, Errors: 15, Failures: 12.
