@@ -1,11 +1,12 @@
 PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
 
-..........F............F...............EF......................  63 / 248 ( 25%)
-...............................E......E........................ 126 / 248 ( 50%)
-...................EEEE.....EE............FE..F.FFFF.EEEF...... 189 / 248 ( 76%)
-...........E.........F..........................F........E.     248 / 248 (100%)
+..........F............F...............EF......................  63 / 256 ( 24%)
+................F.................E.....E...................... 126 / 256 ( 49%)
+.....................EEEE.....EE............FE..F.FFFF.EEEF.... 189 / 256 ( 73%)
+.............E.........F................................F...... 252 / 256 ( 98%)
+..E.                                                            256 / 256 (100%)
 
-Time: 00:01.559, Memory: 28.97 MB
+Time: 00:01.927, Memory: 28.97 MB
 
 There were 15 errors:
 
@@ -13,7 +14,7 @@ There were 15 errors:
 ErrorException: substr(): Passing null to parameter #1 ($string) of type string is deprecated
 
 /Users/tomjaeger/Sites/add-ons/low_options/low_options/pi.low_options.php:398
-/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/TestCase.php:76
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/TestCase.php:92
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:362
 
 2) LowOptionsTests\ArchiveMcpTest::testUpdaterHandlesAddonWithoutOptionalExtensionDiagnostics
@@ -21,7 +22,7 @@ ErrorException: include_once(/Users/tomjaeger/Sites/add-ons/low_options/low_opti
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Upd.php:64
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Upd.php:64
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveMcpTest.php:101
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveMcpTest.php:90
 
 3) LowOptionsTests\ArchiveMcpSaveTest::testPaginationCountsWithoutLimitingOriginalQuery
 ErrorException: Creation of dynamic property Low\Options\FluxCapacitor\Base\Mcp::$data is deprecated
@@ -107,11 +108,11 @@ phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/F
 Error: Using $this when not in object context
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Pi.php:30
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:37
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:39
 
 --
 
-There were 12 failures:
+There were 13 failures:
 
 1) LowOptionsTests\NativeLoadTest::testArchiveSelfExtractsWhenPharWrapperIsUnavailable
 ErrorException: mkdir(): File exists at /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:177
@@ -132,7 +133,24 @@ Failed asserting that two strings are not identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:352
 
-4) LowOptionsTests\ArchiveConduitTest::testPersistentCacheDoesNotConfuseLiteralHashKeyWithInternalKey
+4) LowOptionsTests\ArchiveVersionTest::testVersionCheckEncryptedPayload with data set "installed" (array('2.1.0'), '2.1.0')
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+     'l' => ''
+     'lc' => false
+     'p' => '8.2.30'
+-    'pi' => '2.1.0'
++    'pi' => 0
+     'pl' => 'test-site-key'
+     's' => 1
+     'v' => '2.2.0'
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveVersionTest.php:166
+
+5) LowOptionsTests\ArchiveConduitTest::testPersistentCacheDoesNotConfuseLiteralHashKeyWithInternalKey
 Failed asserting that two arrays are identical.
 --- Expected
 +++ Actual
@@ -144,44 +162,44 @@ Failed asserting that two arrays are identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:137
 
-5) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #5 (null)
+6) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #5 (null)
 Failed asserting that false is identical to null.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-6) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #3 (array())
+7) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #3 (array())
 Failed asserting that false is identical to Array &0 ().
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-7) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #2 ('')
+8) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #2 ('')
 Failed asserting that false is identical to ''.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-8) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #1 ('0')
+9) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #1 ('0')
 Failed asserting that false is identical to '0'.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-9) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #0 (0)
+10) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #0 (0)
 Failed asserting that false is identical to 0.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-10) LowOptionsTests\ArchiveCacheFilesystemTest::testHasAcceptsProcessedHashKey
+11) LowOptionsTests\ArchiveCacheFilesystemTest::testHasAcceptsProcessedHashKey
 Failed asserting that false is true.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveCacheFilesystemTest.php:187
 
-11) LowOptionsTests\ArchiveBridgeTest::testCacheRoutingAndDeletion with data set #0 ('EE2')
+12) LowOptionsTests\ArchiveBridgeTest::testCacheRoutingAndDeletion with data set #0 ('EE2')
 Failed asserting that Array &0 (
     0 => 1
 ) is false.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:164
 
-12) LowOptionsTests\ArchiveBaseTest::testLegacyRegistrationAliasPreservesExplicitArguments
+13) LowOptionsTests\ArchiveBaseTest::testLegacyRegistrationAliasPreservesExplicitArguments
 Failed asserting that two strings are identical.
 --- Expected
 +++ Actual
@@ -189,7 +207,7 @@ Failed asserting that two strings are identical.
 -'custom_hook'
 +'handler'
 
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:141
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:143
 
 ERRORS!
-Tests: 248, Assertions: 1051, Errors: 15, Failures: 12.
+Tests: 256, Assertions: 1090, Errors: 15, Failures: 13.

@@ -1,6 +1,6 @@
 # Low Options campaign status
 
-Status: **incomplete, independently reviewed filesystem-cache checkpoint published**. The prior Facade/cache checkpoint was `5e50814bbea0834904be13ddec11e3f18877330a`. Production defects and instrumentation/source constraints prevent a green 100% line-and-outcome milestone. Useful remaining coverage work is listed separately; this is not a claim that every uncovered method is blocked.
+Status: **incomplete, payload/lifecycle follow-up awaiting independent review**. The reviewed filesystem-cache checkpoint is published at `daa353704cb6cbbe3538968d91b29882426d1904`. Production defects and instrumentation/source constraints prevent a green 100% line-and-outcome milestone. Useful remaining coverage work is listed separately; this is not a claim that every uncovered method is blocked.
 
 ## Baseline and scope
 
@@ -23,21 +23,22 @@ Commands and complete output are retained in `reports/matrix.json` and `reports/
 
 | Herd PHP | Cases | Assertions | Errors | Failures | Warnings | Risky | Skipped | Incomplete |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 7.4.33 | 248 | 1058 | 12 | 14 | 0 | 0 | 0 | 0 |
-| 8.0.30 | 248 | 1056 | 13 | 12 | 0 | 0 | 0 | 0 |
-| 8.1.33 | 248 | 1055 | 14 | 12 | 0 | 0 | 0 | 0 |
-| 8.2.30 | 248 | 1051 | 15 | 12 | 0 | 0 | 0 | 0 |
-| 8.3.28 | 248 | 1051 | 15 | 12 | 0 | 0 | 0 | 0 |
-| 8.4.15 | 248 | 1051 | 15 | 12 | 0 | 0 | 0 | 0 |
-| 8.5.0 | 248 | 1051 | 15 | 12 | 0 | 0 | 0 | 0 |
+| 7.4.33 | 256 | 1097 | 12 | 15 | 0 | 0 | 0 | 0 |
+| 8.0.30 | 256 | 1095 | 13 | 13 | 0 | 0 | 0 | 0 |
+| 8.1.33 | 256 | 1094 | 14 | 13 | 0 | 0 | 0 | 0 |
+| 8.2.30 | 256 | 1090 | 15 | 13 | 0 | 0 | 0 | 0 |
+| 8.3.28 | 256 | 1090 | 15 | 13 | 0 | 0 | 0 | 0 |
+| 8.4.15 | 256 | 1090 | 15 | 13 | 0 | 0 | 0 | 0 |
+| 8.5.0 | 256 | 1090 | 15 | 13 | 0 | 0 | 0 | 0 |
 
-All commands exit 2 due to retained source regressions. The matrix orchestrator exits 1 when any suite is red. PHP82 random seed 20261023 and reverse-order runs reproduce the same 248 cases, 1051 assertions, 15 errors and 12 failures. All 26 test/support PHP files lint on PHP74 and PHP85. No tool/harness deprecations remain; Reflection accessibility changes are guarded below PHP8.1.
+All commands exit 2 due to retained source regressions. The matrix orchestrator exits 1 when any suite is red. PHP82 random seed 20261023 and reverse-order runs reproduce the same 256 cases, 1090 assertions, 15 errors and 13 failures. All 29 test/support PHP files lint on PHP74 and PHP85. No tool/harness deprecations remain; Reflection accessibility changes are guarded below PHP8.1.
 
 ## Confirmed red source observations
 
 Locations are relative to the shipped archive unless a loose path is shown. Tests assert intended observable behavior and retain source errors.
 
 - `Base/Mcp.php:165`: paginateModel creates undeclared `$data`, producing a dynamic-property deprecation on PHP8.2–8.5. PHP7.4–8.1 verify the resulting limit/offset and pagination value.
+- `Conduit/Version.php:157`: Pro module metadata is loaded into `$this->pro`, but the encrypted update payload reads undefined local `$pro` under empty(). Actual decrypted JSON therefore sends `pi=0` for an installed Pro version 2.1.0. The absent-module control passes; the installed-module regression fails on all seven runtimes without a diagnostic.
 - `Base/Pi.php:30`: static `info()` dereferences `$this` and returns no metadata array. This stops the method before the remaining metadata expressions.
 - `Base/Ext.php:187-190`: legacy `register_extension` resets explicit hook/priority/enabled arguments. Custom hook expected; handler name actually inserted.
 - `Bridge/EE2.php:47`: invalid `version_compare` operator `=<` throws on PHP8. The bridge's persistent `delete` also leaves the persistent cache value available (`cache` around lines 271–280).
@@ -70,7 +71,7 @@ Other hard constraints:
 
 ## Remaining independent coverage work
 
-No overall coverage milestone is claimed. `coverage.json` retains parent-only unknown/unexecuted `Conduit/McpNav` (the separate installed-nav report below measures a valid native context) and incomplete loaders, stub, base, bridge and cache methods. Feasible follow-up includes isolated installed-custom-nav contexts; additional Mcp save-license/pagination null/type/context variants; settings merge/legacy serialization variants; fieldtype EE2/create-page variants; residual persistent-cache diagnostic paths; additional true EE2 session/URL contexts; and additional missing/malformed/type/large-input vectors where supported. Full end-to-end EE template/database behavior has not been run. The native archive load and no-PHAR regressions remain red.
+No overall coverage milestone is claimed. `coverage.json` retains parent-only unknown/unexecuted `Conduit/McpNav` (the separate installed-nav report below measures a valid native context) and incomplete loaders, stub, base, bridge and cache methods. Feasible follow-up includes isolated installed-custom-nav contexts; additional Mcp save-license/pagination null/type/context variants; settings merge/legacy serialization variants; additional fieldtype/legacy EE2 contexts; residual persistent-cache diagnostic paths; additional true EE2 session/URL contexts; and additional missing/malformed/type/large-input vectors where supported. Full end-to-end EE template/database behavior has not been run. The native archive load and no-PHAR regressions remain red.
 
 ## Review and publication
 
@@ -121,6 +122,21 @@ Bootstrap cache roots now include a random nonce as well as PID to avoid reuse o
 
 PersistentCache now measures 64/70 lines, 42/45 basic blocks and 33/36 decision outcomes. get/set/delete have all method lines and ordinary decision outcomes observed. The six unexecuted lines 197–199 and 216–218 follow failing mkdir calls, where strict diagnostics stop execution before the logger/return blocks on all required runtimes. These paths remain blocked without suppressing a production diagnostic or substituting a synthetic filesystem. The third unobserved ordinary exit is clear's foreach initialization at line128 despite empty/nonempty/directory-only vectors; loop-fetch outcomes execute and synthetic terminal exits remain explicit. Native compiler graphs stay separate, and no overall 100% claim is made.
 
-Full suites execute 248 cases on each required runtime with the retained source counts above. PHP82 random/reverse order reproduces 248/1051 assertions/15 errors/12 failures. The new file runs individually on PHP74/85 with 16 cases, 94 assertions, 3 source errors and 1 source failure. All 26 PHP scripts lint on 74/85; all 27 production inventory entries are byte-identical. Parent raw/method/skill reports are refreshed. Self-review checked real helper fidelity, permission and cleanup boundaries, diagnostics, meaningful failure assertions, source immutability and remaining coverage gaps. Independent reviewer `/root/review_priority_assets` approved exact patch `f3ee49f56a97aca4b0d874a421861c1216432b801e5c77d7ecfdbd15a19038f4` with no remaining actionable findings.
+That reviewed checkpoint executed 248 cases per runtime, including PHP82 random/reverse order 248/1051 assertions/15 errors/12 failures; the current matrix above supersedes it. The new file runs individually on PHP74/85 with 16 cases, 94 assertions, 3 source errors and 1 source failure. All 26 PHP scripts lint on 74/85; all 27 production inventory entries are byte-identical. Parent raw/method/skill reports are refreshed. Self-review checked real helper fidelity, permission and cleanup boundaries, diagnostics, meaningful failure assertions, source immutability and remaining coverage gaps. Independent reviewer `/root/review_priority_assets` approved exact patch `f3ee49f56a97aca4b0d874a421861c1216432b801e5c77d7ecfdbd15a19038f4` with no remaining actionable findings.
 
 Published filesystem-cache commits `bacbaa3e5f32d7c9cacb58cfd3d7baf8a106eb6b` (tests/helper/isolation) and `59aa46f4d80ee3ec4d5085936dadd7a6877ad19a` (evidence) to `origin/unit-tests-2026` without force. Their combined binary diff from `5e50814` matches the approved patch SHA-256 above. Fresh remote lookup matched `59aa46f4d80ee3ec4d5085936dadd7a6877ad19a`, with parity `0 0`, a clean checkout, and an empty production diff. The reviewer independently replayed all seven full suites, focused tests, actual-helper contexts, raw/report metrics and hashes. This factual publication note follows that reviewed checkpoint; remaining source/coverage/integration constraints stay incomplete.
+
+
+## Payload and lifecycle follow-up
+
+This pending exact delta starts at `daa353704cb6cbbe3538968d91b29882426d1904`. The Version test imports a newly generated RSA fixture, sets that instance's public-key property, executes the original encrypt/format code and decrypts the actual footer ciphertext. Assertions cover typed JSON keys/values and the observed Pro query/result while ignoring JSON object-member order and incidental CSS delimiters. This verifies the output data rather than comparing random ciphertext. The committed key is a test fixture; it has no production authentication role. Source/runtime configuration and the shipped key remain unchanged.
+
+The absent-Pro payload passes. An installed module_version 2.1.0 is observable in Version::$pro, yet its actual outgoing pi field is 0 because check() reads a different local variable at line 157. That expected-version regression stays red across the complete seven-runtime matrix. The previously measured 99/100 lines and 39/44 outcomes did not detect this behavior defect. After crypto isolation, the parent honestly reports 66/100 lines and 27/44 outcomes; each native context retains its own graph in the crypto reports. Its positive pi expression cannot be reached by an installed-module result while the local variable remains unassigned. The source was not fixed.
+
+Five fieldtype vectors cover create-entry URI fallback, its zero route boundary, an existing channel request taking precedence, an edit route with no channel and an empty URI; all assert no unnecessary model query. Ft improves from 40/56 to 42/56 lines and 12/34 to 15/34 decision outcomes in the current parent context. Remaining EE2/CP/fieldtype bootstrap and input/model edge contexts stay incomplete. The updater install case is consolidated from ArchiveMcpTest into ArchiveBaseTest and strengthened with an actual globally named Low_options_upd subclass, literal module identity, one exact insert payload, database-cache clearing and constructor metadata/footer assertions. After native isolation, parent Upd coverage decreases from 39/44 to 25/44 lines; the separate actual updater process reaches all six constructor lines and 9/10 install lines. No graphs are merged. This improves behavioral fidelity instead of adding a duplicate generic base-class case.
+
+Independent first-pass review of snapshot c75078928b94965e2fa83d630dc8e3966c1e63ffde611e5e91d072cadf141dd2 found a caller OpenSSL error-queue leak on PHP74 in both new actual crypto paths. The correction executes imported-key payload operations, original-key controls, real updater constructor/install and existing check paths in disposable native interpreters. The existing updater update-method test uses valid post-constructor state, with constructor behavior covered separately. Parent assertions inspect actual decoded outputs and retain the exact installed-Pro failure. Nothing drains the PHPUnit caller's error queue. A native contract checks empty and pre-seeded FIFO state for all four crypto modes; external prepend probes independently preserve empty and seeded caller queues on all seven runtimes. Full configured suites with those external sentinels also preserve both states on PHP74/85 (zero entries empty, four seeded on74 and two on85).
+
+The new native helper uses unique owned temporary directories and separate output files, a monotonic 20-second deadline, and finally cleanup. Its timeout/output failure branches have not been independently fault-injected; this remains a harness test gap. Source diagnostics remain strict. Six original-source PHP82 crypto graphs are retained independently, with complete raw JSON bytes and hashes in xdebug-crypto-php82.json.gz and per-method reports in crypto-coverage.json.gz. They cover absent/installed payloads, original public-key loading, normal/development checks and the real updater. These graphs are separate from the parent and native navigation context. PHP82/Xdebug3.5.3 provenance and exact baseline/archive hashes are retained; collector commands use process-local extensions only.
+
+Complete suites run 256 cases per runtime, with the retained source counts above. PHP82 random/reverse runs match 256/1090 assertions/15 errors/13 failures. Focused changed behavior plus queue contract runs 9 cases/37 assertions with one installed-Pro source failure on PHP74/85; the other vectors pass. Four affected test files execute individually on PHP74/85 with the recorded source failures only; HarnessContractTest passes11/88. All 29 test/support PHP scripts lint on PHP74/85. All 27 production inventory hashes are unchanged; the test key SHA-256 is 14a0e01716844f3a28d72876457961d99a1d84c6d2cf2904ca0f750ca3421b8e. Parent raw/skill/method reports are refreshed. Self-review checked fixture fidelity/isolation, concrete updater naming, typed decrypted payloads, formatting-independent assertions, strict diagnostics, source immutability and remaining gaps. Corrected exact-diff independent review is pending before publication.

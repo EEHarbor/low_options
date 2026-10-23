@@ -3,15 +3,16 @@ Copyright (c) The PHP Group
 Zend Engine v4.1.33, Copyright (c) Zend Technologies
     with Zend OPcache v8.1.33, Copyright (c), by Zend Technologies
 
-COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-144636-8ra1jth_/php81.xml']
+COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-151439-84nrvc3p/php81.xml']
 PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
 
-.E........F..........................F.........E...............  63 / 248 ( 25%)
-..FEEE.FFFF.F..EF............EE.....EEEE....................... 126 / 248 ( 50%)
-...........................E................................... 189 / 248 ( 76%)
-..................FE...............F............F..........     248 / 248 (100%)
+.E........F................................F.........E.........  63 / 256 ( 24%)
+........FEEE.FFFF.F..EF............EE.....EEEE................. 126 / 256 ( 49%)
+................................E.................F............ 189 / 256 ( 73%)
+..........................FE...............F............F...... 252 / 256 ( 98%)
+....                                                            256 / 256 (100%)
 
-Time: 00:01.592, Memory: 30.97 MB
+Time: 00:01.949, Memory: 30.97 MB
 
 There were 14 errors:
 
@@ -19,7 +20,7 @@ There were 14 errors:
 Error: Using $this when not in object context
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Pi.php:30
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:37
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:39
 
 2) LowOptionsTests\ArchiveBridgeTest::testLegacyBaseUrlIsDiagnosticFree
 ValueError: version_compare(): Argument #3 ($operator) must be a valid comparison operator
@@ -100,18 +101,18 @@ ErrorException: include_once(/Users/tomjaeger/Sites/add-ons/low_options/low_opti
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Upd.php:64
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Upd.php:64
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveMcpTest.php:101
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveMcpTest.php:90
 
 14) LowOptionsTests\LowOptionsTest::testPrivateParameterNullRobustnessRemainsDiagnosticFree
 ErrorException: substr(): Passing null to parameter #1 ($string) of type string is deprecated
 
 /Users/tomjaeger/Sites/add-ons/low_options/low_options/pi.low_options.php:398
-/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/TestCase.php:76
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/TestCase.php:92
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:362
 
 --
 
-There were 12 failures:
+There were 13 failures:
 
 1) LowOptionsTests\ArchiveBaseTest::testLegacyRegistrationAliasPreservesExplicitArguments
 Failed asserting that two strings are identical.
@@ -121,7 +122,7 @@ Failed asserting that two strings are identical.
 -'custom_hook'
 +'handler'
 
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:141
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:143
 
 2) LowOptionsTests\ArchiveBridgeTest::testCacheRoutingAndDeletion with data set #0 ('EE2')
 Failed asserting that Array &0 (
@@ -172,19 +173,36 @@ Failed asserting that two arrays are identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:137
 
-10) LowOptionsTests\LowOptionsTest::testZeroOptionSurvivesShowEmptyWhenEntryContainsZero
+10) LowOptionsTests\ArchiveVersionTest::testVersionCheckEncryptedPayload with data set "installed" (array('2.1.0'), '2.1.0')
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+     'l' => ''
+     'lc' => false
+     'p' => '8.1.33'
+-    'pi' => '2.1.0'
++    'pi' => 0
+     'pl' => 'test-site-key'
+     's' => 1
+     'v' => '2.2.0'
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveVersionTest.php:166
+
+11) LowOptionsTests\LowOptionsTest::testZeroOptionSurvivesShowEmptyWhenEntryContainsZero
 Failed asserting that two strings are not identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:352
 
-11) LowOptionsTests\NativeLoadTest::testNativeArchiveClassLoadsWithoutDiagnostics with data set "FluxCapacitor/Conduit/McpNav.php" ('Conduit\McpNav')
+12) LowOptionsTests\NativeLoadTest::testNativeArchiveClassLoadsWithoutDiagnostics with data set "FluxCapacitor/Conduit/McpNav.php" ('Conduit\McpNav')
 ErrorException: include_once(/Users/tomjaeger/Sites/add-ons/low_options/low_options/Conduit/McpNav.php): Failed to open stream: No such file or directory at phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php:7
 
 Failed asserting that 1 is identical to 0.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:59
 
-12) LowOptionsTests\NativeLoadTest::testArchiveSelfExtractsWhenPharWrapperIsUnavailable
+13) LowOptionsTests\NativeLoadTest::testArchiveSelfExtractsWhenPharWrapperIsUnavailable
 ErrorException: mkdir(): File exists at /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:177
 
 Failed asserting that 1 is identical to 0.
@@ -192,4 +210,4 @@ Failed asserting that 1 is identical to 0.
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:140
 
 ERRORS!
-Tests: 248, Assertions: 1055, Errors: 14, Failures: 12.
+Tests: 256, Assertions: 1094, Errors: 14, Failures: 13.

@@ -8,12 +8,12 @@ Basic-block execution is distinct from decision outcomes. Raw outgoing data and 
 | low_options/autoload.php | 23/29 | 23/31 | 13/26 |
 | low_options/low_options.phar/<stub>.php | 7/154 | 0/109 | 0/104 |
 | low_options/low_options.phar/FluxCapacitor/Base/Ext.php | 59/61 | 31/33 | 13/18 |
-| low_options/low_options.phar/FluxCapacitor/Base/Ft.php | 40/56 | 23/44 | 12/34 |
+| low_options/low_options.phar/FluxCapacitor/Base/Ft.php | 42/56 | 25/44 | 15/34 |
 | low_options/low_options.phar/FluxCapacitor/Base/Mcp.php | 73/83 | 43/50 | 31/44 |
 | low_options/low_options.phar/FluxCapacitor/Base/Mod.php | 10/10 | 6/7 | 4/4 |
 | low_options/low_options.phar/FluxCapacitor/Base/Pi.php | 5/10 | 2/3 | 0/0 |
 | low_options/low_options.phar/FluxCapacitor/Base/Tab.php | 22/24 | 14/16 | 6/8 |
-| low_options/low_options.phar/FluxCapacitor/Base/Upd.php | 39/44 | 15/20 | 8/13 |
+| low_options/low_options.phar/FluxCapacitor/Base/Upd.php | 25/44 | 13/20 | 7/13 |
 | low_options/low_options.phar/FluxCapacitor/Bridge/AbstractBridge.php | 13/13 | 11/12 | 2/2 |
 | low_options/low_options.phar/FluxCapacitor/Bridge/EE.php | 12/30 | 1/18 | 0/14 |
 | low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php | 152/195 | 117/167 | 79/147 |
@@ -25,7 +25,7 @@ Basic-block execution is distinct from decision outcomes. Raw outgoing data and 
 | low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php | 0/0 | 0/0 | 0/0 |
 | low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php | 64/70 | 42/45 | 33/36 |
 | low_options/low_options.phar/FluxCapacitor/Conduit/StaticCache.php | 18/18 | 15/16 | 6/6 |
-| low_options/low_options.phar/FluxCapacitor/Conduit/Version.php | 99/100 | 56/60 | 39/44 |
+| low_options/low_options.phar/FluxCapacitor/Conduit/Version.php | 66/100 | 39/60 | 27/44 |
 | low_options/low_options.phar/FluxCapacitor/FluxCapacitor.php | 5/5 | 1/2 | 0/0 |
 | low_options/low_options.phar/Views/license.php | 14/14 | 0/6 | 0/4 |
 | low_options/low_options.phar/index.php | 7/13 | 2/6 | 1/4 |
@@ -33,3 +33,14 @@ Basic-block execution is distinct from decision outcomes. Raw outgoing data and 
 | low_options/views/license.php | 14/14 | 0/6 | 0/4 |
 
 Installed-custom-nav context (separate single PHP82 process, not merged): Conduit/McpNav.php reaches82/84 lines,67/69 basic blocks and47/54 decision outcomes. See nav-coverage.json.gz and xdebug-nav-php82.json.gz. The extension fixture is not add-on source and is excluded from instrumentation. Stock missing-nav diagnostics remain red.
+
+Crypto runs in six independent PHP82 processes. Their complete original raw JSON bytes and SHA256 values are retained in xdebug-crypto-php82.json.gz; crypto-coverage.json.gz retains all per-unit/per-method reports separately. These context graphs are not merged with each other or with the parent. The parent decreases after moving actual constructor/check/key operations into native processes.
+
+| Crypto context | Version::check lines / outcomes | Upd constructor lines / outcomes | Upd::install lines / outcomes |
+| --- | ---: | ---: | ---: |
+| payload-absent | 29/34 / 7/16 | unknown | unknown |
+| payload-installed | 29/34 / 7/16 | unknown | unknown |
+| public-key | 0/34 / 0/16 | unknown | unknown |
+| updater | 28/33 / 7/16 | 6/6 / 0/0 | 9/10 / 1/2 |
+| version-development | 32/34 / 10/16 | unknown | unknown |
+| version | 32/34 / 10/16 | unknown | unknown |

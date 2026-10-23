@@ -91,3 +91,18 @@ The probe declares APP_VER=7.5.0, loads the real Facade and unchanged add-on bri
 Persistent-cache vectors distinguish documented array/object payloads and compound keys from scalar/null robustness inputs. Typed values round-trip before and after clearing request-local state. Two retained regressions expose array-key retrieval and a literal SHA-1 key colliding with another entry's internal static-cache lookup.
 
 Filesystem-cache tests use actual read-only directories and assert exact logging and no-write behavior. Permission tests require a nonprivileged user, as used by the required Herd matrix; root CI is not proven. Teardown restores only that process's fixture paths and permissions. The file-helper seam matches EE's suppressed fopen/false return and locked writes. Shipped source diagnostics remain strict, including blocked mkdir and malformed-cache regressions. Processed-key existence also remains red. Current cache coverage is 64/70 lines and 33/36 decision outcomes; remaining diagnostic and instrumentation constraints are listed in STATUS.
+
+Version payload tests import a generated test RSA key and decrypt the actual footer ciphertext after configuring one instance's public key. All OpenSSL operations and real updater construction execute in disposable native processes to preserve the caller's error queue; empty and pre-seeded FIFO sentinels verify that boundary. Native helper output files avoid pipe deadlock and a 20-second deadline bounds each child. They assert typed JSON values independently of member order and CSS delimiters. The installed-Pro payload regression remains red; the absent-Pro control passes. A global updater fixture models EE's class naming and exact module registration, and fieldtype cases cover create-entry URI fallback. These unit contexts leave native CP/legacy integration work explicit in STATUS.
+
+Six separate native crypto graphs can be collected alongside the parent without merging them:
+
+```sh
+LOW_OPTIONS_RAW_COVERAGE=/private/tmp/new-parent.json \
+LOW_OPTIONS_CRYPTO_COVERAGE=/private/tmp/new-crypto-prefix \
+LOW_OPTIONS_CRYPTO_XDEBUG=/Applications/Herd.app/Contents/Resources/xdebug/xdebug-82-arm64.so \
+'/Users/tomjaeger/Library/Application Support/Herd/bin/php82' \
+  -d zend_extension=/Applications/Herd.app/Contents/Resources/xdebug/xdebug-82-arm64.so \
+  -d xdebug.mode=coverage tests/.phpunit/phpunit-9.phar -c phpunit.xml
+```
+
+Use fresh absolute paths. The queue sentinel's nested calls do not collect redundant graphs. `xdebug-crypto-php82.json.gz` preserves each raw JSON string and SHA256; `crypto-coverage.json.gz` records every unit/method separately. Parent coverage decreases after crypto isolation, and no cross-process total is inferred.
