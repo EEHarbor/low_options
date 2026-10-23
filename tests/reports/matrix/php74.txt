@@ -1,0 +1,144 @@
+PHP 7.4.33 (cli) (built: Dec 13 2023 21:52:05) ( NTS )
+Copyright (c) The PHP Group
+Zend Engine v3.4.0, Copyright (c) Zend Technologies
+
+COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-135943-p3e5wrst/php74.xml']
+PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
+
+.E........F..........................F................FFFF.F...  63 / 192 ( 32%)
+....EE.........................................E............... 126 / 192 ( 65%)
+....F.....F..............F................F............F....... 189 / 192 ( 98%)
+...                                                             192 / 192 (100%)
+
+Time: 00:00.914, Memory: 24.00 MB
+
+There were 4 errors:
+
+1) LowOptionsTests\ArchiveBaseTest::testStaticPluginMetadataIsCallable
+Error: Using $this when not in object context
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Pi.php:30
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:37
+
+2) LowOptionsTests\ArchiveConduitTest::testMissingNamedSettingDoesNotEmitSuppressedUndefinedKeyDiagnostic
+ErrorException: Undefined index: absent
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php:21
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:196
+
+3) LowOptionsTests\ArchiveConduitTest::testMalformedSettingsDoNotEmitSuppressedUnserializeDiagnostic
+ErrorException: unserialize(): Error at offset 0 of 14 bytes
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php:33
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:209
+
+4) LowOptionsTests\ArchiveMcpTest::testUpdaterHandlesAddonWithoutOptionalExtensionDiagnostics
+ErrorException: include_once(/Users/tomjaeger/Sites/add-ons/low_options/low_options/ext.low_options.php): failed to open stream: No such file or directory
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Upd.php:64
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Upd.php:64
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveMcpTest.php:101
+
+--
+
+There were 12 failures:
+
+1) LowOptionsTests\ArchiveBaseTest::testLegacyRegistrationAliasPreservesExplicitArguments
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'custom_hook'
++'handler'
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:141
+
+2) LowOptionsTests\ArchiveBridgeTest::testCacheRoutingAndDeletion with data set #0 ('EE2')
+Failed asserting that Array &0 (
+    0 => 1
+) is false.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:168
+
+3) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #0 (0)
+Failed asserting that false is identical to 0.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
+
+4) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #1 ('0')
+Failed asserting that false is identical to '0'.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
+
+5) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #2 ('')
+Failed asserting that false is identical to ''.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
+
+6) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #3 (array())
+Failed asserting that false is identical to Array &0 ().
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
+
+7) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #5 (null)
+Failed asserting that false is identical to null.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
+
+8) LowOptionsTests\LowOptionsTest::testSettingsOptions with data set "options override value label pairs" (array(array('Zero', 'Ex'), array('Ignored')), array(array('', array(array(0, 'Zero'))), array('', array(array('x', 'Ex')))))
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+         'option:group' => ''
+         'options' => Array &2 (
+             0 => Array &3 (
+-                'option:value' => 0
+-                'option:label' => 'Zero'
+-            )
+-        )
+-    )
+-    1 => Array &4 (
+-        'option:group' => ''
+-        'options' => Array &5 (
+-            0 => Array &6 (
+                 'option:value' => 'x'
+                 'option:label' => 'Ex'
+             )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:108
+
+9) LowOptionsTests\LowOptionsTest::testExistingValuesAreUniqueNaturallySortedAndReversed
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+     0 => 'item10'
+     1 => 'item2'
+     2 => 'item1'
+-    3 => 0
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:180
+
+10) LowOptionsTests\LowOptionsTest::testZeroOptionSurvivesShowEmptyWhenEntryContainsZero
+Failed asserting that two strings are not identical.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:351
+
+11) LowOptionsTests\NativeLoadTest::testNativeArchiveClassLoadsWithoutDiagnostics with data set "FluxCapacitor/Conduit/McpNav.php" ('Conduit\McpNav')
+ErrorException: include_once(/Users/tomjaeger/Sites/add-ons/low_options/low_options/Conduit/McpNav.php): failed to open stream: No such file or directory at phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php:7
+
+Failed asserting that 1 is identical to 0.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:59
+
+12) LowOptionsTests\NativeLoadTest::testArchiveSelfExtractsWhenPharWrapperIsUnavailable
+ErrorException: mkdir(): File exists at /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:177
+
+Failed asserting that 1 is identical to 0.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:140
+
+ERRORS!
+Tests: 192, Assertions: 781, Errors: 4, Failures: 12.
