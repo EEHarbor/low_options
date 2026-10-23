@@ -60,6 +60,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Decode a native crypto observation without touching the caller's OpenSSL queue.
+     *
+     * @param string $context
+     * @param array $options
+     * @return array
+     */
+    protected function cryptoProbe($context, array $options = array())
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeCrypto.php';
+        $result = NativeCrypto::run($context, $options);
+        self::assertSame(0, $result[0], $result[1] . $result[2]);
+        self::assertSame('', $result[2]);
+        return json_decode($result[1], true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    /**
      * Invoke a source method without changing visibility in production.
      *
      * @param object|string $object

@@ -75,21 +75,6 @@ class ArchiveMcpTest extends TestCase
     }
 
     /**
-     * Verify updater installs configured module and clears database cache.
-     *
-     * @return void
-     */
-    public function testUpdaterInstallsConfiguredModuleAndClearsDatabaseCache(): void
-    {
-        $this->ee->db->tableExists = true;
-        $updater = new \Low\Options\FluxCapacitor\Base\Upd();
-        self::assertSame('2.2.0', $updater->version);
-        self::assertTrue($updater->install());
-        self::assertSame(array('db'), $this->ee->functions->cleared);
-        self::assertContains(array('insert', array('modules', array('module_name' => get_class($updater), 'module_version' => '2.2.0', 'has_cp_backend' => 'y', 'has_publish_fields' => 'n'))), $this->ee->db->calls);
-    }
-
-    /**
      * Verify updater handles addon without optional extension diagnostics.
      *
      * @return void
@@ -97,7 +82,11 @@ class ArchiveMcpTest extends TestCase
     public function testUpdaterHandlesAddonWithoutOptionalExtensionDiagnostics(): void
     {
         $this->ee->db->tableExists = true;
-        $updater = new \Low\Options\FluxCapacitor\Base\Upd();
+        require_once LOW_OPTIONS_ROOT . '/tests/Fixtures/Updater.php';
+        $updater = (new \ReflectionClass(\Low_options_upd::class))->newInstanceWithoutConstructor();
+        $updater->flux = new \Low\Options\FluxCapacitor\FluxCapacitor();
+        $updater->version = '2.2.0';
+        $updater->module_name = 'Low_options';
         self::assertTrue($updater->update('1.0'));
     }
 }

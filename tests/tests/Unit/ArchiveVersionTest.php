@@ -120,14 +120,12 @@ class ArchiveVersionTest extends TestCase
      */
     public function testVersionCheckAddsOneEncryptedPixelAndIsIdempotent(): void
     {
-        $version = $this->version();
-        $this->ee->config->items['base_url'] = 'https://example.test/';
-        $version->check();
-        self::assertCount(1, $this->ee->cp->footer_item);
-        self::assertStringContainsString('<div id="low_options__up"', $this->ee->cp->footer_item[0]);
-        self::assertStringContainsString('&#104;&#116;&#116;&#112;&#115;', $this->ee->cp->footer_item[0]);
-        self::assertTrue($version->check());
-        self::assertCount(1, $this->ee->cp->footer_item);
+        $data = $this->cryptoProbe('version');
+        self::assertCount(1, $data['first']);
+        self::assertStringContainsString('<div id="low_options__up"', $data['first'][0]);
+        self::assertStringContainsString('&#104;&#116;&#116;&#112;&#115;', $data['first'][0]);
+        self::assertTrue($data['second']);
+        self::assertSame($data['first'], $data['footer']);
     }
 
     /**
@@ -137,15 +135,48 @@ class ArchiveVersionTest extends TestCase
      */
     public function testVersionCheckCanUseLocalDevelopmentPixel(): void
     {
-        $before = $_GET;
-        try {
-            $_GET['ldev'] = '1';
-            $version = $this->version();
-            $version->check();
-            self::assertStringContainsString('&#108;&#111;&#99;&#97;&#108;&#104;&#111;&#115;&#116;', $this->ee->cp->footer_item[0]);
-        } finally {
-            $_GET = $before;
-        }
+        $data = $this->cryptoProbe('version', array('development' => true));
+        self::assertStringContainsString('&#108;&#111;&#99;&#97;&#108;&#104;&#111;&#115;&#116;', $data['first'][0]);
+    }
+
+    /**
+     * Preserve module presence and typed metadata in the encrypted update payload.
+     *
+     * @dataProvider proPayloadProvider
+     * @param array $record
+     * @param int|string $expected
+     * @return void
+     */
+    public function testVersionCheckEncryptedPayload(array $record, $expected): void
+    {
+        $data = $this->cryptoProbe('payload', array('record' => $record));
+        self::assertSame($record, $data['pro']);
+        self::assertContains(array('where', array('module_name', 'Pro')), $data['calls']);
+        self::assertSame(1, $data['footer_count']);
+        self::assertSame(1, $data['matched']);
+        self::assertTrue($data['decrypted']);
+        $expectedPayload = array(
+            'api' => '1', 'l' => '', 'a' => 'low_options', 'v' => '2.2.0',
+            'e' => '7.5.0', 'p' => PHP_VERSION, 'd' => 'https://example.test/',
+            'c' => false, 's' => 1, 'pi' => $expected, 'pl' => 'test-site-key', 'lc' => false,
+        );
+        $payloadData = $data['payload'];
+        ksort($expectedPayload);
+        ksort($payloadData);
+        self::assertSame($expectedPayload, $payloadData);
+    }
+
+    /**
+     * Provide absent and installed Pro database result shapes.
+     *
+     * @return array
+     */
+    public static function proPayloadProvider(): array
+    {
+        return array(
+            'absent' => array(array(), 0),
+            'installed' => array(array('module_version' => '2.1.0'), '2.1.0'),
+        );
     }
 
     /**
@@ -158,6 +189,6 @@ class ArchiveVersionTest extends TestCase
         $version = $this->version();
         self::assertSame('&#65;&#38;&#32;&#48;', $this->invoke($version, 'spiderSafe', array('A& 0')));
         self::assertSame('', $this->invoke($version, 'spiderSafe', array('')));
-        self::assertNotFalse($this->invoke($version, 'getOpenSSLPublicKey'));
+        self::assertSame(array('loaded' => true), $this->cryptoProbe('public-key'));
     }
 }

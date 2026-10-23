@@ -8,6 +8,8 @@ use Low\Options\FluxCapacitor\Base\Pi;
 use Low\Options\FluxCapacitor\Base\Tab;
 use Low\Options\FluxCapacitor\Base\Upd;
 
+require_once LOW_OPTIONS_ROOT . '/tests/Fixtures/Updater.php';
+
 class ConcreteFieldtype extends \Low\Options\FluxCapacitor\Base\Ft
 {
 }
@@ -182,6 +184,61 @@ class ArchiveBaseTest extends TestCase
         $fieldtype->entryId = 17;
         $this->ee->model->entries->first = (object) array('channel_id' => 9);
         self::assertSame(9, $fieldtype->getChannelId());
+    }
+
+    /**
+     * Use the create URI only when no channel is already known.
+     *
+     * @dataProvider createContextProvider
+     * @param string $uri
+     * @param string|false $request
+     * @param int|string|false $expected
+     * @return void
+     */
+    public function testFieldtypeCreateContext($uri, $request, $expected): void
+    {
+        $fieldtype = new ConcreteFieldtype();
+        $this->ee->uri->path = $uri;
+        if ($request !== false) {
+            $this->ee->input->get['channel_id'] = $request;
+        }
+        self::assertSame($expected, $fieldtype->getChannelId());
+        self::assertSame(array(), $this->ee->model->calls);
+    }
+
+    /**
+     * Provide missing and existing create-channel contexts.
+     *
+     * @return array
+     */
+    public static function createContextProvider(): array
+    {
+        return array(
+            'create channel' => array('cp/publish/create/17', false, 17),
+            'zero route boundary' => array('cp/publish/create/0', false, 0),
+            'existing request wins' => array('cp/publish/create/17', '9', '9'),
+            'edit without channel' => array('cp/publish/edit/entry/17', false, false),
+            'empty URI' => array('', false, false),
+        );
+    }
+
+    /**
+     * Initialize a globally named updater and register its ordinary module.
+     *
+     * @return void
+     */
+    public function testOrdinaryModuleInstall(): void
+    {
+        $data = $this->cryptoProbe('updater');
+        self::assertSame('2.2.0', $data['version']);
+        self::assertSame('Low_options', $data['module_name']);
+        self::assertSame(1, $data['footer_count']);
+        self::assertTrue($data['installed']);
+        self::assertSame(array('db'), $data['cleared']);
+        self::assertSame(array(array('insert', array('modules', array(
+            'module_name' => 'Low_options', 'module_version' => '2.2.0',
+            'has_cp_backend' => 'y', 'has_publish_fields' => 'n',
+        )))), $data['calls']);
     }
 
     /**
