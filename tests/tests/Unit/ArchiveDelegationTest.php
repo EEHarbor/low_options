@@ -42,7 +42,12 @@ class ArchiveDelegationTest extends TestCase
         $bridge->overwriteEEClass('custom', 'replacement');
         self::assertSame('replacement', $this->ee->custom);
         $bridge->removeEEClass('custom');
-        self::assertSame($version === 'EE2' ? '' : null, $this->ee->custom);
+        if ($version === 'EE2') {
+            self::assertSame('', $this->ee->custom);
+        } else {
+            self::assertFalse($this->ee->has('custom'));
+            self::assertArrayNotHasKey('custom', get_object_vars($this->ee));
+        }
         $security = new ServiceRecorder();
         $security->result = array('clean');
         $this->ee->security = $security;
@@ -55,6 +60,42 @@ class ArchiveDelegationTest extends TestCase
         if ($version !== 'EE2') {
             self::assertSame('http://example.test', $bridge->prep_url('example.test'));
         }
+    }
+
+    /**
+     * Preserve the advertised overwrite behavior for an already-loaded service.
+     *
+     * @dataProvider modernBridgeProvider
+     * @param string $version
+     * @return void
+     */
+    public function testReplacingAlreadyLoadedNativeClass($version): void
+    {
+        $bridge = $this->bridge($version);
+        $this->ee->set('custom', 'original');
+        $bridge->overwriteEEClass('custom', 'replacement');
+        self::assertSame('replacement', $this->ee->custom);
+    }
+
+    /**
+     * Remove registration completely so a later fresh registration succeeds.
+     *
+     * @dataProvider modernBridgeProvider
+     * @param string $version
+     * @return void
+     */
+    public function testNativeClassRemovalAllowsFreshRegistration($version): void
+    {
+        $bridge = $this->bridge($version);
+        $this->ee->set('custom', 'original');
+        $bridge->removeEEClass('custom');
+        self::assertFalse($this->ee->has('custom'));
+        self::assertArrayNotHasKey('custom', get_object_vars($this->ee));
+        $bridge->overwriteEEClass('custom', 'fresh');
+        self::assertSame('fresh', $this->ee->custom);
+        $bridge->removeEEClass('custom');
+        $bridge->removeEEClass('custom');
+        self::assertFalse($this->ee->has('custom'));
     }
 
     /**

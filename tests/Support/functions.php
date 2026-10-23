@@ -17,7 +17,7 @@
             return $ee->model;
         }
         if ($service === 'db') {
-            return $ee->db;
+            return $ee->db->newQuery();
         }
         if ($service === 'CP/URL') {
             $arguments = func_get_args();

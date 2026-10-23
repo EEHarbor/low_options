@@ -85,21 +85,17 @@ class ArchiveBridgeTest extends TestCase
     {
         $this->ee->db->tableExists = true;
         $this->ee->db->count = $count;
+        $this->ee->db->where('pending', 17);
+        $originalCalls = $this->ee->db->calls;
+        $originalCache = $this->ee->db->data_cache;
         $bridge = $this->bridge($version);
         $bridge->setConfig('custom', 'value');
         self::assertSame('value', $bridge->getConfig('custom'));
-        if ($version === 'EE2') {
-            // The clone must write by site without touching the original builder.
-            $operation = $count ? 'update' : 'insert';
-            self::assertContains(array($operation, array('low_options_settings', array('site_id' => 1, 'custom' => 'value'))), $this->ee->db->sharedTrace->calls);
-            self::assertContains(array('where', array('site_id', 1)), $this->ee->db->sharedTrace->calls);
-            self::assertSame(array(), $this->ee->db->calls);
-            self::assertArrayHasKey('table_names', $this->ee->db->data_cache);
-            return;
-        }
         $operation = $count ? 'update' : 'insert';
-        self::assertContains(array($operation, array('low_options_settings', array('site_id' => 1, 'custom' => 'value'))), $this->ee->db->calls);
-        self::assertContains(array('where', array('site_id', 1)), $this->ee->db->calls);
+        self::assertContains(array($operation, array('low_options_settings', array('site_id' => 1, 'custom' => 'value'))), $this->ee->db->sharedTrace->calls);
+        self::assertContains(array('where', array('site_id', 1)), $this->ee->db->sharedTrace->calls);
+        self::assertSame($originalCalls, $this->ee->db->calls);
+        self::assertSame($originalCache, $this->ee->db->data_cache);
     }
 
     /**

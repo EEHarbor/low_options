@@ -50,6 +50,117 @@ class HarnessContractTest extends TestCase
     }
 
     /**
+     * Resolve fresh builders with local query/cache state and shared responses.
+     *
+     * @return void
+     */
+    public function testDatabaseServiceCreatesFreshBuilders(): void
+    {
+        $database = $this->ee->db;
+        $database->where('pending', 17);
+        $database->data_cache['table_names'] = array('kept');
+        $first = ee('db');
+        $second = ee('db');
+        self::assertNotSame($database, $first);
+        self::assertNotSame($database, $second);
+        self::assertNotSame($first, $second);
+        self::assertSame(array(), $first->calls);
+        self::assertSame(array(), $second->calls);
+        self::assertSame(array(), $first->data_cache);
+        $database->record = array('id' => 18);
+        $database->tableExists = true;
+        $database->count = 2;
+        $site = new Query();
+        $site->record = array('site_label' => 'Other');
+        $database->results['sites'] = $site;
+        $first->where('site_id', 2);
+        self::assertSame(18, $first->get()->row('id'));
+        self::assertSame($site, $second->get('sites'));
+        self::assertTrue($second->table_exists('sites'));
+        self::assertSame(2, $second->count_all_results('sites'));
+        self::assertSame($database->queryResult, $first->query('SELECT 1'));
+        self::assertSame($database->sharedTrace, $first->sharedTrace);
+        self::assertSame($database->sharedTrace, $second->sharedTrace);
+        self::assertContains(array('where', array('site_id', 2)), $database->sharedTrace->calls);
+        self::assertContains(array('count_all_results', array('sites')), $database->sharedTrace->calls);
+        self::assertSame(array(array('where', array('pending', 17))), $database->calls);
+        self::assertSame(array('table_names' => array('kept')), $database->data_cache);
+        self::assertNotContains(array('where', array('site_id', 2)), $second->calls);
+    }
+
+    /**
+     * Match the current EE Facade's replacement guard without losing old state.
+     *
+     * @return void
+     */
+    public function testNativeFacadeRejectsExistingServiceReplacement(): void
+    {
+        $this->ee->set('custom', 'original');
+        try {
+            $this->ee->set('custom', 'replacement');
+            self::fail('The fixture allowed replacement of an already-loaded service.');
+        } catch (\RuntimeException $error) {
+            self::assertSame('Cannot overwrite custom on the loader.', $error->getMessage());
+            self::assertSame('original', $this->ee->custom);
+        }
+        self::assertTrue($this->ee->has('config'));
+        $this->expectException(\RuntimeException::class);
+        $this->ee->set('config', new Config());
+    }
+
+    /**
+     * Track null registrations and unset removed services rather than nulling them.
+     *
+     * @return void
+     */
+    public function testNativeFacadeNullRegistrationAndRemoval(): void
+    {
+        $this->ee->set('custom', null);
+        self::assertTrue($this->ee->has('custom'));
+        self::assertNull($this->ee->custom);
+        $this->ee->remove('custom');
+        self::assertFalse($this->ee->has('custom'));
+        self::assertArrayNotHasKey('custom', get_object_vars($this->ee));
+        $this->ee->set('custom', 'fresh');
+        self::assertSame('fresh', $this->ee->custom);
+    }
+
+    /**
+     * Reload a declared collaborator without retaining a stale public value.
+     *
+     * @dataProvider nativeCollaboratorProvider
+     * @param string $name
+     * @param string $class
+     * @return void
+     */
+    public function testNativeFacadeReloadsDeclaredCollaborator($name, $class): void
+    {
+        $original = $this->ee->$name;
+        self::assertTrue($this->ee->has($name));
+        $this->ee->remove($name);
+        self::assertFalse($this->ee->has($name));
+        self::assertArrayNotHasKey($name, get_object_vars($this->ee));
+        $replacement = new $class();
+        $this->ee->set($name, $replacement);
+        self::assertTrue($this->ee->has($name));
+        self::assertSame($replacement, $this->ee->$name);
+        self::assertSame($replacement, ee()->$name);
+        self::assertNotSame($original, $this->ee->$name);
+        $this->ee->remove($name);
+        self::assertFalse($this->ee->has($name));
+    }
+
+    /**
+     * Provide declared native collaborators with observable object identity.
+     *
+     * @return array
+     */
+    public static function nativeCollaboratorProvider(): array
+    {
+        return array(array('db', Database::class), array('logger', Logger::class));
+    }
+
+    /**
      * Keep missing configuration false and retain explicit zero values.
      *
      * @return void

@@ -206,6 +206,22 @@ class Database extends Query
     public $results = array();
 
     /**
+     * Create independent builder state over the same configured backend responses.
+     *
+     * @return self
+     */
+    public function newQuery()
+    {
+        $query = new self();
+        foreach (array('tableExists', 'count', 'queryResult', 'fieldExists', 'results', 'record', 'rows', 'num_rows') as $property) {
+            $query->$property =& $this->$property;
+        }
+        $query->data_cache = array();
+        $query->sharedTrace = $this->sharedTrace;
+        return $query;
+    }
+
+    /**
      * Retrieve a scripted result for one table while retaining query arguments.
      *
      * @param string|null $table
@@ -287,7 +303,7 @@ class Database extends Query
      */
     public function field_exists($field, $table)
     {
-        $this->calls[] = array("field_exists", array($field, $table));
+        $this->__call('field_exists', array($field, $table));
         return $this->fieldExists;
     }
 
@@ -299,7 +315,7 @@ class Database extends Query
      */
     public function table_exists($table)
     {
-        $this->calls[] = array('table_exists', array($table));
+        $this->__call('table_exists', array($table));
         return $this->tableExists;
     }
 
@@ -311,7 +327,7 @@ class Database extends Query
      */
     public function count_all_results($table)
     {
-        $this->calls[] = array('count_all_results', array($table));
+        $this->__call('count_all_results', array($table));
         return $this->count;
     }
 
@@ -323,7 +339,7 @@ class Database extends Query
      */
     public function query($sql)
     {
-        $this->calls[] = array('query', array($sql));
+        $this->__call('query', array($sql));
         return $this->queryResult;
     }
 }
@@ -415,6 +431,7 @@ class Environment
     public $security;
     public $addons_model;
     public $custom;
+    private $registered = array();
 
     /**
      * Initialize the fixture collaborator state.
@@ -447,15 +464,31 @@ class Environment
     }
 
     /**
-     * Replace a native EE collaborator.
+     * Register a native collaborator using the current EE Facade guard.
      *
      * @param string $name
      * @param mixed $value
      * @return void
+     * @throws \RuntimeException
      */
     public function set($name, $value)
     {
+        if ($this->has($name)) {
+            throw new \RuntimeException("Cannot overwrite {$name} on the loader.");
+        }
+        $this->registered[$name] = true;
         $this->$name = $value;
+    }
+
+    /**
+     * Retain explicit null registrations while recognizing loaded collaborators.
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function has($name)
+    {
+        return array_key_exists($name, $this->registered) || isset($this->$name);
     }
 
     /**
@@ -466,7 +499,7 @@ class Environment
      */
     public function remove($name)
     {
-        $this->$name = null;
+        unset($this->registered[$name], $this->$name);
     }
 
 }

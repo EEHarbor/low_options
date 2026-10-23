@@ -48,7 +48,8 @@ class LowOptionsTest extends TestCase
         $plugin = new \Low_options();
         self::assertSame('2.2.0', $plugin->version);
         self::assertSame('low_options', $plugin->flux->shortname);
-        self::assertArrayNotHasKey('table_names', $this->ee->db->data_cache);
+        self::assertSame(array('table_names' => array()), $this->ee->db->data_cache);
+        self::assertSame(array(), $this->ee->db->calls);
     }
 
     /**
