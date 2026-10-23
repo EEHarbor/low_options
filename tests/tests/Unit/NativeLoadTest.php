@@ -2,6 +2,8 @@
 
 namespace LowOptionsTests;
 
+require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+
 class NativeLoadTest extends TestCase
 {
     /**
@@ -10,40 +12,11 @@ class NativeLoadTest extends TestCase
      * @param array $arguments
      * @param array $directives
      * @return array
+     * @throws \RuntimeException
      */
     private function runProbe(array $arguments, array $directives = array())
     {
-        $temporary = sys_get_temp_dir() . '/low-options-probe-' . bin2hex(random_bytes(8));
-        mkdir($temporary, 0700);
-        $command = array(PHP_BINARY, '-d', 'error_reporting=-1', '-d', 'display_errors=1', '-d', 'sys_temp_dir=' . $temporary);
-        foreach ($directives as $directive) {
-            $command[] = '-d';
-            $command[] = $directive;
-        }
-        $command[] = LOW_OPTIONS_ROOT . '/tests/scripts/native-probe.php';
-        $command = array_merge($command, $arguments);
-        $environment = getenv();
-        $environment['TMPDIR'] = $temporary;
-        $process = proc_open($command, array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('pipe', 'w')), $pipes, LOW_OPTIONS_ROOT, $environment);
-        if (!is_resource($process)) {
-            throw new \RuntimeException('Could not start native source probe.');
-        }
-        fclose($pipes[0]);
-        $stdout = stream_get_contents($pipes[1]);
-        $stderr = stream_get_contents($pipes[2]);
-        fclose($pipes[1]);
-        fclose($pipes[2]);
-        $exit = proc_close($process);
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($temporary, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
-        foreach ($iterator as $file) {
-            if ($file->isDir()) {
-                rmdir($file->getPathname());
-            } else {
-                unlink($file->getPathname());
-            }
-        }
-        rmdir($temporary);
-        return array($exit, $stdout, $stderr);
+        return NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/native-probe.php', $arguments, $directives);
     }
 
     /**

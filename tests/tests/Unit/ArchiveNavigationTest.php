@@ -2,6 +2,8 @@
 
 namespace LowOptionsTests;
 
+require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+
 class ArchiveNavigationTest extends TestCase
 {
     /**
@@ -14,17 +16,8 @@ class ArchiveNavigationTest extends TestCase
      */
     public function testInstalledAddonNavigation($context, array $expected): void
     {
-        $command = array(PHP_BINARY, '-d', 'error_reporting=-1', '-d', 'display_errors=1', LOW_OPTIONS_ROOT . '/tests/scripts/nav-probe.php', $context);
-        $process = proc_open($command, array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('pipe', 'w')), $pipes, LOW_OPTIONS_ROOT);
-        if (!is_resource($process)) {
-            throw new \RuntimeException('Could not start installed-addon navigation probe.');
-        }
-        fclose($pipes[0]);
-        $stdout = stream_get_contents($pipes[1]);
-        $stderr = stream_get_contents($pipes[2]);
-        fclose($pipes[1]);
-        fclose($pipes[2]);
-        self::assertSame(0, proc_close($process), $stderr . $stdout);
+        list($exit, $stdout, $stderr) = NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/nav-probe.php', array($context));
+        self::assertSame(0, $exit, $stderr . $stdout);
         self::assertSame('', $stderr);
         self::assertSame($expected, json_decode($stdout, true));
     }
