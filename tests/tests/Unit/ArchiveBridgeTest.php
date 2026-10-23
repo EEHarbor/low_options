@@ -85,6 +85,7 @@ class ArchiveBridgeTest extends TestCase
     {
         $this->ee->db->tableExists = true;
         $this->ee->db->count = $count;
+        $this->ee->db->data_cache = array('table_names' => array('old_table'), 'sentinel' => 'retained');
         $this->ee->db->where('pending', 17);
         $originalCalls = $this->ee->db->calls;
         $originalCache = $this->ee->db->data_cache;
@@ -92,8 +93,19 @@ class ArchiveBridgeTest extends TestCase
         $bridge->setConfig('custom', 'value');
         self::assertSame('value', $bridge->getConfig('custom'));
         $operation = $count ? 'update' : 'insert';
-        self::assertContains(array($operation, array('low_options_settings', array('site_id' => 1, 'custom' => 'value'))), $this->ee->db->sharedTrace->calls);
-        self::assertContains(array('where', array('site_id', 1)), $this->ee->db->sharedTrace->calls);
+        $mutations = array_values(array_filter($this->ee->db->sharedTrace->journal, function ($entry) {
+            return in_array($entry['call'][0], array('insert', 'update', 'delete'), true);
+        }));
+        self::assertCount(1, $mutations);
+        $writer = $mutations[0];
+        self::assertNotSame(spl_object_id($this->ee->db), $writer['owner']);
+        $expected = array(array('where', array('site_id', 1)), array('count_all_results', array('low_options_settings')));
+        if ($count) {
+            $expected[] = array('where', array('site_id', 1));
+        }
+        $expected[] = array($operation, array('low_options_settings', array('site_id' => 1, 'custom' => 'value')));
+        self::assertSame($expected, array_slice($writer['calls'], -count($expected)));
+        self::assertSame($version === 'EE2' ? array('sentinel' => 'retained') : array(), $writer['cache']);
         self::assertSame($originalCalls, $this->ee->db->calls);
         self::assertSame($originalCache, $this->ee->db->data_cache);
     }

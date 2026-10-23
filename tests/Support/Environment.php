@@ -277,7 +277,7 @@ class Database extends Query
     public function __construct()
     {
         parent::__construct();
-        $this->sharedTrace = (object) array('calls' => array());
+        $this->sharedTrace = (object) array('calls' => array(), 'journal' => array());
     }
 
     /**
@@ -290,7 +290,9 @@ class Database extends Query
     public function __call($method, $arguments)
     {
         $this->sharedTrace->calls[] = array($method, $arguments);
-        return parent::__call($method, $arguments);
+        $result = parent::__call($method, $arguments);
+        $this->sharedTrace->journal[] = array('owner' => spl_object_id($this), 'call' => array($method, $arguments), 'calls' => $this->calls, 'cache' => $this->data_cache);
+        return $result;
     }
 
 
