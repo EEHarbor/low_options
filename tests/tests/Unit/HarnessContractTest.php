@@ -26,6 +26,30 @@ class HarnessContractTest extends TestCase
     }
 
     /**
+     * Return independent database results and distinguish table-specific lookups.
+     *
+     * @return void
+     */
+    public function testDatabaseTableResultSnapshotContract(): void
+    {
+        $database = new Database();
+        $site = new Query();
+        $site->record = array('site_label' => 'Other');
+        $database->results['sites'] = $site;
+        $database->record = array('id' => 17);
+        $result = $database->get();
+        self::assertInstanceOf(Query::class, $result);
+        self::assertNotSame($database, $result);
+        self::assertSame(17, $result->row('id'));
+        $database->record = array('id' => 18);
+        self::assertSame(17, $result->row('id'));
+        self::assertSame($site, $database->get('sites', 1));
+        self::assertSame($site, $database->get_where('sites', array('site_id' => 2), 1));
+        self::assertNotSame($database, $database->get('other'));
+        self::assertSame(18, $database->get('other')->row('id'));
+    }
+
+    /**
      * Keep missing configuration false and retain explicit zero values.
      *
      * @return void

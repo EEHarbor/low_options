@@ -13,6 +13,17 @@ class Query
     public $record = array();
     public $currentRow = 0;
     private $rowData;
+    public $collectionTrace;
+
+    /**
+     * Share collection observations across model-query clones.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->collectionTrace = (object) array('calls' => array());
+    }
 
     /**
      * Record a fluent query operation.
@@ -44,7 +55,20 @@ class Query
      */
     public function all()
     {
+        $this->collectionTrace->calls[] = array('all', spl_object_id($this));
         return $this;
+    }
+
+    /**
+     * Return collection cardinality for model-query pagination.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        $count = count($this->rows ?: $this->values);
+        $this->collectionTrace->calls[] = array('count', spl_object_id($this), $count);
+        return $count;
     }
 
     /**
@@ -76,7 +100,7 @@ class Query
      */
     public function result_array()
     {
-        return $this->rows;
+        return $this->rows ?: ($this->record ? array($this->record) : array());
     }
 
     /**
@@ -86,7 +110,7 @@ class Query
      */
     public function result()
     {
-        return array_map(function ($row) { return (object) $row; }, $this->rows);
+        return array_map(function ($row) { return (object) $row; }, $this->result_array());
     }
 
     /**
@@ -179,6 +203,55 @@ class Database extends Query
     public $queryResult;
     public $fieldExists = true;
     public $sharedTrace;
+    public $results = array();
+
+    /**
+     * Retrieve a scripted result for one table while retaining query arguments.
+     *
+     * @param string|null $table
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return Query
+     */
+    public function get($table = null, $limit = null, $offset = null)
+    {
+        $this->__call('get', func_get_args());
+        return $this->resultFor($table);
+    }
+
+    /**
+     * Retrieve table-specific results for an Active Record where lookup.
+     *
+     * @param string $table
+     * @param array $conditions
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return Query
+     */
+    public function get_where($table, $conditions, $limit = null, $offset = null)
+    {
+        $this->__call('get_where', func_get_args());
+        return $this->resultFor($table);
+    }
+
+
+    /**
+     * Return a distinct result snapshot rather than the mutable query builder.
+     *
+     * @param string|null $table
+     * @return Query
+     */
+    private function resultFor($table)
+    {
+        if ($table !== null && isset($this->results[$table])) {
+            return $this->results[$table];
+        }
+        $result = new Query();
+        $result->record = $this->record;
+        $result->rows = $this->rows;
+        $result->num_rows = $this->num_rows;
+        return $result;
+    }
 
     /**
      * Retain a trace shared with cloned query-builder instances.
@@ -187,6 +260,7 @@ class Database extends Query
      */
     public function __construct()
     {
+        parent::__construct();
         $this->sharedTrace = (object) array('calls' => array());
     }
 
@@ -325,6 +399,7 @@ class Environment
     public $load;
     public $logger;
     public $services = array();
+    public $serviceCalls = array();
     public $formCalls = array();
     public $input;
     public $session;
@@ -1005,5 +1080,19 @@ class Formatter
     public function url()
     {
         return \prep_url($this->text);
+    }
+}
+
+class IdentitySecurity
+{
+    /**
+     * Preserve already-safe fixture input after observing EE's clean boundary.
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    public function clean($value)
+    {
+        return $value;
     }
 }

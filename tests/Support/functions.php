@@ -12,6 +12,7 @@
         if ($service === null) {
             return $ee;
         }
+        $ee->serviceCalls[] = array($service, array_slice(func_get_args(), 1));
         if ($service === 'Model') {
             return $ee->model;
         }
