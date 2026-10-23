@@ -38,19 +38,28 @@
  */
 function read_file($file)
 {
-    return is_file($file) ? file_get_contents($file) : false;
+    return file_exists($file) ? file_get_contents($file) : false;
 }
 
 /**
- * Write one cache fixture using EE's file-helper return contract.
+ * Match EE's file-open failure boundary and locked writes.
  *
  * @param string $file
  * @param string $data
+ * @param string $mode
  * @return bool
  */
-function write_file($file, $data)
+function write_file($file, $data, $mode = 'wb')
 {
-    return file_put_contents($file, $data) !== false;
+    $handle = @fopen($file, $mode);
+    if ($handle === false) {
+        return false;
+    }
+    flock($handle, LOCK_EX);
+    fwrite($handle, $data);
+    flock($handle, LOCK_UN);
+    fclose($handle);
+    return true;
 }
 
 /**

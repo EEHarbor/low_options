@@ -13,7 +13,7 @@ define('AMP', '&amp;');
 define('APPPATH', LOW_OPTIONS_ROOT . '/tests/');
 define('SYSPATH', LOW_OPTIONS_ROOT . '/tests/');
 define('URL_THIRD_THEMES', '/themes/user/');
-define('PATH_CACHE', sys_get_temp_dir() . '/low-options-' . getmypid() . '/');
+define('PATH_CACHE', sys_get_temp_dir() . '/low-options-' . getmypid() . '-' . bin2hex(random_bytes(6)) . '/');
 define('FILE_WRITE_MODE', 0600);
 define('DIR_WRITE_MODE', 0700);
 
