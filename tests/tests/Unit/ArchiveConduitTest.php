@@ -112,6 +112,67 @@ class ArchiveConduitTest extends TestCase
     }
 
     /**
+     * Preserve documented compound keys when retrieving a stored value.
+     *
+     * @return void
+     */
+    public function testPersistentCacheRetrievesArrayKey(): void
+    {
+        $key = array('one', 'two');
+        $value = array('expected' => 17);
+        self::assertTrue(PersistentCache::set($key, $value));
+        self::assertSame($value, PersistentCache::get($key));
+    }
+
+    /**
+     * Keep a literal hash key distinct from another key's internal static entry.
+     *
+     * @return void
+     */
+    public function testPersistentCacheDoesNotConfuseLiteralHashKeyWithInternalKey(): void
+    {
+        $key = sha1('other');
+        self::assertTrue(PersistentCache::set('other', array('from' => 'other')));
+        self::assertTrue(PersistentCache::set($key, array('from' => 'literal-hash-key')));
+        self::assertSame(array('from' => 'literal-hash-key'), PersistentCache::get($key));
+    }
+
+    /**
+     * Preserve typed values before and after clearing the request-local cache.
+     *
+     * @dataProvider persistentValuesProvider
+     * @param mixed $value
+     * @return void
+     */
+    public function testPersistentCachePreservesTypedRoundTrips($value): void
+    {
+        self::assertTrue(PersistentCache::set('typed-value', $value));
+        self::assertTrue(PersistentCache::has('typed-value'));
+        self::assertSame(serialize($value), serialize(PersistentCache::get('typed-value')));
+        StaticCache::clear();
+        self::assertSame(serialize($value), serialize(PersistentCache::get('typed-value')));
+        self::assertSame(serialize($value), serialize(PersistentCache::get('typed-value')));
+    }
+
+    /**
+     * Provide array/object contracts and explicit scalar/null robustness probes.
+     *
+     * @return array
+     */
+    public static function persistentValuesProvider(): array
+    {
+        return array(
+            'empty array' => array(array()),
+            'nested array' => array(array('id' => 0, 'nested' => array('text' => '0', 'nullable' => null))),
+            'object' => array((object) array('id' => 17, 'nullable' => null)),
+            'false robustness' => array(false),
+            'zero robustness' => array(0),
+            'string zero robustness' => array('0'),
+            'null robustness' => array(null),
+        );
+    }
+
+    /**
      * Verify persistent clear leaves other static entries alone.
      *
      * @return void
