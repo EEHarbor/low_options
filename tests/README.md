@@ -56,6 +56,8 @@ Template's missing parameter defaults to `false`, matching EE's `fetch_param`. H
 
 These seams do not replace integration testing against a running EE database or browser. EE2 bridge methods are exercised as shipped classes; version-dependent behavior additionally needs separate runtime contexts. The suite covers meaningful behavior, not every potential invalid type accepted by untyped historical PHP methods. Remaining gaps are explicit in `STATUS.md` and the inventory/coverage reports.
 
+The `ee('db')` service resolves a fresh builder, matching current EE's `Database::newQuery`. Builders share configured backend responses and a query journal while preserving separate pending calls and schema caches. Settings tests observe the actual isolated write and verify that an unfinished primary query survives. This seam models the used contract without opening a database connection.
+
 The PHAR stub changes `include_path`, registers an additional autoloader and calls `Phar::interceptFileFuncs` during discovery, before individual tests. Request globals, include paths and newly registered autoloaders are restored per test; initial include path/autoloaders are also restored at process shutdown. PHP class declarations and `Phar::interceptFileFuncs` cannot be undone safely in this process. Complete runs therefore use a fresh CLI process, and native compilation probes use dedicated child processes; this is not proof that PHAR interception is reversible in an existing EE request.
 
 The direct private `_explode_param(null)` vector is a robustness/compatibility expectation for an unsupported null input (its source docblock requires a string). A missing EE template parameter actually returns `false`. Cache null/scalar vectors similarly record precise observed loss and robustness expectations; documented array inputs, including empty arrays, have the stronger public-contract basis.
@@ -74,3 +76,16 @@ python3 tests/scripts/report-coverage.py /private/tmp/low-options-nav.json \
 ```
 
 The raw native artifact and per-method report stay separate from parent-process coverage. Their filter includes only the original PHAR's Conduit/McpNav.php; the custom extension fixture and its methods are excluded. This report currently reaches82/84 lines and47/54 decision outcomes, not100% coverage.
+
+The service-registration fixture now follows the current EE Facade's existing-service guard, explicit null registrations and complete removal. Modern bridge classes are tested against that current contract; these cases do not prove historical EE3/4/5 runtime behavior. The bridge's advertised overwrite operation remains red for an already-loaded service. A separate read-only integration probe accepts an actual EE source directory:
+
+```sh
+'/Users/tomjaeger/Library/Application Support/Herd/bin/php82' \
+  -d error_reporting=-1 -d display_errors=1 \
+  tests/scripts/probe-real-ee-facade.php \
+  /Users/tomjaeger/Sites/ee_repo_2/system/ee
+```
+
+The probe declares APP_VER=7.5.0, loads the real Facade and unchanged add-on bridge, and records source hashes and the retained original object after replacement fails. It also verifies removal. Exit1 reports the source regression. This does not boot a full EE request, and external framework source is excluded from add-on coverage. All seven runtime results are retained in `reports/real-facade-probe.json`.
+
+Persistent-cache vectors distinguish documented array/object payloads and compound keys from scalar/null robustness inputs. Typed values round-trip before and after clearing request-local state. Two retained regressions expose array-key retrieval and a literal SHA-1 key colliding with another entry's internal static-cache lookup.

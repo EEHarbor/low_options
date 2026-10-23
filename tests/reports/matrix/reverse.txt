@@ -1,20 +1,20 @@
 PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
 
-..........F............F...............EF......................  63 / 210 ( 30%)
-..........................E......E............................. 126 / 210 ( 60%)
-...............EE.......F.FFFF......E.........F................ 189 / 210 ( 90%)
-..........F........E.                                           210 / 210 (100%)
+..........F............F...............EF......................  63 / 232 ( 27%)
+...............................E......E........................ 126 / 232 ( 54%)
+...................EEEE.....EE............FE..F.FFFF......E.... 189 / 232 ( 81%)
+.....F..........................F........E.                     232 / 232 (100%)
 
-Time: 00:01.248, Memory: 28.97 MB
+Time: 00:01.456, Memory: 28.97 MB
 
-There were 7 errors:
+There were 12 errors:
 
 1) LowOptionsTests\LowOptionsTest::testPrivateParameterNullRobustnessRemainsDiagnosticFree
 ErrorException: substr(): Passing null to parameter #1 ($string) of type string is deprecated
 
 /Users/tomjaeger/Sites/add-ons/low_options/low_options/pi.low_options.php:398
 /Users/tomjaeger/Sites/add-ons/low_options/tests/Support/TestCase.php:76
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:361
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:362
 
 2) LowOptionsTests\ArchiveMcpTest::testUpdaterHandlesAddonWithoutOptionalExtensionDiagnostics
 ErrorException: include_once(/Users/tomjaeger/Sites/add-ons/low_options/low_options/ext.low_options.php): Failed to open stream: No such file or directory
@@ -29,25 +29,60 @@ ErrorException: Creation of dynamic property Low\Options\FluxCapacitor\Base\Mcp:
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Mcp.php:165
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveMcpSaveTest.php:181
 
-4) LowOptionsTests\ArchiveConduitTest::testMalformedSettingsDoNotEmitSuppressedUnserializeDiagnostic
+4) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #3 ('EE6')
+RuntimeException: Cannot overwrite custom on the loader.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:477
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php:344
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
+
+5) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #2 ('EE5')
+RuntimeException: Cannot overwrite custom on the loader.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:477
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php:344
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
+
+6) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #1 ('EE4')
+RuntimeException: Cannot overwrite custom on the loader.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:477
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php:344
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
+
+7) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #0 ('EE3')
+RuntimeException: Cannot overwrite custom on the loader.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:477
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php:344
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
+
+8) LowOptionsTests\ArchiveConduitTest::testMalformedSettingsDoNotEmitSuppressedUnserializeDiagnostic
 ErrorException: unserialize(): Error at offset 0 of 14 bytes
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php:33
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:209
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:270
 
-5) LowOptionsTests\ArchiveConduitTest::testMissingNamedSettingDoesNotEmitSuppressedUndefinedKeyDiagnostic
+9) LowOptionsTests\ArchiveConduitTest::testMissingNamedSettingDoesNotEmitSuppressedUndefinedKeyDiagnostic
 ErrorException: Undefined array key "absent"
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php:21
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:196
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:257
 
-6) LowOptionsTests\ArchiveBridgeTest::testLegacyBaseUrlIsDiagnosticFree
+10) LowOptionsTests\ArchiveConduitTest::testPersistentCacheRetrievesArrayKey
+TypeError: Illegal offset type in isset or empty
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/StaticCache.php:18
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:21
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:124
+
+11) LowOptionsTests\ArchiveBridgeTest::testLegacyBaseUrlIsDiagnosticFree
 ValueError: version_compare(): Argument #3 ($operator) must be a valid comparison operator
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php:47
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:236
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:232
 
-7) LowOptionsTests\ArchiveBaseTest::testStaticPluginMetadataIsCallable
+12) LowOptionsTests\ArchiveBaseTest::testStaticPluginMetadataIsCallable
 Error: Using $this when not in object context
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Pi.php:30
@@ -55,7 +90,7 @@ phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/F
 
 --
 
-There were 10 failures:
+There were 11 failures:
 
 1) LowOptionsTests\NativeLoadTest::testArchiveSelfExtractsWhenPharWrapperIsUnavailable
 ErrorException: mkdir(): File exists at /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:177
@@ -74,41 +109,53 @@ Failed asserting that 1 is identical to 0.
 3) LowOptionsTests\LowOptionsTest::testZeroOptionSurvivesShowEmptyWhenEntryContainsZero
 Failed asserting that two strings are not identical.
 
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:351
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:352
 
-4) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #5 (null)
+4) LowOptionsTests\ArchiveConduitTest::testPersistentCacheDoesNotConfuseLiteralHashKeyWithInternalKey
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+ Array &0 (
+-    'from' => 'literal-hash-key'
++    'from' => 'other'
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:137
+
+5) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #5 (null)
 Failed asserting that false is identical to null.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-5) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #3 (array())
+6) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #3 (array())
 Failed asserting that false is identical to Array &0 ().
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-6) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #2 ('')
+7) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #2 ('')
 Failed asserting that false is identical to ''.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-7) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #1 ('0')
+8) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #1 ('0')
 Failed asserting that false is identical to '0'.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-8) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #0 (0)
+9) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #0 (0)
 Failed asserting that false is identical to 0.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-9) LowOptionsTests\ArchiveBridgeTest::testCacheRoutingAndDeletion with data set #0 ('EE2')
+10) LowOptionsTests\ArchiveBridgeTest::testCacheRoutingAndDeletion with data set #0 ('EE2')
 Failed asserting that Array &0 (
     0 => 1
 ) is false.
 
-/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:168
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:164
 
-10) LowOptionsTests\ArchiveBaseTest::testLegacyRegistrationAliasPreservesExplicitArguments
+11) LowOptionsTests\ArchiveBaseTest::testLegacyRegistrationAliasPreservesExplicitArguments
 Failed asserting that two strings are identical.
 --- Expected
 +++ Actual
@@ -119,4 +166,4 @@ Failed asserting that two strings are identical.
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:141
 
 ERRORS!
-Tests: 210, Assertions: 842, Errors: 7, Failures: 10.
+Tests: 232, Assertions: 957, Errors: 12, Failures: 11.
