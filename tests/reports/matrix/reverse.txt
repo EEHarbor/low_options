@@ -1,12 +1,12 @@
 PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
 
-..........F............F...............EF......................  63 / 282 ( 22%)
-................F..........EE...............................E.. 126 / 282 ( 44%)
-...E...........................................EEEE.....EE..... 189 / 282 ( 67%)
-.......FE..F.FFFF.EEEF.................E.........F............. 252 / 282 ( 89%)
-...................F........E.                                  282 / 282 (100%)
+...............F............F...............EF.................  63 / 290 ( 21%)
+.....................F..........F..EE.......................... 126 / 290 ( 43%)
+.....E.....E...........................................EEEE.... 189 / 290 ( 65%)
+.EE............FE..F.FFFF.EEEF.................E.........F..... 252 / 290 ( 86%)
+...........................F........E.                          290 / 290 (100%)
 
-Time: 00:02.277, Memory: 28.97 MB
+Time: 00:03.234, Memory: 34.97 MB
 
 There were 17 errors:
 
@@ -18,7 +18,7 @@ ErrorException: substr(): Passing null to parameter #1 ($string) of type string 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:362
 
 2) LowOptionsTests\ArchiveStubHelperTest::testTemporaryExtractionTreeCleanup with data set "dangling symlink robustness" (array(), array(), array('absent'))
-ErrorException: rmdir(/var/folders/07/g6ql86ns3m75y257j7nb6pv00000gn/T/low-options-stub-3e1c2b171e681ab2): Directory not empty
+ErrorException: rmdir(/var/folders/07/g6ql86ns3m75y257j7nb6pv00000gn/T/low-options-stub-580de3e786b1ba87): Directory not empty
 
 /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:285
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubHelperTest.php:183
@@ -124,7 +124,7 @@ phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/F
 
 --
 
-There were 13 failures:
+There were 14 failures:
 
 1) LowOptionsTests\NativeLoadTest::testArchiveSelfExtractsWhenPharWrapperIsUnavailable
 ErrorException: mkdir(): File exists at /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:177
@@ -162,7 +162,29 @@ Failed asserting that two arrays are identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveVersionTest.php:166
 
-5) LowOptionsTests\ArchiveConduitTest::testPersistentCacheDoesNotConfuseLiteralHashKeyWithInternalKey
+5) LowOptionsTests\ArchiveStubTerminalTest::testNativeEntryTermination with data set "size" ('size', 'Invalid internal .phar file (... != 5)')
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+ Array &0 (
+-    0 => 0
+-    1 => 'Invalid internal .phar file (size error 4 != 5)'
++    0 => 255
++    1 => '\n
++Fatal error: Uncaught ErrorException: Undefined variable $stat in /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:262\n
++Stack trace:\n
++#0 /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar(262): {closure}(2, 'Undefined varia...', '/Users/tomjaege...', 262)\n
++#1 /Users/tomjaeger/Sites/add-ons/low_options/tests/scripts/stub-probe.php(51): Extract_low_options::extractFile('fixture.bin', Array, Resource id #19)\n
++#2 {main}\n
++  thrown in /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar on line 262\n
++'
+     2 => ''
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubTerminalTest.php:25
+
+6) LowOptionsTests\ArchiveConduitTest::testPersistentCacheDoesNotConfuseLiteralHashKeyWithInternalKey
 Failed asserting that two arrays are identical.
 --- Expected
 +++ Actual
@@ -174,44 +196,44 @@ Failed asserting that two arrays are identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:137
 
-6) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #5 (null)
+7) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #5 (null)
 Failed asserting that false is identical to null.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-7) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #3 (array())
+8) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #3 (array())
 Failed asserting that false is identical to Array &0 ().
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-8) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #2 ('')
+9) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #2 ('')
 Failed asserting that false is identical to ''.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-9) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #1 ('0')
+10) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #1 ('0')
 Failed asserting that false is identical to '0'.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-10) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #0 (0)
+11) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #0 (0)
 Failed asserting that false is identical to 0.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
 
-11) LowOptionsTests\ArchiveCacheFilesystemTest::testHasAcceptsProcessedHashKey
+12) LowOptionsTests\ArchiveCacheFilesystemTest::testHasAcceptsProcessedHashKey
 Failed asserting that false is true.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveCacheFilesystemTest.php:187
 
-12) LowOptionsTests\ArchiveBridgeTest::testCacheRoutingAndDeletion with data set #0 ('EE2')
+13) LowOptionsTests\ArchiveBridgeTest::testCacheRoutingAndDeletion with data set #0 ('EE2')
 Failed asserting that Array &0 (
     0 => 1
 ) is false.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:164
 
-13) LowOptionsTests\ArchiveBaseTest::testLegacyRegistrationAliasPreservesExplicitArguments
+14) LowOptionsTests\ArchiveBaseTest::testLegacyRegistrationAliasPreservesExplicitArguments
 Failed asserting that two strings are identical.
 --- Expected
 +++ Actual
@@ -222,4 +244,4 @@ Failed asserting that two strings are identical.
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:143
 
 ERRORS!
-Tests: 282, Assertions: 1291, Errors: 17, Failures: 13.
+Tests: 290, Assertions: 1304, Errors: 17, Failures: 14.

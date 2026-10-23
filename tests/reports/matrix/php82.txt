@@ -3,16 +3,16 @@ Copyright (c) The PHP Group
 Zend Engine v4.2.30, Copyright (c) Zend Technologies
     with Zend OPcache v8.2.30, Copyright (c), by Zend Technologies
 
-COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-153027-555un_ng/php82.xml']
+COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-154803-gjgzjq3b/php82.xml']
 PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
 
-.E........F................................F.........E.........  63 / 282 ( 22%)
-........FEEE.FFFF.F..EF............EE.....EEEE................. 126 / 282 ( 44%)
-..........................E.....E.............................. 189 / 282 ( 67%)
-.EE..........F......................................FE......... 252 / 282 ( 89%)
-......F............F..........                                  282 / 282 (100%)
+.E........F................................F.........E.........  63 / 290 ( 21%)
+........FEEE.FFFF.F..EF............EE.....EEEE................. 126 / 290 ( 43%)
+..........................E.....E.............................. 189 / 290 ( 65%)
+.EE..F..........F......................................FE...... 252 / 290 ( 86%)
+.........F............F...............                          290 / 290 (100%)
 
-Time: 00:02.520, Memory: 28.97 MB
+Time: 00:03.354, Memory: 36.97 MB
 
 There were 17 errors:
 
@@ -116,7 +116,7 @@ ErrorException: rmdir(nested): Directory not empty
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubHelperTest.php:183
 
 16) LowOptionsTests\ArchiveStubHelperTest::testTemporaryExtractionTreeCleanup with data set "dangling symlink robustness" (array(), array(), array('absent'))
-ErrorException: rmdir(/var/folders/07/g6ql86ns3m75y257j7nb6pv00000gn/T/low-options-stub-7777bd1260f8308e): Directory not empty
+ErrorException: rmdir(/var/folders/07/g6ql86ns3m75y257j7nb6pv00000gn/T/low-options-stub-3a027184a36d392b): Directory not empty
 
 /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:285
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubHelperTest.php:183
@@ -130,7 +130,7 @@ ErrorException: substr(): Passing null to parameter #1 ($string) of type string 
 
 --
 
-There were 13 failures:
+There were 14 failures:
 
 1) LowOptionsTests\ArchiveBaseTest::testLegacyRegistrationAliasPreservesExplicitArguments
 Failed asserting that two strings are identical.
@@ -191,7 +191,29 @@ Failed asserting that two arrays are identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:137
 
-10) LowOptionsTests\ArchiveVersionTest::testVersionCheckEncryptedPayload with data set "installed" (array('2.1.0'), '2.1.0')
+10) LowOptionsTests\ArchiveStubTerminalTest::testNativeEntryTermination with data set "size" ('size', 'Invalid internal .phar file (... != 5)')
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+ Array &0 (
+-    0 => 0
+-    1 => 'Invalid internal .phar file (size error 4 != 5)'
++    0 => 255
++    1 => '\n
++Fatal error: Uncaught ErrorException: Undefined variable $stat in /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:262\n
++Stack trace:\n
++#0 /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar(262): {closure}(2, 'Undefined varia...', '/Users/tomjaege...', 262)\n
++#1 /Users/tomjaeger/Sites/add-ons/low_options/tests/scripts/stub-probe.php(51): Extract_low_options::extractFile('fixture.bin', Array, Resource id #19)\n
++#2 {main}\n
++  thrown in /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar on line 262\n
++'
+     2 => ''
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubTerminalTest.php:25
+
+11) LowOptionsTests\ArchiveVersionTest::testVersionCheckEncryptedPayload with data set "installed" (array('2.1.0'), '2.1.0')
 Failed asserting that two arrays are identical.
 --- Expected
 +++ Actual
@@ -208,19 +230,19 @@ Failed asserting that two arrays are identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveVersionTest.php:166
 
-11) LowOptionsTests\LowOptionsTest::testZeroOptionSurvivesShowEmptyWhenEntryContainsZero
+12) LowOptionsTests\LowOptionsTest::testZeroOptionSurvivesShowEmptyWhenEntryContainsZero
 Failed asserting that two strings are not identical.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:352
 
-12) LowOptionsTests\NativeLoadTest::testNativeArchiveClassLoadsWithoutDiagnostics with data set "FluxCapacitor/Conduit/McpNav.php" ('Conduit\McpNav')
+13) LowOptionsTests\NativeLoadTest::testNativeArchiveClassLoadsWithoutDiagnostics with data set "FluxCapacitor/Conduit/McpNav.php" ('Conduit\McpNav')
 ErrorException: include_once(/Users/tomjaeger/Sites/add-ons/low_options/low_options/Conduit/McpNav.php): Failed to open stream: No such file or directory at phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php:7
 
 Failed asserting that 1 is identical to 0.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:59
 
-13) LowOptionsTests\NativeLoadTest::testArchiveSelfExtractsWhenPharWrapperIsUnavailable
+14) LowOptionsTests\NativeLoadTest::testArchiveSelfExtractsWhenPharWrapperIsUnavailable
 ErrorException: mkdir(): File exists at /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:177
 
 Failed asserting that 1 is identical to 0.
@@ -228,4 +250,4 @@ Failed asserting that 1 is identical to 0.
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:140
 
 ERRORS!
-Tests: 282, Assertions: 1291, Errors: 17, Failures: 13.
+Tests: 290, Assertions: 1304, Errors: 17, Failures: 14.
