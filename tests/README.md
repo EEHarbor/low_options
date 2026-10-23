@@ -106,3 +106,5 @@ LOW_OPTIONS_CRYPTO_XDEBUG=/Applications/Herd.app/Contents/Resources/xdebug/xdebu
 ```
 
 Use fresh absolute paths. The queue sentinel's nested calls do not collect redundant graphs. `xdebug-crypto-php82.json.gz` preserves each raw JSON string and SHA256; `crypto-coverage.json.gz` records every unit/method separately. Parent coverage decreases after crypto isolation, and no cross-process total is inferred.
+
+Stub helper tests call the actual Extract_low_options class after normal PHAR loading. They compare every original manifest/member with native Phar, exercise plain/gzip/bzip2 binary read boundaries, and restore TMPDIR/CWD in finally. The recursive nonempty-tree cleanup and dangling-link robustness diagnostics remain source-red cases. Encoded incompressible gzip/bzip2 fixtures also reach the full source read chunk. Pure helper coverage does not establish stream-free loader or Windows integration.

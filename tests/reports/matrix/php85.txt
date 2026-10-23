@@ -4,18 +4,18 @@ Built by Laravel Herd
 Zend Engine v4.5.0, Copyright (c) Zend Technologies
     with Zend OPcache v8.5.0, Copyright (c), by Zend Technologies
 
-COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-151439-84nrvc3p/php85.xml']
+COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-153027-555un_ng/php85.xml']
 PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
 
-.E........F................................F.........E.........  63 / 256 ( 24%)
-........FEEE.FFFF.F..EF............EE.....EEEE................. 126 / 256 ( 49%)
-..........................E.....E.................F............ 189 / 256 ( 73%)
-..........................FE...............F............F...... 252 / 256 ( 98%)
-....                                                            256 / 256 (100%)
+.E........F................................F.........E.........  63 / 282 ( 22%)
+........FEEE.FFFF.F..EF............EE.....EEEE................. 126 / 282 ( 44%)
+..........................E.....E.............................. 189 / 282 ( 67%)
+.EE..........F......................................FE......... 252 / 282 ( 89%)
+......F............F..........                                  282 / 282 (100%)
 
-Time: 00:02.017, Memory: 28.97 MB
+Time: 00:02.626, Memory: 28.97 MB
 
-There were 15 errors:
+There were 17 errors:
 
 1) LowOptionsTests\ArchiveBaseTest::testStaticPluginMetadataIsCallable
 Error: Using $this when not in object context
@@ -110,7 +110,19 @@ phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/F
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Upd.php:64
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveMcpTest.php:90
 
-15) LowOptionsTests\LowOptionsTest::testPrivateParameterNullRobustnessRemainsDiagnosticFree
+15) LowOptionsTests\ArchiveStubHelperTest::testTemporaryExtractionTreeCleanup with data set "nonempty nested directory" (array('nested/child.bin'), array('nested'))
+ErrorException: rmdir(nested): Directory not empty
+
+/Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:278
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubHelperTest.php:183
+
+16) LowOptionsTests\ArchiveStubHelperTest::testTemporaryExtractionTreeCleanup with data set "dangling symlink robustness" (array(), array(), array('absent'))
+ErrorException: rmdir(/var/folders/07/g6ql86ns3m75y257j7nb6pv00000gn/T/low-options-stub-f287fc2a8389d425): Directory not empty
+
+/Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:285
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubHelperTest.php:183
+
+17) LowOptionsTests\LowOptionsTest::testPrivateParameterNullRobustnessRemainsDiagnosticFree
 ErrorException: substr(): Passing null to parameter #1 ($string) of type string is deprecated
 
 /Users/tomjaeger/Sites/add-ons/low_options/low_options/pi.low_options.php:398
@@ -217,4 +229,4 @@ Failed asserting that 1 is identical to 0.
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:140
 
 ERRORS!
-Tests: 256, Assertions: 1090, Errors: 15, Failures: 13.
+Tests: 282, Assertions: 1291, Errors: 17, Failures: 13.

@@ -1,14 +1,14 @@
 PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
 
-..........F............F...............EF......................  63 / 256 ( 24%)
-................F.................E.....E...................... 126 / 256 ( 49%)
-.....................EEEE.....EE............FE..F.FFFF.EEEF.... 189 / 256 ( 73%)
-.............E.........F................................F...... 252 / 256 ( 98%)
-..E.                                                            256 / 256 (100%)
+..........F............F...............EF......................  63 / 282 ( 22%)
+................F..........EE...............................E.. 126 / 282 ( 44%)
+...E...........................................EEEE.....EE..... 189 / 282 ( 67%)
+.......FE..F.FFFF.EEEF.................E.........F............. 252 / 282 ( 89%)
+...................F........E.                                  282 / 282 (100%)
 
-Time: 00:01.927, Memory: 28.97 MB
+Time: 00:02.277, Memory: 28.97 MB
 
-There were 15 errors:
+There were 17 errors:
 
 1) LowOptionsTests\LowOptionsTest::testPrivateParameterNullRobustnessRemainsDiagnosticFree
 ErrorException: substr(): Passing null to parameter #1 ($string) of type string is deprecated
@@ -17,94 +17,106 @@ ErrorException: substr(): Passing null to parameter #1 ($string) of type string 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/Support/TestCase.php:92
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:362
 
-2) LowOptionsTests\ArchiveMcpTest::testUpdaterHandlesAddonWithoutOptionalExtensionDiagnostics
+2) LowOptionsTests\ArchiveStubHelperTest::testTemporaryExtractionTreeCleanup with data set "dangling symlink robustness" (array(), array(), array('absent'))
+ErrorException: rmdir(/var/folders/07/g6ql86ns3m75y257j7nb6pv00000gn/T/low-options-stub-3e1c2b171e681ab2): Directory not empty
+
+/Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:285
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubHelperTest.php:183
+
+3) LowOptionsTests\ArchiveStubHelperTest::testTemporaryExtractionTreeCleanup with data set "nonempty nested directory" (array('nested/child.bin'), array('nested'))
+ErrorException: rmdir(nested): Directory not empty
+
+/Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:278
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubHelperTest.php:183
+
+4) LowOptionsTests\ArchiveMcpTest::testUpdaterHandlesAddonWithoutOptionalExtensionDiagnostics
 ErrorException: include_once(/Users/tomjaeger/Sites/add-ons/low_options/low_options/ext.low_options.php): Failed to open stream: No such file or directory
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Upd.php:64
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Upd.php:64
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveMcpTest.php:90
 
-3) LowOptionsTests\ArchiveMcpSaveTest::testPaginationCountsWithoutLimitingOriginalQuery
+5) LowOptionsTests\ArchiveMcpSaveTest::testPaginationCountsWithoutLimitingOriginalQuery
 ErrorException: Creation of dynamic property Low\Options\FluxCapacitor\Base\Mcp::$data is deprecated
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Mcp.php:165
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveMcpSaveTest.php:181
 
-4) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #3 ('EE6')
+6) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #3 ('EE6')
 RuntimeException: Cannot overwrite custom on the loader.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:477
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php:344
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
 
-5) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #2 ('EE5')
+7) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #2 ('EE5')
 RuntimeException: Cannot overwrite custom on the loader.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:477
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php:344
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
 
-6) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #1 ('EE4')
+8) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #1 ('EE4')
 RuntimeException: Cannot overwrite custom on the loader.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:477
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php:344
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
 
-7) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #0 ('EE3')
+9) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #0 ('EE3')
 RuntimeException: Cannot overwrite custom on the loader.
 
 /Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:477
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php:344
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
 
-8) LowOptionsTests\ArchiveConduitTest::testMalformedSettingsDoNotEmitSuppressedUnserializeDiagnostic
+10) LowOptionsTests\ArchiveConduitTest::testMalformedSettingsDoNotEmitSuppressedUnserializeDiagnostic
 ErrorException: unserialize(): Error at offset 0 of 14 bytes
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php:33
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:270
 
-9) LowOptionsTests\ArchiveConduitTest::testMissingNamedSettingDoesNotEmitSuppressedUndefinedKeyDiagnostic
+11) LowOptionsTests\ArchiveConduitTest::testMissingNamedSettingDoesNotEmitSuppressedUndefinedKeyDiagnostic
 ErrorException: Undefined array key "absent"
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php:21
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:257
 
-10) LowOptionsTests\ArchiveConduitTest::testPersistentCacheRetrievesArrayKey
+12) LowOptionsTests\ArchiveConduitTest::testPersistentCacheRetrievesArrayKey
 TypeError: Illegal offset type in isset or empty
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/StaticCache.php:18
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:21
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:124
 
-11) LowOptionsTests\ArchiveCacheFilesystemTest::testCorruptCacheReturnsFalseWithoutDiagnostic
+13) LowOptionsTests\ArchiveCacheFilesystemTest::testCorruptCacheReturnsFalseWithoutDiagnostic
 ErrorException: unserialize(): Error at offset 0 of 14 bytes
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:181
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:45
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveCacheFilesystemTest.php:229
 
-12) LowOptionsTests\ArchiveCacheFilesystemTest::testBlockedDirectoryCreationReturnsFalse with data set #1 ('module')
+14) LowOptionsTests\ArchiveCacheFilesystemTest::testBlockedDirectoryCreationReturnsFalse with data set #1 ('module')
 ErrorException: mkdir(): Not a directory
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:215
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:57
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveCacheFilesystemTest.php:206
 
-13) LowOptionsTests\ArchiveCacheFilesystemTest::testBlockedDirectoryCreationReturnsFalse with data set #0 ('base')
+15) LowOptionsTests\ArchiveCacheFilesystemTest::testBlockedDirectoryCreationReturnsFalse with data set #0 ('base')
 ErrorException: mkdir(): Not a directory
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:196
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:57
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveCacheFilesystemTest.php:206
 
-14) LowOptionsTests\ArchiveBridgeTest::testLegacyBaseUrlIsDiagnosticFree
+16) LowOptionsTests\ArchiveBridgeTest::testLegacyBaseUrlIsDiagnosticFree
 ValueError: version_compare(): Argument #3 ($operator) must be a valid comparison operator
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php:47
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:232
 
-15) LowOptionsTests\ArchiveBaseTest::testStaticPluginMetadataIsCallable
+17) LowOptionsTests\ArchiveBaseTest::testStaticPluginMetadataIsCallable
 Error: Using $this when not in object context
 
 phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Pi.php:30
@@ -210,4 +222,4 @@ Failed asserting that two strings are identical.
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:143
 
 ERRORS!
-Tests: 256, Assertions: 1090, Errors: 15, Failures: 13.
+Tests: 282, Assertions: 1291, Errors: 17, Failures: 13.

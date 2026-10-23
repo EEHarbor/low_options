@@ -6,7 +6,7 @@ Basic-block execution is distinct from decision outcomes. Raw outgoing data and 
 | --- | ---: | ---: | ---: |
 | low_options/addon.setup.php | 9/9 | 0/1 | 0/0 |
 | low_options/autoload.php | 23/29 | 23/31 | 13/26 |
-| low_options/low_options.phar/<stub>.php | 7/154 | 0/109 | 0/104 |
+| low_options/low_options.phar/<stub>.php | 55/154 | 30/109 | 24/104 |
 | low_options/low_options.phar/FluxCapacitor/Base/Ext.php | 59/61 | 31/33 | 13/18 |
 | low_options/low_options.phar/FluxCapacitor/Base/Ft.php | 42/56 | 25/44 | 15/34 |
 | low_options/low_options.phar/FluxCapacitor/Base/Mcp.php | 73/83 | 43/50 | 31/44 |
@@ -44,3 +44,8 @@ Crypto runs in six independent PHP82 processes. Their complete original raw JSON
 | updater | 28/33 / 7/16 | 6/6 / 0/0 | 9/10 / 1/2 |
 | version-development | 32/34 / 10/16 | unknown | unknown |
 | version | 32/34 / 10/16 | unknown | unknown |
+
+Stub helpers execute the original loaded Extract_low_options class. _unpack reaches20/20 lines,4/4 basic blocks and2/2 decision outcomes; extractFile15/18 lines,12/14 blocks and10/12 outcomes; Unix tmpdir4/9 lines,4/14 blocks and3/12 outcomes; _removeTmpFiles9/10 lines,10/12 blocks and9/12 outcomes. Windows-only temporary selection remains outside the macOS matrix. Corrupt size/checksum terminal contexts remain untested here. Strict @rmdir on a nonempty child directory prevents the later recursive cleanup call from executing. Empty/files/empty-subdirectory controls pass. No source completeness claim is made.
+The six crypto graphs and installed-nav graph are unchanged artifacts from their independently approved checkpoints; their source, fixture and native collectors are unchanged in this delta. They remain separate from this fresh parent run.
+
+The deterministic dangling-link robustness vector covers the file_exists(false) cleanup exit. It leaves the link and reaches a strict final rmdir diagnostic; its owned-link cleanup remains in test finally. Incompressible SHA256-derived binary fixtures ensure encoded gzip/bzip2 data also reaches the full read chunk.

@@ -15,9 +15,9 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php74"
     },
     "counts": {
-      "tests": 256,
-      "assertions": 1097,
-      "errors": 12,
+      "tests": 282,
+      "assertions": 1298,
+      "errors": 14,
       "failures": 15,
       "warnings": 0,
       "skipped": 0,
@@ -42,9 +42,9 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php80"
     },
     "counts": {
-      "tests": 256,
-      "assertions": 1095,
-      "errors": 13,
+      "tests": 282,
+      "assertions": 1296,
+      "errors": 15,
       "failures": 13,
       "warnings": 0,
       "skipped": 0,
@@ -69,9 +69,9 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php81"
     },
     "counts": {
-      "tests": 256,
-      "assertions": 1094,
-      "errors": 14,
+      "tests": 282,
+      "assertions": 1295,
+      "errors": 16,
       "failures": 13,
       "warnings": 0,
       "skipped": 0,
@@ -96,9 +96,9 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php82"
     },
     "counts": {
-      "tests": 256,
-      "assertions": 1090,
-      "errors": 15,
+      "tests": 282,
+      "assertions": 1291,
+      "errors": 17,
       "failures": 13,
       "warnings": 0,
       "skipped": 0,
@@ -123,9 +123,9 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php83"
     },
     "counts": {
-      "tests": 256,
-      "assertions": 1090,
-      "errors": 15,
+      "tests": 282,
+      "assertions": 1291,
+      "errors": 17,
       "failures": 13,
       "warnings": 0,
       "skipped": 0,
@@ -150,9 +150,9 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php84"
     },
     "counts": {
-      "tests": 256,
-      "assertions": 1090,
-      "errors": 15,
+      "tests": 282,
+      "assertions": 1291,
+      "errors": 17,
       "failures": 13,
       "warnings": 0,
       "skipped": 0,
@@ -177,9 +177,9 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php85"
     },
     "counts": {
-      "tests": 256,
-      "assertions": 1090,
-      "errors": 15,
+      "tests": 282,
+      "assertions": 1291,
+      "errors": 17,
       "failures": 13,
       "warnings": 0,
       "skipped": 0,

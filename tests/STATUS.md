@@ -1,6 +1,6 @@
 # Low Options campaign status
 
-Status: **incomplete, reviewed payload/lifecycle checkpoint published**. The payload/lifecycle code and evidence checkpoint is published at `83f1083f341a453ddb16b4a8f41044eb89bb26e1`. Production defects and instrumentation/source constraints prevent a green 100% line-and-outcome milestone. Useful remaining coverage work is listed separately; this is not a claim that every uncovered method is blocked.
+Status: **incomplete, stub-helper follow-up awaiting independent review**. The reviewed payload/lifecycle checkpoint and factual ledger are published at `c5455b14c12a46a82e41b70ca974ce2ff618f6f3`. Production defects and instrumentation/source constraints prevent a green 100% line-and-outcome milestone. Useful remaining coverage work is listed separately; this is not a claim that every uncovered method is blocked.
 
 ## Baseline and scope
 
@@ -23,15 +23,17 @@ Commands and complete output are retained in `reports/matrix.json` and `reports/
 
 | Herd PHP | Cases | Assertions | Errors | Failures | Warnings | Risky | Skipped | Incomplete |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 7.4.33 | 256 | 1097 | 12 | 15 | 0 | 0 | 0 | 0 |
-| 8.0.30 | 256 | 1095 | 13 | 13 | 0 | 0 | 0 | 0 |
-| 8.1.33 | 256 | 1094 | 14 | 13 | 0 | 0 | 0 | 0 |
-| 8.2.30 | 256 | 1090 | 15 | 13 | 0 | 0 | 0 | 0 |
-| 8.3.28 | 256 | 1090 | 15 | 13 | 0 | 0 | 0 | 0 |
-| 8.4.15 | 256 | 1090 | 15 | 13 | 0 | 0 | 0 | 0 |
-| 8.5.0 | 256 | 1090 | 15 | 13 | 0 | 0 | 0 | 0 |
+| 7.4.33 | 282 | 1298 | 14 | 15 | 0 | 0 | 0 | 0 |
+| 8.0.30 | 282 | 1296 | 15 | 13 | 0 | 0 | 0 | 0 |
+| 8.1.33 | 282 | 1295 | 16 | 13 | 0 | 0 | 0 | 0 |
+| 8.2.30 | 282 | 1291 | 17 | 13 | 0 | 0 | 0 | 0 |
+| 8.3.28 | 282 | 1291 | 17 | 13 | 0 | 0 | 0 | 0 |
+| 8.4.15 | 282 | 1291 | 17 | 13 | 0 | 0 | 0 | 0 |
+| 8.5.0 | 282 | 1291 | 17 | 13 | 0 | 0 | 0 | 0 |
 
-All commands exit 2 due to retained source regressions. The matrix orchestrator exits 1 when any suite is red. PHP82 random seed 20261023 and reverse-order runs reproduce the same 256 cases, 1090 assertions, 15 errors and 13 failures. All 29 test/support PHP files lint on PHP74 and PHP85. No tool/harness deprecations remain; Reflection accessibility changes are guarded below PHP8.1.
+All commands exit 2 due to retained source regressions. The matrix orchestrator exits 1 when any suite is red. PHP74/85 random seed 20261023 and PHP82 reverse runs reproduce their default counts and source issue identities. All 30 test/support PHP files lint on PHP74 and PHP85. No tool/harness deprecations remain; Reflection accessibility changes are guarded below PHP8.1.
+
+
 
 ## Confirmed red source observations
 
@@ -139,8 +141,20 @@ Independent first-pass review of snapshot c75078928b94965e2fa83d630dc8e3966c1e63
 
 The new native helper uses unique owned temporary directories and separate output files, a monotonic 20-second deadline, and finally cleanup. Its timeout/output failure branches have not been independently fault-injected; this remains a harness test gap. Source diagnostics remain strict. Six original-source PHP82 crypto graphs are retained independently, with complete raw JSON bytes and hashes in xdebug-crypto-php82.json.gz and per-method reports in crypto-coverage.json.gz. They cover absent/installed payloads, original public-key loading, normal/development checks and the real updater. These graphs are separate from the parent and native navigation context. PHP82/Xdebug3.5.3 provenance and exact baseline/archive hashes are retained; collector commands use process-local extensions only.
 
-Complete suites run 256 cases per runtime, with the retained source counts above. PHP82 random/reverse runs match 256/1090 assertions/15 errors/13 failures. Focused changed behavior plus queue contract runs 9 cases/37 assertions with one installed-Pro source failure on PHP74/85; the other vectors pass. Four affected test files execute individually on PHP74/85 with the recorded source failures only; HarnessContractTest passes11/88. All 29 test/support PHP scripts lint on PHP74/85. All 27 production inventory hashes are unchanged; the test key SHA-256 is 14a0e01716844f3a28d72876457961d99a1d84c6d2cf2904ca0f750ca3421b8e. Parent raw/skill/method reports are refreshed. Self-review checked fixture fidelity/isolation, concrete updater naming, typed decrypted payloads, formatting-independent assertions, strict diagnostics, source immutability and remaining gaps. Corrected exact-diff independent review by /root/tests_low_random approved SHA256 6be624d548149a2b410d1b965b9fd1bb014fdaaa364a51a99279b5a8bc7ae849 against daa353704cb6cbbe3538968d91b29882426d1904. The reviewer independently reproduced all seven suites, every source issue identity, random/reverse82, complete caller FIFO controls, parent/six native raw graphs and all per-unit/method reports. No actionable bounded finding remained. Broad coverage/integration and helper timeout fault-injection gaps remain incomplete.
+At that reviewed checkpoint, complete suites ran 256 cases per runtime. PHP82 random/reverse runs matched 256/1090 assertions/15 errors/13 failures. Focused changed behavior plus queue contract runs 9 cases/37 assertions with one installed-Pro source failure on PHP74/85; the other vectors pass. Four affected test files execute individually on PHP74/85 with the recorded source failures only; HarnessContractTest passes11/88. All 29 test/support PHP scripts lint on PHP74/85. All 27 production inventory hashes are unchanged; the test key SHA-256 is 14a0e01716844f3a28d72876457961d99a1d84c6d2cf2904ca0f750ca3421b8e. Parent raw/skill/method reports are refreshed. Self-review checked fixture fidelity/isolation, concrete updater naming, typed decrypted payloads, formatting-independent assertions, strict diagnostics, source immutability and remaining gaps. Corrected exact-diff independent review by /root/tests_low_random approved SHA256 6be624d548149a2b410d1b965b9fd1bb014fdaaa364a51a99279b5a8bc7ae849 against daa353704cb6cbbe3538968d91b29882426d1904. The reviewer independently reproduced all seven suites, every source issue identity, random/reverse82, complete caller FIFO controls, parent/six native raw graphs and all per-unit/method reports. No actionable bounded finding remained. Broad coverage/integration and helper timeout fault-injection gaps remain incomplete.
 
 ## Payload/lifecycle publication evidence
 
 Published reviewed code commit `4c52f5e9cc41dcc2ffa1b9e5fc561ef7b12a65a0` and evidence commit `83f1083f341a453ddb16b4a8f41044eb89bb26e1` to origin/unit-tests-2026 without force. Their combined binary diff from daa353704cb6cbbe3538968d91b29882426d1904 exactly matches approved SHA256 6be624d548149a2b410d1b965b9fd1bb014fdaaa364a51a99279b5a8bc7ae849. A fresh origin fetch and live ls-remote returned exact 83f1083f341a453ddb16b4a8f41044eb89bb26e1, tracking parity0/0 and a clean checkout. Production diff remains empty. This factual STATUS-only note follows that verified checkpoint; it does not change executable tests or coverage evidence. The campaign remains incomplete.
+
+## Stub helper follow-up
+
+This pending delta starts at c5455b14c12a46a82e41b70ca974ce2ff618f6f3 and adds 26 cases against the actual global Extract_low_options class loaded by the original PHAR. The actual archive manifest is read from the stub's LEN offset. All 22 member sizes, timestamps, compressed sizes, unsigned CRCs, sequential offsets and extracted bytes are checked against native Phar metadata/content. A separate structural binary fixture covers alias/header metadata, per-file metadata, compression-flag accumulation, high unsigned CRCs and the empty-entry parser boundary. It is parser input, not an edited or substitute production archive.
+
+Eighteen binary extraction vectors cover byte lengths 0/1/8191/8192/8193/20000 through uncompressed, native gzip and native bzip2 codecs. They verify exact bytes and consumed stream positions. Deterministic SHA256-derived incompressible bytes ensure the encoded gzip/bzip2 fixtures also cross the read-chunk boundary; fixture-size assertions keep that property observable. Unix temporary selection checks its environment override and /tmp fallback while restoring the original environment in finally. Cleanup controls cover empty trees, ordinary files and empty subdirectories, assert original working-directory restoration, and own unique temporary paths. The nonempty nested-directory regression remains red: PHAR stub line 278 calls suppressed rmdir before its recursion guard, so strict diagnostics stop with Directory not empty before recursive cleanup can run. A dangling-link robustness vector points only to an absent target inside the same unique tree. file_exists returns false, so the source leaves the link and its final rmdir emits another strict diagnostic. This is a filesystem robustness shape, not a claim the normal extraction path creates such a link. Test finally restores CWD and removes only its own tree/links; it does not accept or suppress either source diagnostic.
+
+The full suite now executes 282 cases on all seven runtimes: 74=1298 assertions/14 errors/15 failures; 80=1296/15/13; 81=1295/16/13; 82–85=1291/17/13. No warnings, risky, skipped or incomplete cases occur. Every focused runtime executes 26 cases / 201 assertions with two source cleanup errors. Random74/85 and reverse82 reproduce the corresponding complete-suite counts/issue identities. External complete-suite empty/seeded OpenSSL caller controls preserve all entries on74/85. All 30 test/support scripts lint74/85; the 27-unit source inventory and production baseline remain unchanged.
+
+Fresh parent PHP82/Xdebug3.5.3 coverage moves the executable stub from 7/154 to 55/154 lines and 0/104 to 24/104 decision outcomes. _unpack has 20/20 lines, 4/4 basic blocks and 2/2 ordinary decision outcomes. extractFile has 15/18 lines and 10/12 outcomes; its size/checksum termination contexts remain feasible native work. tmpdir has 4/9 lines and 3/12 outcomes: remaining Windows paths are outside the macOS Herd matrix. _removeTmpFiles has 9/10 lines and 9/12 outcomes; its recursive call is blocked by the strict nonempty-rmdir diagnostic, and the deterministic dangling-link case now covers file_exists(false). Stream-free go remains separately red at its repeated mkdir. Six crypto and one installed-nav graph artifacts carry forward unchanged from their approved contexts; they are neither merged nor represented as rerun here. Synthetic exits and missing instrumentation remain explicit in detailed reports.
+
+Self-review checked actual-source execution, binary fixture fidelity, native Phar controls, resource ownership, finally cleanup, request environment/CWD isolation, runtime portability and honest source-error attribution. No production repair is authorized. Independent first-pass review of da8fedc9d263fce3622bce399d5107a4c410f791571d5824ef7dad76993e2f8f found only an overstrong claim that file_exists(false) required a race. That wording is corrected and the deterministic dangling-link context is retained. Revised exact-diff review is pending; broad archive/native/legacy integration and outcome coverage remain incomplete.

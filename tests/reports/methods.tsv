@@ -1,10 +1,10 @@
 source	method	range	lines	basic_block	decision_outcomes	state	uncovered_lines	unobserved_decision_exits	unobserved_synthetic_terminals
 low_options/autoload.php	{closure}	19-92	23/29	23/31	13/26	measured	57,63,66,82,87,90	46->150,48->65,48->73,73->100,73->91,73->93,73->97,73->142,76->114,81->120,81->125,81->126,81->131	35,87,90,92
 low_options/low_options.phar/<stub>.php	go	113-194	0/50	0/35	0/36	measured	115,116,117,118,121,122,123,125,126,127,129,131,132,135,136,138,139,141,145,146,148,152,154,155,156,157,158,159,161,164,165,166,167,168,170,171,172,173,175,176,177,178,180,181,183,184,189,191,192,194	122->34,122->39,127->49,127->53,127->54,127->26,129->59,129->67,138->78,138->86,139->84,139->86,145->89,145->97,146->95,146->97,154->104,154->109,154->110,154->148,156->121,156->132,158->138,158->143,158->144,158->146,170->187,170->285,175->217,175->284,175->218,175->284,180->252,180->262,191->292,191->294	132,141,148,159,194
-low_options/low_options.phar/<stub>.php	tmpdir	196-211	0/9	0/14	0/12	measured	198,199,200,202,203,205,207,208,210	198->7,198->42,199->12,199->17,199->23,199->25,202->30,202->34,202->35,202->40,207->48,207->50	200,203,205,208
-low_options/low_options.phar/<stub>.php	_unpack	213-237	0/20	0/4	0/2	measured	215,216,217,218,219,220,221,223,224,225,226,227,228,229,230,231,232,233,234,236	223->135,223->54	
-low_options/low_options.phar/<stub>.php	extractFile	239-270	0/18	0/14	0/12	measured	241,242,244,245,246,247,249,250,254,255,256,257,260,261,262,265,266,269	245->13,245->24,244->35,244->10,254->39,254->45,256->49,256->54,260->59,260->67,265->79,265->81	262,266
-low_options/low_options.phar/<stub>.php	_removeTmpFiles	272-288	0/10	0/12	0/12	measured	274,276,277,278,279,280,285,286,287,288	276->11,276->54,276->12,276->54,277->17,277->53,278->22,278->29,279->41,279->45,279->46,279->53	288
+low_options/low_options.phar/<stub>.php	tmpdir	196-211	4/9	4/14	3/12	measured	199,200,202,203,205	198->7,199->12,199->17,199->23,199->25,202->30,202->34,202->35,202->40	200,203,205,208
+low_options/low_options.phar/<stub>.php	_unpack	213-237	20/20	4/4	2/2	measured			
+low_options/low_options.phar/<stub>.php	extractFile	239-270	15/18	12/14	10/12	measured	261,262,266	260->59,265->79	262,266
+low_options/low_options.phar/<stub>.php	_removeTmpFiles	272-288	9/10	10/12	9/12	measured	280	276->54,279->41,279->46	288
 low_options/low_options.phar/FluxCapacitor/Base/Ext.php	__construct	29-36	6/6	1/1	0/0	measured			36
 low_options/low_options.phar/FluxCapacitor/Base/Ext.php	activateExtension	38-46	3/3	4/4	3/4	measured		40->9	
 low_options/low_options.phar/FluxCapacitor/Base/Ext.php	updateExtension	48-53	2/2	1/1	0/0	measured			
