@@ -76,7 +76,8 @@ No overall coverage milestone is claimed. `coverage.json` includes unknown/unexe
   - `9a2c39c0135d3e9ddea4c3315461844ea9a6da72` - strict harness and pinned tooling.
   - `ae596df588a1f00b6fc9e4928aedb754825b8da1` - loose plugin/setup/view behavior.
   - `bb4e931da8357b407c0c835bc8178ea50757094e` - shipped archive/native behavior and retained regressions.
-  - This report/evidence commit follows the independently reviewed code commits. None is labeled a 100% coverage milestone.
-- Authorized publication destination: `origin/unit-tests-2026`, without force. Production diff against the pinned baseline is empty.
+  - `4f0e6ce291481f06189802afe6114b3abc20f730` - reviewed matrix, coverage and source-blocker evidence.
+  - This publication note follows the independently reviewed code commits. None is labeled a 100% coverage milestone.
+- Published `4f0e6ce291481f06189802afe6114b3abc20f730` to `origin/unit-tests-2026` without force. Fresh `git ls-remote --heads origin refs/heads/unit-tests-2026` matched that SHA; local/remote left-right count was `0 0`. This note is a factual follow-up commit on the same authorized branch. Production diff against the pinned baseline is empty.
 
 The PHAR changes include_path/autoloaders during discovery and enables process-wide file-function interception. Per-test restoration now covers request globals/include paths/new autoloaders, and a shutdown boundary restores the initial include path/autoloader stack. Class declarations and Phar::interceptFileFuncs remain process-level constraints; fresh CLI runs and native child probes contain these effects rather than claiming full reversibility.
