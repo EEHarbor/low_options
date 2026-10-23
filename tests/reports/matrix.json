@@ -15,8 +15,8 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php74"
     },
     "counts": {
-      "tests": 203,
-      "assertions": 828,
+      "tests": 210,
+      "assertions": 849,
       "errors": 4,
       "failures": 12,
       "warnings": 0,
@@ -42,8 +42,8 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php80"
     },
     "counts": {
-      "tests": 203,
-      "assertions": 826,
+      "tests": 210,
+      "assertions": 847,
       "errors": 5,
       "failures": 10,
       "warnings": 0,
@@ -69,8 +69,8 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php81"
     },
     "counts": {
-      "tests": 203,
-      "assertions": 825,
+      "tests": 210,
+      "assertions": 846,
       "errors": 6,
       "failures": 10,
       "warnings": 0,
@@ -96,8 +96,8 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php82"
     },
     "counts": {
-      "tests": 203,
-      "assertions": 821,
+      "tests": 210,
+      "assertions": 842,
       "errors": 7,
       "failures": 10,
       "warnings": 0,
@@ -123,8 +123,8 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php83"
     },
     "counts": {
-      "tests": 203,
-      "assertions": 821,
+      "tests": 210,
+      "assertions": 842,
       "errors": 7,
       "failures": 10,
       "warnings": 0,
@@ -150,8 +150,8 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php84"
     },
     "counts": {
-      "tests": 203,
-      "assertions": 821,
+      "tests": 210,
+      "assertions": 842,
       "errors": 7,
       "failures": 10,
       "warnings": 0,
@@ -177,8 +177,8 @@
       "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php85"
     },
     "counts": {
-      "tests": 203,
-      "assertions": 821,
+      "tests": 210,
+      "assertions": 842,
       "errors": 7,
       "failures": 10,
       "warnings": 0,

@@ -4,15 +4,15 @@ Built by Laravel Herd
 Zend Engine v4.4.15, Copyright (c) Zend Technologies
     with Zend OPcache v8.4.15, Copyright (c), by Zend Technologies
 
-COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-141243-o1cev8eg/php84.xml']
+COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-141731-qvxpsewl/php84.xml']
 PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
 
-.E........F..........................F.........E......FFFF.F...  63 / 203 ( 31%)
-....EE............................................E......E..... 126 / 203 ( 62%)
-....................................FE...............F......... 189 / 203 ( 93%)
-...F..........                                                  203 / 203 (100%)
+.E........F..........................F.........E......FFFF.F...  63 / 210 ( 30%)
+....EE............................................E......E..... 126 / 210 ( 60%)
+...........................................FE...............F.. 189 / 210 ( 90%)
+..........F..........                                           210 / 210 (100%)
 
-Time: 00:01.060, Memory: 28.97 MB
+Time: 00:01.227, Memory: 28.97 MB
 
 There were 7 errors:
 
@@ -126,4 +126,4 @@ Failed asserting that 1 is identical to 0.
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:140
 
 ERRORS!
-Tests: 203, Assertions: 821, Errors: 7, Failures: 10.
+Tests: 210, Assertions: 842, Errors: 7, Failures: 10.

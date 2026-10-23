@@ -1,6 +1,6 @@
 # Low Options campaign status
 
-Status: **incomplete, independently reviewed MCP follow-up published**. Production defects and instrumentation/source constraints prevent a green 100% line-and-outcome milestone. Useful remaining coverage work is listed separately; this is not a claim that every uncovered method is blocked.
+Status: **incomplete, independently reviewed installed-nav checkpoint published**. Production defects and instrumentation/source constraints prevent a green 100% line-and-outcome milestone. Useful remaining coverage work is listed separately; this is not a claim that every uncovered method is blocked.
 
 ## Baseline and scope
 
@@ -23,15 +23,15 @@ Commands and complete output are retained in `reports/matrix.json` and `reports/
 
 | Herd PHP | Cases | Assertions | Errors | Failures | Warnings | Risky | Skipped | Incomplete |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 7.4.33 | 203 | 828 | 4 | 12 | 0 | 0 | 0 | 0 |
-| 8.0.30 | 203 | 826 | 5 | 10 | 0 | 0 | 0 | 0 |
-| 8.1.33 | 203 | 825 | 6 | 10 | 0 | 0 | 0 | 0 |
-| 8.2.30 | 203 | 821 | 7 | 10 | 0 | 0 | 0 | 0 |
-| 8.3.28 | 203 | 821 | 7 | 10 | 0 | 0 | 0 | 0 |
-| 8.4.15 | 203 | 821 | 7 | 10 | 0 | 0 | 0 | 0 |
-| 8.5.0 | 203 | 821 | 7 | 10 | 0 | 0 | 0 | 0 |
+| 7.4.33 | 210 | 849 | 4 | 12 | 0 | 0 | 0 | 0 |
+| 8.0.30 | 210 | 847 | 5 | 10 | 0 | 0 | 0 | 0 |
+| 8.1.33 | 210 | 846 | 6 | 10 | 0 | 0 | 0 | 0 |
+| 8.2.30 | 210 | 842 | 7 | 10 | 0 | 0 | 0 | 0 |
+| 8.3.28 | 210 | 842 | 7 | 10 | 0 | 0 | 0 | 0 |
+| 8.4.15 | 210 | 842 | 7 | 10 | 0 | 0 | 0 | 0 |
+| 8.5.0 | 210 | 842 | 7 | 10 | 0 | 0 | 0 | 0 |
 
-All commands exit 2 due to retained source regressions. The matrix orchestrator exits 1 when any suite is red. PHP82 random seed 20261023 and reverse-order runs reproduce the same 203 cases, 821 assertions, 7 errors and 10 failures. All 21 test/support PHP files lint on PHP74 and PHP85. No tool/harness deprecations remain; Reflection accessibility changes are guarded below PHP8.1.
+All commands exit 2 due to retained source regressions. The matrix orchestrator exits 1 when any suite is red. PHP82 random seed 20261023 and reverse-order runs reproduce the same 210 cases, 842 assertions, 7 errors and 10 failures. All 24 test/support PHP files lint on PHP74 and PHP85. No tool/harness deprecations remain; Reflection accessibility changes are guarded below PHP8.1.
 
 ## Confirmed red source observations
 
@@ -67,7 +67,7 @@ Other hard constraints:
 
 ## Remaining independent coverage work
 
-No overall coverage milestone is claimed. `coverage.json` includes unknown/unexecuted `Conduit/McpNav` and incomplete loaders, stub, base, bridge and cache methods. Feasible follow-up includes isolated installed-custom-nav contexts; additional Mcp save-license/pagination null/type/context variants; settings merge/legacy serialization variants; fieldtype EE2/create-page variants; persistent-cache failure paths; additional true EE2 session/URL contexts; and additional missing/malformed/type/large-input vectors where supported. Full end-to-end EE template/database behavior has not been run. The native archive load and no-PHAR regressions remain red.
+No overall coverage milestone is claimed. `coverage.json` retains parent-only unknown/unexecuted `Conduit/McpNav` (the separate installed-nav report below measures a valid native context) and incomplete loaders, stub, base, bridge and cache methods. Feasible follow-up includes isolated installed-custom-nav contexts; additional Mcp save-license/pagination null/type/context variants; settings merge/legacy serialization variants; fieldtype EE2/create-page variants; persistent-cache failure paths; additional true EE2 session/URL contexts; and additional missing/malformed/type/large-input vectors where supported. Full end-to-end EE template/database behavior has not been run. The native archive load and no-PHAR regressions remain red.
 
 ## Review and publication
 
@@ -85,4 +85,10 @@ The PHAR changes include_path/autoloaders during discovery and enables process-w
 
 ## MCP follow-up checkpoint
 
-The published head `325a2113552ba99794fed21bb7ba4bc9cf2d4f10` remains the independently approved 192-case checkpoint. Subsequent test-only work adds ten MCP cases: sanitized license insert/update, ignored-site keys, 50/51-character boundaries, another MSM site's existing/removed label, another add-on's key, unignore deletion, and clone-count pagination. Table-specific independent DB-result snapshots and direct seam-contract vectors distinguish site lookups without conflating license rows. Reviewer findings were addressed: negative guards detect deletes as well as inserts/updates, unignore asserts exact scoped delete ordering, and pagination observes factory total3 plus all/count on a distinct clone. The full configured suite is now 203 cases on every runtime with the updated matrix above. New PHP8.2+ errors are entirely the shipped undeclared Mcp::$data diagnostic. Source is unchanged. Current MCP source coverage improves from22/83 to73/83 lines and7/44 to31/44 decision outcomes. Remaining explicit exits after terminating EE redirects are not forced by making redirects return; genuine redirect semantics remain intact. Independent reviewer `/root/review_priority_assets` approved exact delta `0e45ff38d92a6ae6bafb596fb16da0668a868aa843990dac3241bc18943446f3` with no remaining actionable findings, independently replaying all seven complete suites, focused cases, source hashes and raw coverage. Code commit `985b83a736877d39a207535231ad8116dee2e680` was pushed to `origin/unit-tests-2026`; fresh remote SHA matched and parity was `0 0`. This evidence/status commit follows it.
+The published head `325a2113552ba99794fed21bb7ba4bc9cf2d4f10` remains the independently approved 192-case checkpoint. Subsequent test-only work adds ten MCP cases: sanitized license insert/update, ignored-site keys, 50/51-character boundaries, another MSM site's existing/removed label, another add-on's key, unignore deletion, and clone-count pagination. Table-specific independent DB-result snapshots and direct seam-contract vectors distinguish site lookups without conflating license rows. Reviewer findings were addressed: negative guards detect deletes as well as inserts/updates, unignore asserts exact scoped delete ordering, and pagination observes factory total3 plus all/count on a distinct clone. That checkpoint ran 203 cases on every runtime; the current installed-nav matrix above supersedes it. New PHP8.2+ errors are entirely the shipped undeclared Mcp::$data diagnostic. Source is unchanged. Current MCP source coverage improves from22/83 to73/83 lines and7/44 to31/44 decision outcomes. Remaining explicit exits after terminating EE redirects are not forced by making redirects return; genuine redirect semantics remain intact. Independent reviewer `/root/review_priority_assets` approved exact delta `0e45ff38d92a6ae6bafb596fb16da0668a868aa843990dac3241bc18943446f3` with no remaining actionable findings, independently replaying all seven complete suites, focused cases, source hashes and raw coverage. Code commit `985b83a736877d39a207535231ad8116dee2e680` was pushed to `origin/unit-tests-2026`; fresh remote SHA matched and parity was `0 0`. This evidence/status commit follows it.
+
+## Installed-custom-nav follow-up
+
+Seven child-process contexts now exercise an installed add-on's custom navigation extension: slash/empty aliases, headings, external URLs, buttons, direct and mapped active items, active object identity, deferred/manual generation, empty defaults and toolbar defaults/overrides. `REQ=CP` and EE7 are explicit. Each child creates a unique temporary third-party directory, symlinks unchanged shipped files, copies a test-only custom-nav fixture and removes its directory at shutdown. The extension fixture is not production source and is never counted in production coverage. The stock missing-nav native regression is unchanged and red.
+
+The complete suite now runs210 cases per runtime. A separate single PHP82/Xdebug3.5.3 `nav-probe.php all` execution captures82/84 original archive-nav lines and47/54 decision outcomes, with raw outgoing data in `reports/xdebug-nav-php82.json.gz`, method details in `reports/nav-methods.tsv` and `reports/nav-coverage.json.gz`, and the skill's line-only result in `reports/nav-skill-method-lines.json.gz`. This graph stays separate from the parent graph; no external extension source or incompatible compiler/runtime/context graph is merged. Uncovered line47 is the shipped constant-false positive licensing path; line67 is the EE2 delegation path outside this EE7 context. Remaining unobserved initialization/terminal exits are retained explicitly. Native EE2 nav generation and additional malformed-extension robustness vectors remain gaps. Independent reviewer `/root/tests_low_alphabet` approved exact delta `0d4a5254fbc7a7843a004ac41db411ca54641e0ca1af7d6b2de76014f0f8bb1d` with no actionable findings after full seven-runtime replay, focused74/85 runs, real EE sidebar/header/URL/CP contract inspection, inventory regeneration and normalized raw-graph/report verification. Code commit `88c8ebb02bb9109a14bd9a02786fe901cce16240` was pushed to origin/unit-tests-2026; fresh remote SHA matched and parity was `0 0`. This evidence/status commit follows it.

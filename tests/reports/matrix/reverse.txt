@@ -1,11 +1,11 @@
 PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
 
-..........F............F...............EF......................  63 / 203 ( 31%)
-...................E......E.................................... 126 / 203 ( 62%)
-........EE.......F.FFFF......E.........F....................... 189 / 203 ( 93%)
-...F........E.                                                  203 / 203 (100%)
+..........F............F...............EF......................  63 / 210 ( 30%)
+..........................E......E............................. 126 / 210 ( 60%)
+...............EE.......F.FFFF......E.........F................ 189 / 210 ( 90%)
+..........F........E.                                           210 / 210 (100%)
 
-Time: 00:01.085, Memory: 28.97 MB
+Time: 00:01.248, Memory: 28.97 MB
 
 There were 7 errors:
 
@@ -119,4 +119,4 @@ Failed asserting that two strings are identical.
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:141
 
 ERRORS!
-Tests: 203, Assertions: 821, Errors: 7, Failures: 10.
+Tests: 210, Assertions: 842, Errors: 7, Failures: 10.

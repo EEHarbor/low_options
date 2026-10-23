@@ -31,3 +31,5 @@ Basic-block execution is distinct from decision outcomes. Raw outgoing data and 
 | low_options/low_options.phar/index.php | 7/13 | 2/6 | 1/4 |
 | low_options/pi.low_options.php | 134/135 | 115/118 | 97/106 |
 | low_options/views/license.php | 14/14 | 0/6 | 0/4 |
+
+Installed-custom-nav context (separate single PHP82 process, not merged): Conduit/McpNav.php reaches82/84 lines,67/69 basic blocks and47/54 decision outcomes. See nav-coverage.json.gz and xdebug-nav-php82.json.gz. The extension fixture is not add-on source and is excluded from instrumentation. Stock missing-nav diagnostics remain red.

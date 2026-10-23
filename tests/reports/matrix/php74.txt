@@ -2,15 +2,15 @@ PHP 7.4.33 (cli) (built: Dec 13 2023 21:52:05) ( NTS )
 Copyright (c) The PHP Group
 Zend Engine v3.4.0, Copyright (c) Zend Technologies
 
-COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-141243-o1cev8eg/php74.xml']
+COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-141731-qvxpsewl/php74.xml']
 PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
 
-.E........F..........................F................FFFF.F...  63 / 203 ( 31%)
-....EE...................................................E..... 126 / 203 ( 62%)
-...............F.....F..............F................F......... 189 / 203 ( 93%)
-...F..........                                                  203 / 203 (100%)
+.E........F..........................F................FFFF.F...  63 / 210 ( 30%)
+....EE...................................................E..... 126 / 210 ( 60%)
+......................F.....F..............F................F.. 189 / 210 ( 90%)
+..........F..........                                           210 / 210 (100%)
 
-Time: 00:00.874, Memory: 26.00 MB
+Time: 00:01.054, Memory: 26.00 MB
 
 There were 4 errors:
 
@@ -141,4 +141,4 @@ Failed asserting that 1 is identical to 0.
 /Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:140
 
 ERRORS!
-Tests: 203, Assertions: 828, Errors: 4, Failures: 12.
+Tests: 210, Assertions: 849, Errors: 4, Failures: 12.
