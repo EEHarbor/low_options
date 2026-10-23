@@ -5,3 +5,5 @@
 /.phpunit.result.cache
 /tests/reports/coverage.json
 /tests/reports/skill-method-lines.json
+/tests/reports/nav-coverage.json
+/tests/reports/nav-skill-method-lines.json

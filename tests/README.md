@@ -59,3 +59,18 @@ These seams do not replace integration testing against a running EE database or 
 The PHAR stub changes `include_path`, registers an additional autoloader and calls `Phar::interceptFileFuncs` during discovery, before individual tests. Request globals, include paths and newly registered autoloaders are restored per test; initial include path/autoloaders are also restored at process shutdown. PHP class declarations and `Phar::interceptFileFuncs` cannot be undone safely in this process. Complete runs therefore use a fresh CLI process, and native compilation probes use dedicated child processes; this is not proof that PHAR interception is reversible in an existing EE request.
 
 The direct private `_explode_param(null)` vector is a robustness/compatibility expectation for an unsupported null input (its source docblock requires a string). A missing EE template parameter actually returns `false`. Cache null/scalar vectors similarly record precise observed loss and robustness expectations; documented array inputs, including empty arrays, have the stronger public-contract basis.
+
+The installed-custom-nav cases create a unique native CP request with a test-only extension fixture and symlinks to unchanged shipped files. They retain the stock missing-nav regression. To measure those valid contexts in one fresh PHP82 process:
+
+```sh
+LOW_OPTIONS_NAV_COVERAGE=/private/tmp/low-options-nav.json \
+  '/Users/tomjaeger/Library/Application Support/Herd/bin/php82' \
+  -d zend_extension=/Applications/Herd.app/Contents/Resources/xdebug/xdebug-82-arm64.so \
+  -d xdebug.mode=coverage tests/scripts/nav-probe.php all
+
+python3 tests/scripts/report-coverage.py /private/tmp/low-options-nav.json \
+  tests/reports/nav-coverage.json --measurement tests/reports/measurement \
+  --clover /private/tmp/low-options-nav-lines.xml
+```
+
+The raw native artifact and per-method report stay separate from parent-process coverage. Their filter includes only the original PHAR's Conduit/McpNav.php; the custom extension fixture and its methods are excluded. This report currently reaches82/84 lines and47/54 decision outcomes, not100% coverage.
