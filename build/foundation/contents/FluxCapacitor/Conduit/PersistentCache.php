@@ -191,7 +191,18 @@ class PersistentCache
             return false;
         }
         $parent = dirname($directory);
-        return is_dir($parent) && is_writable($parent) && mkdir($directory, DIR_WRITE_MODE);
+        return is_dir($parent) && self::isWritableDirectory($parent) && mkdir($directory, DIR_WRITE_MODE);
+    }
+
+    /**
+     * Require search permission as well as write permission on POSIX directories.
+     *
+     * @param string $path
+     * @return bool
+     */
+    private static function isWritableDirectory($path)
+    {
+        return is_writable($path) && (DIRECTORY_SEPARATOR === '\\' || is_executable($path));
     }
 
     /**
@@ -217,7 +228,7 @@ class PersistentCache
         }
 
         // Make sure the generic cache folder is writable.
-        if (!is_writable(self::$cache_path)) {
+        if (!self::isWritableDirectory(self::$cache_path)) {
             ee()->load->library('logger');
             ee()->logger->developer('@@@MODULE_NAME@@@: Write Cache enabled but cache path not writable: ' . self::$cache_path);
             return false;
@@ -236,7 +247,7 @@ class PersistentCache
         }
 
         // Make sure the module-specific cache folder is writable.
-        if (!is_writable(self::$module_cache_path)) {
+        if (!self::isWritableDirectory(self::$module_cache_path)) {
             // If the path is wrong we'll turn off caching
             ee()->load->library('logger');
             ee()->logger->developer('@@@MODULE_NAME@@@: Write Cache enabled but module cache path not writable: ' . self::$module_cache_path);

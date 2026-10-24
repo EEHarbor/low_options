@@ -15,19 +15,28 @@ class GlobalFieldSettings
     }
 
     /**
-     * Return saved values while preserving custom ArrayAccess getters.
+     * Read valid native offsets while preserving custom ArrayAccess getters.
      *
-     * @param string $name
+     * @param mixed $name
      * @return mixed
+     * @throws \Throwable
      */
     public function getSetting($name)
     {
         $ftSettings = $this->getSettings();
-        if ($ftSettings) {
-            if (is_array($ftSettings) && !array_key_exists($name, $ftSettings)) {
-                return null;
-            }
+        if ($ftSettings instanceof \ArrayAccess) {
             return $ftSettings[$name];
+        }
+        if (is_array($ftSettings)) {
+            if (is_bool($name) || $name === null) {
+                $name = $name === null ? '' : (int) $name;
+            }
+            if (is_float($name) && is_finite($name) && $name >= PHP_INT_MIN && $name < PHP_INT_MAX && floor($name) === $name) {
+                $name = (int) $name;
+            }
+        }
+        if ((is_array($ftSettings) || is_string($ftSettings)) && (is_int($name) || is_string($name))) {
+            return isset($ftSettings[$name]) ? $ftSettings[$name] : null;
         }
         return null;
     }

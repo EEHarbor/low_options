@@ -8,6 +8,32 @@ use Low\Options\FluxCapacitor\Conduit\StaticCache;
 class ArchiveCacheFilesystemTest extends TestCase
 {
     /**
+     * Return false and log when a writable cache directory cannot be searched.
+     *
+     * @dataProvider nonsearchablePaths
+     * @param string $mode
+     * @return void
+     */
+    public function testNonsearchableCacheDirectories($mode): void
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+        $result = NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/cache-search-probe.php', array($mode));
+        self::assertSame(0, $result[0], $result[2] . $result[1]);
+        self::assertSame('', $result[2]);
+        self::assertSame(array('writable' => true, 'searchable' => false, 'value' => false, 'logs' => 1, 'cached' => false), json_decode($result[1], true));
+    }
+
+    /**
+     * Cover missing base, missing module and existing module directories.
+     *
+     * @return array
+     */
+    public static function nonsearchablePaths(): array
+    {
+        return array(array('base'), array('module'), array('existing-module'));
+    }
+
+    /**
      * Restore writable fixture paths before releasing request-local state.
      *
      * @return void

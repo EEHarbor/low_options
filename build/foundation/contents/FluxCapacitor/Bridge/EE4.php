@@ -54,10 +54,12 @@ class EE4 extends AbstractBridge
     }
 
     /**
-     * [getNav description]
-     * @param  array  $nav_items array('item name' => 'url')
-     * @param  array  $buttons   array('item name' => array('new' => 'link'))
-     * @return [type]            [description]
+     * Render canonical navigation headers and retain the active label.
+     *
+     * @param array $nav_items Navigation methods and labels.
+     * @param array $buttons Buttons indexed by navigation method.
+     * @param array $active_map Request segments mapped to navigation methods.
+     * @return void
      */
     public function getNav($nav_items = array(), $buttons = array(), $active_map = array())
     {
@@ -65,6 +67,8 @@ class EE4 extends AbstractBridge
         $last_segment = ee()->uri->segment_array();
         $last_segment = end($last_segment);
         $activeTitle = null;
+        $headers = array();
+        $labels = array();
 
         foreach ($nav_items as $method => $title) {
             if ($method == '/') {
@@ -77,27 +81,32 @@ class EE4 extends AbstractBridge
                 $url = $method;
             }
 
-            $nav_items[$method] = $sidebar->addHeader($title)->withUrl($url);
+            $headers[$method] = $sidebar->addHeader($title)->withUrl($url);
+            $labels[$method] = $title;
 
             // This is to add buttons to a nav.
             if (!empty($buttons[$method])) {
                 foreach ($buttons[$method] as $url => $text) {
-                    $nav_items[$method]->withButton($text, $this->moduleURL($url));
+                    $headers[$method]->withButton($text, $this->moduleURL($url));
                 }
             }
 
             if ($last_segment == $method || ($method == 'index' && $last_segment == $this->module)) {
                 $activeTitle = $title;
-                $nav_items[$method]->isActive();
+                $headers[$method]->isActive();
             }
         }
 
-        if (!empty($active_map[$last_segment]) && !empty($nav_items[$active_map[$last_segment]])) {
-            $activeTitle = $nav_items[$active_map[$last_segment]];
-            $nav_items[$active_map[$last_segment]]->isActive();
+        $active_method = isset($active_map[$last_segment]) ? $active_map[$last_segment] : null;
+        if ($active_method === '/') {
+            $active_method = 'index';
+        }
+        if ($active_method !== null && isset($headers[$active_method])) {
+            $activeTitle = $labels[$active_method];
+            $headers[$active_method]->isActive();
         }
 
-        if ($activeTitle) {
+        if ($activeTitle !== null) {
             ee()->view->cp_page_title = $activeTitle;
             ee()->cp->set_breadcrumb($this->moduleURL('index'), '@@@ADDON_NAMESPACE@@@');
         }

@@ -84,8 +84,11 @@ final class SerializedValue
                 return $result . substr($value, $start);
             }
 
-            $size = (int) $match[2];
             $position += strlen($match[0]);
+            if (!self::fitsLength($match[2], $length - $position)) {
+                return $result . substr($value, $start);
+            }
+            $size = (int) $match[2];
             $contents = '';
 
             if ($type === 'S') {
@@ -117,8 +120,13 @@ final class SerializedValue
                 }
                 $position += strlen($tail[0]);
                 if ($type === 'C') {
+                    $digits = ltrim($tail[1], '+-');
+                    if (($tail[1][0] === '-' && strspn($digits, '0') !== strlen($digits))
+                        || !self::fitsLength($digits, $length - $position - 1)) {
+                        return $result . substr($value, $start);
+                    }
                     $payload_length = (int) $tail[1];
-                    if ($payload_length < 0 || $payload_length >= $length - $position || $value[$position + $payload_length] !== '}') {
+                    if ($value[$position + $payload_length] !== '}') {
                         return $result . substr($value, $start);
                     }
                     $position += $payload_length + 1;
@@ -144,5 +152,24 @@ final class SerializedValue
         }
 
         return $result;
+    }
+
+    /**
+     * Bound decimal text before PHP can warn while converting an oversized integer.
+     *
+     * @param string $digits Unsigned decimal bytes.
+     * @param int $maximum Available input bytes.
+     * @return bool
+     */
+    private static function fitsLength($digits, $maximum)
+    {
+        if ($maximum < 0) {
+            return false;
+        }
+        $digits = ltrim($digits, '0');
+        $bound = (string) $maximum;
+
+        return strlen($digits) < strlen($bound)
+            || (strlen($digits) === strlen($bound) && strcmp($digits, $bound) <= 0);
     }
 }

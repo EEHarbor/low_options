@@ -37,7 +37,35 @@ class CompatibilityFixTest extends TestCase
      */
     public static function malformedTails(): array
     {
-        return array(array('S:9:"bad";'), array('S:1:"\zz";'), array('s:9:"bad S:";'), array('!S:'), array('C:1:"X":-999:{S:}'));
+        return array(
+            array('S:9:"bad";'), array('S:1:"\zz";'), array('s:9:"bad S:";'), array('!S:'), array('C:1:"X":-999:{S:}'),
+            array('S:999999999999999999999999999999:"x";'),
+            array('s:999999999999999999999999999999:"x";'),
+            array('O:999999999999999999999999999999:"X":0:{}'),
+            array('E:999999999999999999999999999999:"X:Y";'),
+            array('C:999999999999999999999999999999:"X":0:{}'),
+            array('C:1:"X":999999999999999999999999999999:{S:}'),
+            array('C:1:"X":-999999999999999999999999999999:{S:}'),
+        );
+    }
+
+    /**
+     * Keep native zero padding and signed custom lengths within the byte bound.
+     *
+     * @return void
+     */
+    public function testPaddedNativeLengths(): void
+    {
+        $zeros = str_repeat('0', 40);
+        $stored = 'a:2:{i:0;s:' . $zeros . '1:"B";i:1;S:' . $zeros . '1:"\41";}';
+        self::assertSame(array('B', 'A'), SerializedValue::decode($stored));
+        $name = OpaqueSettingsPayload::class;
+        foreach (array('+' . $zeros . '1' => 'X', '-' . $zeros => '') as $size => $payload) {
+            $stored = 'a:2:{i:0;C:' . $zeros . strlen($name) . ':"' . $name . '":' . $size . ':{' . $payload . '}i:1;S:1:"\41";}';
+            $decoded = SerializedValue::decode($stored);
+            self::assertSame($payload, $decoded[0]->payload);
+            self::assertSame('A', $decoded[1]);
+        }
     }
 
     /**
@@ -123,6 +151,63 @@ class CompatibilityFixTest extends TestCase
         $settings = new GlobalFieldSettings();
         self::assertSame(7, $settings->getSetting('saved'));
         self::assertSame('computed-default', $settings->getSetting('missing'));
+    }
+
+    /**
+     * Read native string byte offsets and return null for invalid storage lookups.
+     *
+     * @dataProvider storedOffsets
+     * @param mixed $stored
+     * @param mixed $key
+     * @param mixed $expected
+     * @return void
+     */
+    public function testStoredOffsets($stored, $key, $expected): void
+    {
+        $this->ee->db->num_rows = 1;
+        $this->ee->db->record = array('settings' => base64_encode(serialize($stored)));
+        $settings = new GlobalFieldSettings();
+        self::assertSame($expected, $settings->getSetting($key));
+        self::assertSame($stored, $settings->getSettings());
+    }
+
+    /**
+     * Include clean native offsets, malformed keys and non-indexable roots.
+     *
+     * @return array
+     */
+    public static function storedOffsets(): array
+    {
+        return array(
+            array('abc', 0, 'a'), array('abc', '0', 'a'), array('abc', 1, 'b'), array('abc', -1, 'c'),
+            array('abc', '01', 'b'), array('abc', '+1', 'b'), array('abc', ' 1', 'b'),
+            array('abc', 'missing', null), array('abc', 99, null), array('abc', array(), null),
+            array('abc', true, null), array('abc', 1.2, null), array(7, 'key', null), array(true, 'key', null),
+            array(array(1 => 'value'), true, 'value'), array(array('' => 'value'), null, 'value'),
+            array(array(1 => 'value'), 1.0, 'value'), array(array(1 => 'value'), 1.2, null),
+            array(array('key' => 1), array(), null), array(array('key' => null), 'key', null),
+        );
+    }
+
+    /**
+     * Preserve byte writes and native serialization for a stored string root.
+     *
+     * @return void
+     */
+    public function testStoredStringWrite(): void
+    {
+        $this->ee->db->num_rows = 1;
+        $this->ee->db->record = array('settings' => base64_encode(serialize('abc')));
+        $settings = new GlobalFieldSettings();
+        self::assertTrue($settings->updateSetting(1, 'Z'));
+        $writes = array_values(array_filter($this->ee->db->calls, function ($call) { return $call[0] === 'update'; }));
+        self::assertSame(base64_encode(serialize('aZc')), $writes[0][1][1]['settings']);
+        $this->ee->db->record = $writes[0][1][1];
+        self::assertSame('aZc', $settings->getSettings());
+        self::assertSame('Z', $settings->getSetting(1));
+        $this->ee->db->record = array('settings' => base64_encode(serialize(new \stdClass())));
+        self::assertNull($settings->getSetting('missing'));
+        self::assertInstanceOf(\stdClass::class, $settings->getSettings());
     }
 
     /**

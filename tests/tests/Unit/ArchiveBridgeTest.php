@@ -29,6 +29,45 @@ class ArchiveBridgeTest extends TestCase
     }
 
     /**
+     * Keep root mappings and zero-valued labels in the native sidebar contract.
+     *
+     * @dataProvider rootNavigationContexts
+     * @param string $version
+     * @param string $mode
+     * @return void
+     */
+    public function testRootNavigationRetainsItsLabel($version, $mode): void
+    {
+        $this->ee->services['CP/Sidebar'] = new Sidebar();
+        $this->ee->uri->path = 'cp/addons/settings/low_options/' . ($mode === 'zero' ? 'low_options' : 'detail');
+        $title = $mode === 'root' ? 'Home' : '0';
+        $map = $mode === 'zero' ? array() : array('detail' => '/');
+        $this->bridge($version)->getNav(array('/' => $title), array(), $map);
+
+        self::assertSame($title, $this->ee->view->cp_page_title);
+        self::assertCount(1, $this->ee->services['CP/Sidebar']->items);
+        self::assertTrue($this->ee->services['CP/Sidebar']->items[0]->active);
+        self::assertCount(1, $this->ee->cp->breadcrumbs);
+    }
+
+    /**
+     * Exercise each implementation's root, direct-zero and mapped-zero labels.
+     *
+     * @return array
+     */
+    public static function rootNavigationContexts(): array
+    {
+        $cases = array();
+        foreach (array('EE3', 'EE4', 'EE5') as $version) {
+            foreach (array('root', 'zero', 'mapped-zero') as $mode) {
+                $cases[] = array($version, $mode);
+            }
+        }
+
+        return $cases;
+    }
+
+    /**
      * Verify runtime comparison helpers against the defined EE release.
      *
      * @dataProvider bridgeProvider
