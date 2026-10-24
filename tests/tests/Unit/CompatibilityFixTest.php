@@ -10,6 +10,37 @@ use Low\Options\FluxCapacitor\Conduit\StaticCache;
 class CompatibilityFixTest extends TestCase
 {
     /**
+     * Preserve native hydration callbacks even when a later token is malformed.
+     *
+     * @dataProvider malformedTails
+     * @param string $tail
+     * @return void
+     */
+    public function testMalformedTailCallbackException($tail): void
+    {
+        $stored = 'a:3:{i:0;S:1:"\41";i:1;' . serialize(new ThrowingSettingsCallback()) . 'i:2;' . $tail . '}';
+        try {
+            SerializedValue::decode($stored);
+            self::fail('Native callback exceptions must propagate after malformed storage.');
+        } catch (\RuntimeException $exception) {
+            self::assertSame('owned native callback exception', $exception->getMessage());
+        }
+        $handler = set_error_handler(function () {});
+        restore_error_handler();
+        self::assertSame(Diagnostics::handler(), $handler);
+    }
+
+    /**
+     * Include incomplete escaped data, invalid hex, ordinary strings and tokens.
+     *
+     * @return array
+     */
+    public static function malformedTails(): array
+    {
+        return array(array('S:9:"bad";'), array('S:1:"\zz";'), array('s:9:"bad S:";'), array('!S:'), array('C:1:"X":-999:{S:}'));
+    }
+
+    /**
      * Keep extraction cleanup inside the actual owned directory boundary.
      *
      * @dataProvider extractionLinks
@@ -273,5 +304,19 @@ class OpaqueSettingsPayload implements \Serializable
     public function __unserialize(array $data): void
     {
         $this->payload = $data['payload'];
+    }
+}
+
+class ThrowingSettingsCallback
+{
+    /**
+     * Expose the native callback behavior retained after a later parse error.
+     *
+     * @return void
+     * @throws \RuntimeException
+     */
+    public function __wakeup(): void
+    {
+        throw new \RuntimeException('owned native callback exception');
     }
 }

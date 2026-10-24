@@ -16,15 +16,12 @@ final class SerializedValue
     {
         if (strpos($serialized, 'S:') !== false) {
             $serialized = self::normalizeEscapedStrings($serialized);
-            if ($serialized === false) {
-                return false;
-            }
         }
         $parse_line = 0;
         $invalid = false;
         $previous = null;
         $previous = set_error_handler(static function ($severity, $message, $file, $line) use (&$parse_line, &$invalid, &$previous) {
-            if ($file === __FILE__ && $line === $parse_line && in_array($severity, array(E_NOTICE, E_WARNING), true) && preg_match('/^unserialize\(\): (?:Error at offset [0-9]+ of [0-9]+ bytes|Unexpected end of serialized data|Maximum depth of [0-9]+ exceeded.*)$/D', $message)) {
+            if ($file === __FILE__ && $line === $parse_line && in_array($severity, array(E_NOTICE, E_WARNING), true) && preg_match('/^(?:unserialize\(\): (?:Error at offset [0-9]+ of [0-9]+ bytes|Unexpected end of serialized data|Maximum depth of [0-9]+ exceeded.*)|Insufficient data for unserializing - -?[0-9]+ required, [0-9]+ present)$/D', $message)) {
                 $invalid = true;
                 return true;
             }
@@ -45,10 +42,10 @@ final class SerializedValue
     }
 
     /**
-     * Rewrite string tokens without interpreting bytes inside ordinary strings.
+     * Rewrite known string tokens and leave the remaining bytes to native parsing.
      *
      * @param string $value
-     * @return string|false
+     * @return string
      */
     private static function normalizeEscapedStrings($value)
     {
@@ -84,7 +81,7 @@ final class SerializedValue
             }
 
             if (!preg_match('/\G([sSEOC]):([0-9]+):"/', $value, $match, 0, $position)) {
-                return false;
+                return $result . substr($value, $start);
             }
 
             $size = (int) $match[2];
@@ -94,13 +91,13 @@ final class SerializedValue
             if ($type === 'S') {
                 for ($i = 0; $i < $size; $i++) {
                     if ($position >= $length) {
-                        return false;
+                        return $result . substr($value, $start);
                     }
                     $byte = $value[$position++];
                     if ($byte === '\\') {
                         $hex = substr($value, $position, 2);
                         if (strlen($hex) !== 2 || strspn($hex, '0123456789abcdefABCDEF') !== 2) {
-                            return false;
+                            return $result . substr($value, $start);
                         }
                         $byte = chr(hexdec($hex));
                         $position += 2;
@@ -109,20 +106,20 @@ final class SerializedValue
                 }
             } else {
                 if ($size > $length - $position) {
-                    return false;
+                    return $result . substr($value, $start);
                 }
                 $position += $size;
             }
 
             if ($type === 'O' || $type === 'C') {
                 if (!preg_match('/\G":([+-]?[0-9]+):\{/', $value, $tail, 0, $position)) {
-                    return false;
+                    return $result . substr($value, $start);
                 }
                 $position += strlen($tail[0]);
                 if ($type === 'C') {
                     $payload_length = (int) $tail[1];
-                    if ($payload_length >= $length - $position || $value[$position + $payload_length] !== '}') {
-                        return false;
+                    if ($payload_length < 0 || $payload_length >= $length - $position || $value[$position + $payload_length] !== '}') {
+                        return $result . substr($value, $start);
                     }
                     $position += $payload_length + 1;
                 }
@@ -137,7 +134,7 @@ final class SerializedValue
             }
 
             if (substr($value, $position, 2) !== '";') {
-                return false;
+                return $result . substr($value, $start);
             }
             $position += 2;
             $result .= $type === 'S' ? 's:' . strlen($contents) . ':"' . $contents . '";' : substr($value, $start, $position - $start);
