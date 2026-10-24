@@ -179,19 +179,37 @@ class PersistentCache
     }
 
     /**
-     * Create an absent writable cache directory without calling mkdir on a file.
+     * Preserve native directory creation and handle its documented failure result.
      *
      * @param string $path
      * @return bool
+     * @throws \Throwable When an unrelated diagnostic is rejected by the caller.
      */
     private static function createDirectory($path)
     {
-        $directory = rtrim($path, '/');
-        if (file_exists($directory) || is_link($directory)) {
+        $directory = rtrim($path, DIRECTORY_SEPARATOR === '\\' ? '/\\' : '/');
+        $parent = dirname($directory);
+        if (!is_dir($parent) || !self::isWritableDirectory($parent)) {
             return false;
         }
-        $parent = dirname($directory);
-        return is_dir($parent) && self::isWritableDirectory($parent) && mkdir($directory, DIR_WRITE_MODE);
+
+        $mkdir_line = 0;
+        $previous = null;
+        $previous = set_error_handler(static function ($severity, $message, $file, $line) use (&$mkdir_line, &$previous) {
+            if ($severity === E_WARNING && $file === __FILE__ && $line === $mkdir_line
+                && preg_match('/^mkdir\(\): (?:Permission denied|File exists|Not a directory|No such file or directory|Too many levels of symbolic links|Read-only file system)$/D', $message)) {
+                return true;
+            }
+            return $previous ? call_user_func_array($previous, func_get_args()) : false;
+        });
+
+        try {
+            // Keep native alias spelling and its trailing separator intact.
+            $mkdir_line = __LINE__ + 1;
+            return mkdir($path, DIR_WRITE_MODE);
+        } finally {
+            restore_error_handler();
+        }
     }
 
     /**

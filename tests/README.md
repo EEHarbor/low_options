@@ -1,6 +1,6 @@
 # Low Options PHPUnit suite
 
-The historical test checkpoint kept the add-on's PHP and PHAR immutable. The current compatibility candidate uses scoped, reproducible Foundation build inputs documented in [PHP_COMPATIBILITY_2026.md](../PHP_COMPATIBILITY_2026.md). Tests execute the distributed PHAR through its normal autoloader. `reports/inventory.json` inventories all 27 source units: four loose PHP files, 22 archive members, and the executable archive stub. It includes constructors, magic methods, closures, procedural/view code and source hashes.
+The historical test checkpoint kept the add-on's PHP and PHAR immutable. The current compatibility candidate uses scoped, reproducible Foundation build inputs documented in [PHP_COMPATIBILITY_2026.md](../PHP_COMPATIBILITY_2026.md). Tests execute the distributed PHAR through its normal autoloader. The historical `reports/inventory.json` inventories the original 27 source units: four loose PHP files, 22 archive members, and the executable archive stub. The current helper brings the candidate to 28 units; exact current inventory is retained with the separate compatibility packet. It includes constructors, magic methods, closures, procedural/view code and source hashes.
 
 ## Run
 
