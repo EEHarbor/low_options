@@ -25,8 +25,8 @@ final class SerializedValue
                 $invalid = true;
                 return true;
             }
-            // Earlier PHP releases accepted unused bytes after a complete value.
-            if ($file === __FILE__ && $line === $parse_line && in_array($severity, array(E_NOTICE, E_WARNING), true) && preg_match('/^unserialize\(\): Extra data starting at offset [0-9]+ of [0-9]+ bytes$/D', $message)) {
+            // Native parsing retains clamped integers and complete prefixes with unused bytes.
+            if ($file === __FILE__ && $line === $parse_line && in_array($severity, array(E_NOTICE, E_WARNING), true) && preg_match('/^unserialize\(\): (?:Numerical result out of range|Extra data starting at offset [0-9]+ of [0-9]+ bytes)$/D', $message)) {
                 return true;
             }
             return $previous ? call_user_func_array($previous, func_get_args()) : false;

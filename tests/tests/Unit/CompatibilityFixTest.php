@@ -148,6 +148,68 @@ class CompatibilityFixTest extends TestCase
     }
 
     /**
+     * Retain native integer clamps and other keys during subsequent settings writes.
+     *
+     * @dataProvider overflowValues
+     * @param string $integer
+     * @param int $expected
+     * @return void
+     */
+    public function testOverflowSettingsRemainWritable($integer, $expected): void
+    {
+        $stored = 'a:2:{s:4:"keep";s:3:"yes";s:1:"x";i:' . $integer . ';}';
+        $this->ee->db->num_rows = 1;
+        $this->ee->db->record = array('settings' => base64_encode($stored));
+        $settings = new GlobalFieldSettings();
+        self::assertSame(array('keep' => 'yes', 'x' => $expected), $settings->getSettings());
+        self::assertTrue($settings->updateSetting('next', 'written'));
+        $writes = array_values(array_filter($this->ee->db->calls, function ($call) { return $call[0] === 'update'; }));
+        self::assertCount(1, $writes);
+        $this->ee->db->record = array('settings' => $writes[0][1][1]['settings']);
+        self::assertSame(array('keep' => 'yes', 'x' => $expected, 'next' => 'written'), $settings->getSettings());
+    }
+
+    /**
+     * Read native clamped cache values without rewriting their stored bytes.
+     *
+     * @dataProvider overflowValues
+     * @param string $integer
+     * @param int $expected
+     * @return void
+     */
+    public function testOverflowCachePreservesNativeValue($integer, $expected): void
+    {
+        $stored = 'a:2:{s:4:"keep";s:3:"yes";s:1:"x";i:' . $integer . ';}';
+        try {
+            self::assertTrue(PersistentCache::set('native-clamp', array()));
+            $file = PATH_CACHE . 'low_options/' . sha1('native-clamp');
+            file_put_contents($file, $stored);
+            StaticCache::clear();
+            self::assertSame(array('keep' => 'yes', 'x' => $expected), PersistentCache::get('native-clamp'));
+            self::assertSame($stored, file_get_contents($file));
+            unlink($file);
+            self::assertSame(array('keep' => 'yes', 'x' => $expected), PersistentCache::get('native-clamp'));
+        } finally {
+            PersistentCache::delete('native-clamp');
+            rmdir(PATH_CACHE . 'low_options');
+            rmdir(PATH_CACHE);
+        }
+    }
+
+    /**
+     * Include both ends of the native integer range.
+     *
+     * @return array
+     */
+    public static function overflowValues(): array
+    {
+        return array(
+            'positive' => array('99999999999999999999999999999', PHP_INT_MAX),
+            'negative' => array('-99999999999999999999999999999', PHP_INT_MIN),
+        );
+    }
+
+    /**
      * Preserve valid native types, noncanonical spellings and reference aliases.
      *
      * @dataProvider serializedValues
@@ -169,6 +231,10 @@ class CompatibilityFixTest extends TestCase
     {
         $shared = 1;
         $references = array('x' => &$shared, 'y' => &$shared);
+        $maximum = PHP_INT_MAX;
+        $minimum = PHP_INT_MIN;
+        $maximum_references = array('x' => &$maximum, 'y' => &$maximum);
+        $minimum_references = array('x' => &$minimum, 'y' => &$minimum);
         $object = (object) array('name' => 'kept');
         $root = new \ArrayObject(array('object' => $object));
         return array(
@@ -188,6 +254,14 @@ class CompatibilityFixTest extends TestCase
             array(serialize(array('object' => $object, 'same' => $object)), array('object' => $object, 'same' => $object)),
             array(serialize($root), $root),
             array('b:0;', false), array('N;', null), array('i:0;', 0),
+            array('i:99999999999999999999999999999;', PHP_INT_MAX),
+            array('i:-99999999999999999999999999999;', PHP_INT_MIN),
+            array('a:1:{s:1:"x";i:99999999999999999999999999999;}', array('x' => PHP_INT_MAX)),
+            array('a:1:{s:1:"x";i:-99999999999999999999999999999;}', array('x' => PHP_INT_MIN)),
+            array('a:1:{i:99999999999999999999999999999;i:7;}', array(PHP_INT_MAX => 7)),
+            array('a:1:{i:-99999999999999999999999999999;i:7;}', array(PHP_INT_MIN => 7)),
+            array('a:2:{s:1:"x";i:99999999999999999999999999999;s:1:"y";R:2;}', $maximum_references),
+            array('a:2:{s:1:"x";i:-99999999999999999999999999999;s:1:"y";R:2;}', $minimum_references),
         );
     }
 
