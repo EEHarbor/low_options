@@ -10,6 +10,77 @@ use Low\Options\FluxCapacitor\Conduit\StaticCache;
 class CompatibilityFixTest extends TestCase
 {
     /**
+     * Keep extraction cleanup inside the actual owned directory boundary.
+     *
+     * @dataProvider extractionLinks
+     * @param string $mode
+     * @param string $location
+     * @return void
+     */
+    public function testExtractionLinkBoundaries($mode, $location): void
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+        $result = NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/extraction-link-probe.php', array($mode, $location));
+        self::assertSame(0, $result[0], $result[2] . $result[1]);
+        self::assertSame('', $result[2]);
+        self::assertSame(array('blocked' => $mode !== 'cleanup', 'sentinel' => 'retained', 'link' => $mode !== 'cleanup', 'cwd_preserved' => true, 'target_removed' => true, 'sibling_preserved' => true), json_decode($result[1], true));
+    }
+
+    /**
+     * Exercise actual go, no-wrapper fallback and direct helper root links.
+     *
+     * @return array
+     */
+    public static function extractionLinks(): array
+    {
+        return array(array('go', 'root'), array('go', 'container'), array('fallback', 'root'), array('fallback', 'container'), array('cleanup', 'root'), array('cleanup', 'dangling'), array('cleanup', 'trailing'), array('cleanup', 'backslash'));
+    }
+
+    /**
+     * Read legacy escaped data through actual settings and persistent cache APIs.
+     *
+     * @return void
+     */
+    public function testLegacyEscapedStorageCallers(): void
+    {
+        $stored = 'a:1:{s:4:"name";S:1:"\41";}unused';
+        $this->ee->db->num_rows = 1;
+        $this->ee->db->record = array('settings' => base64_encode($stored));
+        self::assertSame(array('name' => 'A'), (new GlobalFieldSettings())->getSettings());
+        self::assertSame(base64_encode($stored), $this->ee->db->record['settings']);
+        try {
+            self::assertTrue(PersistentCache::set('legacy-escaped', array()));
+            file_put_contents(PATH_CACHE . 'low_options/' . sha1('legacy-escaped'), $stored);
+            StaticCache::clear();
+            self::assertSame(array('name' => 'A'), PersistentCache::get('legacy-escaped'));
+            self::assertSame($stored, file_get_contents(PATH_CACHE . 'low_options/' . sha1('legacy-escaped')));
+        } finally {
+            PersistentCache::delete('legacy-escaped');
+            rmdir(PATH_CACHE . 'low_options');
+            rmdir(PATH_CACHE);
+        }
+    }
+
+    /**
+     * Preserve reference identities and leave custom serialization payloads opaque.
+     *
+     * @return void
+     */
+    public function testEscapedReferencesAndOpaquePayloads(): void
+    {
+        $decoded = SerializedValue::decode('a:2:{s:1:"x";S:1:"\41";s:1:"y";R:02;}');
+        $decoded['x'] = 'changed';
+        self::assertSame('changed', $decoded['y']);
+        $decoded = SerializedValue::decode('a:2:{i:0;O:8:"stdClass":+1:{s:1:"x";S:1:"\41";}i:1;r:2;}');
+        self::assertSame($decoded[0], $decoded[1]);
+        self::assertSame('A', $decoded[0]->x);
+        $name = OpaqueSettingsPayload::class;
+        $payload = 'S:1:"\41";}opaque';
+        $stored = 'C:' . strlen($name) . ':"' . $name . '":+' . strlen($payload) . ':{' . $payload . '}';
+        self::assertSame($payload, SerializedValue::decode($stored)->payload);
+    }
+
+    /**
      * Preserve computed defaults provided by stored ArrayAccess roots.
      *
      * @return void
@@ -70,6 +141,14 @@ class CompatibilityFixTest extends TestCase
         $object = (object) array('name' => 'kept');
         $root = new \ArrayObject(array('object' => $object));
         return array(
+            array('S:3:"A\42C";', 'ABC'),
+            array('S:3:"\00\ffA";', "\0\xffA"),
+            array('a:1:{s:1:"x";S:1:"\41";}', array('x' => 'A')),
+            array('O:8:"stdClass":+1:{s:1:"x";S:1:"\41";}', (object) array('x' => 'A')),
+            array('O:08:"stdClass":+01:{s:1:"x";S:1:"\41";}', (object) array('x' => 'A')),
+            array('O:8:"stdClass":-0:{}unused S:', new \stdClass()),
+            array(serialize('S:1:"\41";'), 'S:1:"\41";'),
+            array('S:1:"\41";trailing', 'A'),
             array('a:1:{s:1:"x";i:+1;}', array('x' => 1)),
             array('a:1:{s:1:"x";i:01;}', array('x' => 1)),
             array('a:1:{s:1:"x";d:+1;}', array('x' => 1.0)),
@@ -147,5 +226,52 @@ class ComputedSettings extends \ArrayObject
     public function offsetGet($key)
     {
         return parent::offsetExists($key) ? parent::offsetGet($key) : 'computed-default';
+    }
+}
+
+class OpaqueSettingsPayload implements \Serializable
+{
+    public $payload;
+
+    /**
+     * Return the custom format's uninterpreted bytes.
+     *
+     * @return string
+     */
+    public function serialize(): string
+    {
+        return $this->payload;
+    }
+
+    /**
+     * Retain the custom payload passed by the native parser.
+     *
+     * @param string $data
+     * @return void
+     */
+    public function unserialize($data): void
+    {
+        $this->payload = $data;
+    }
+
+    /**
+     * Support the modern format without deprecating the legacy interface.
+     *
+     * @return array
+     */
+    public function __serialize(): array
+    {
+        return array('payload' => $this->payload);
+    }
+
+    /**
+     * Restore values created through modern serialization.
+     *
+     * @param array $data
+     * @return void
+     */
+    public function __unserialize(array $data): void
+    {
+        $this->payload = $data['payload'];
     }
 }

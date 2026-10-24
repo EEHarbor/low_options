@@ -211,5 +211,6 @@
       "compression": false,
       "metadata": null
     }
-  }
+  },
+  "legacy_string_normalizer_provenance": "Adapted length-aware escaped-string lexical rewriting from the independently reviewed Fieldpack decoder. Signed object/custom payload counts are retained after actual native PHP7.4 parity exposed the unsigned-only restriction. Native unserialize remains the semantic parser; plain string and custom payload bytes are opaque."
 }

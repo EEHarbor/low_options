@@ -115,6 +115,7 @@ const LEN = 6724;
  *
  * @param bool $return
  * @return void
+ * @throws RuntimeException When an extraction path is a symlink or non-directory.
  */
 static function go($return = false)
 {
@@ -167,7 +168,14 @@ die('Could not locate temporary directory to extract phar');
 $temp = $sessionpath;
 }
 
-$temp .= '/pharextract/'.basename(__FILE__, '.phar');
+$container = $temp . '/pharextract';
+if (is_link($container) || (file_exists($container) && !is_dir($container))) {
+throw new RuntimeException('Unsafe phar extraction container');
+}
+$temp = $container . '/' . basename(__FILE__, '.phar');
+if (is_link($temp) || (file_exists($temp) && !is_dir($temp))) {
+throw new RuntimeException('Unsafe phar extraction root');
+}
 self::$temp = $temp;
 self::$origdir = getcwd();
 if (!is_dir($temp)) { mkdir($temp, 0777, true); }
@@ -286,7 +294,7 @@ return $data;
 }
 
 /**
- * Remove stale files without following child directory symlinks.
+ * Remove stale files while unlinking root and child symlinks themselves.
  *
  * @param string $temp
  * @param string $origdir
@@ -294,6 +302,11 @@ return $data;
  */
 static function _removeTmpFiles($temp, $origdir)
 {
+$link = rtrim($temp, DIRECTORY_SEPARATOR === '\\' ? '/\\' : '/');
+if (is_link($link)) {
+unlink($link);
+return;
+}
 $temp = realpath($temp);
 chdir($temp);
 
