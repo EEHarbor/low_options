@@ -22,12 +22,16 @@ final class NativeProcess
         }
         $temporary = sys_get_temp_dir() . '/low-options-process-' . bin2hex(random_bytes(8));
         mkdir($temporary, 0700);
-        $command = array(PHP_BINARY, '-d', 'error_reporting=-1', '-d', 'display_errors=1', '-d', 'sys_temp_dir=' . $temporary);
+        $command = array(PHP_BINARY, '-d', 'sys_temp_dir=' . $temporary);
         foreach ($directives as $directive) {
             $command[] = '-d';
             $command[] = $directive;
         }
-        $command = array_merge($command, array($script), $arguments);
+        $command = array_merge($command, array('-d', 'error_reporting=-1', '-d', 'display_errors=stderr', '-d', 'display_startup_errors=1', '-d', 'log_errors=0', '-d', 'html_errors=0', '-d', 'auto_prepend_file=' . __DIR__ . '/Diagnostics.php', $script), $arguments);
+        $invocation = bin2hex(random_bytes(8));
+        Diagnostics::record(array('kind' => 'native-start', 'id' => $invocation, 'command' => $command, 'temporary' => $temporary));
+        $completed = false;
+        $spawned = false;
         $environment = getenv();
         $environment['TMPDIR'] = $temporary;
         $process = null;
@@ -43,11 +47,19 @@ final class NativeProcess
                     throw new \RuntimeException('Native PHP probe exceeded its deadline.');
                 }
                 $status = proc_get_status($process);
+                if (!$spawned) {
+                    Diagnostics::record(array('kind' => 'native-spawn', 'id' => $invocation, 'pid' => $status['pid']));
+                    $spawned = true;
+                }
                 if (!$status['running']) {
                     $closed = proc_close($process);
                     $process = null;
                     $exit = $status['exitcode'] !== -1 ? $status['exitcode'] : $closed;
-                    return array($exit, file_get_contents($temporary . '/stdout'), file_get_contents($temporary . '/stderr'));
+                    $stdout = file_get_contents($temporary . '/stdout');
+                    $stderr = file_get_contents($temporary . '/stderr');
+                    Diagnostics::record(array('kind' => 'native-end', 'id' => $invocation, 'exit' => $exit, 'pid' => $status['pid'], 'stdout_base64' => base64_encode($stdout), 'stderr_base64' => base64_encode($stderr)));
+                    $completed = true;
+                    return array($exit, $stdout, $stderr);
                 }
                 usleep(10000);
             } while (true);
@@ -55,6 +67,9 @@ final class NativeProcess
             if (is_resource($process)) {
                 proc_terminate($process, 9);
                 proc_close($process);
+            }
+            if (!$completed) {
+                Diagnostics::record(array('kind' => 'native-aborted', 'id' => $invocation, 'stdout_base64' => is_file($temporary . '/stdout') ? base64_encode(file_get_contents($temporary . '/stdout')) : null, 'stderr_base64' => is_file($temporary . '/stderr') ? base64_encode(file_get_contents($temporary . '/stderr')) : null));
             }
             $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($temporary, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
             foreach ($files as $file) {
@@ -65,6 +80,7 @@ final class NativeProcess
                 rmdir($file->getPathname());
             }
             rmdir($temporary);
+            Diagnostics::record(array('kind' => 'native-cleanup', 'id' => $invocation, 'completed' => $completed, 'removed' => !file_exists($temporary)));
         }
     }
 }

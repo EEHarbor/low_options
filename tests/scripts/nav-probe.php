@@ -1,7 +1,7 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+error_reporting(-1);
+ini_set('display_errors', 'stderr');
 
 $root = dirname(__DIR__, 2);
 $temporary = sys_get_temp_dir() . '/low-options-nav-' . bin2hex(random_bytes(8));
@@ -30,9 +30,8 @@ define('REQ', 'CP');
 define('PATH_CACHE', $temporary . '/cache/');
 require $root . '/tests/Support/Environment.php';
 require $root . '/tests/Support/functions.php';
-set_error_handler(function ($severity, $message, $file, $line) {
-    throw new ErrorException($message, 0, $severity, $file, $line);
-});
+require_once dirname(__DIR__) . '/Support/Diagnostics.php';
+set_error_handler(\LowOptionsTests\Diagnostics::handler());
 
 if (getenv('LOW_OPTIONS_NAV_COVERAGE')) {
     if (!function_exists('xdebug_start_code_coverage')) {

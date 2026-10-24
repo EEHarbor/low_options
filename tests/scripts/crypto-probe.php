@@ -1,10 +1,9 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-set_error_handler(function ($severity, $message, $file, $line) {
-    throw new ErrorException($message, 0, $severity, $file, $line);
-});
+error_reporting(-1);
+ini_set('display_errors', 'stderr');
+require_once dirname(__DIR__) . '/Support/Diagnostics.php';
+set_error_handler(\LowOptionsTests\Diagnostics::handler());
 define('LOW_OPTIONS_ROOT', dirname(__DIR__, 2));
 $context = $argv[1];
 $options = json_decode($argv[2], true, 512, JSON_THROW_ON_ERROR);

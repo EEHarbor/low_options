@@ -1,7 +1,7 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+error_reporting(-1);
+ini_set('display_errors', 'stderr');
 
 $root = dirname(__DIR__, 2);
 $mode = isset($argv[1]) ? $argv[1] : 'load';
@@ -25,9 +25,8 @@ require $root . '/tests/Support/Fieldtype.php';
 require $root . '/tests/Support/functions.php';
 $GLOBALS['low_options_ee'] = new \LowOptionsTests\Environment();
 
-set_error_handler(function ($severity, $message, $file, $line) {
-    throw new ErrorException($message, 0, $severity, $file, $line);
-});
+require_once dirname(__DIR__) . '/Support/Diagnostics.php';
+set_error_handler(\LowOptionsTests\Diagnostics::handler());
 
 try {
     if ($mode === 'no-phar') {

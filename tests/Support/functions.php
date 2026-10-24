@@ -51,7 +51,10 @@ function read_file($file)
  */
 function write_file($file, $data, $mode = 'wb')
 {
-    $handle = @fopen($file, $mode);
+    if (is_dir($file) || !is_dir(dirname($file)) || (file_exists($file) && !is_writable($file))) {
+        return false;
+    }
+    $handle = fopen($file, $mode);
     if ($handle === false) {
         return false;
     }

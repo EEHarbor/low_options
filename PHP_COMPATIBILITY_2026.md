@@ -1,0 +1,27 @@
+# PHP 7.4–8.5 compatibility
+
+The compatibility branch starts at fresh tests baseline `efc2b3bbff5bcad75c9530c55225da99e9ed3a02`; its develop base is `ffa06e5eed4ea35657d3175a00fc82a297f8b912`. Historical test/coverage reports retain their original meaning. Current validation executes actual distributed source and does not claim full branch coverage.
+
+The plugin preserves numeric-zero option labels and consistent number/string ignore matching. Optional null parameter input retains the old empty result. The scoped Foundation build corrects static plugin metadata, extension argument forwarding, declared pagination state, optional-file includes, the legacy EE2 comparison operator and persistent deletion, native Facade replacement, cache key/value handling, legacy settings reads, Pro payload metadata, and extraction/entry-size cleanup behavior.
+
+All 22 original archive members are retained: 13 contain scoped fixes and nine remain byte-identical. One small `SerializedValue` member shares native decoding between settings and persistent cache. It preserves existing objects, references, valid noncanonical numeric/reference spellings, duplicate-key semantics and ArrayAccess roots. Only enumerated native parser notices/warnings at the actual parser call site classify malformed storage; other diagnostics and callback exceptions reach the caller's handler, which is restored in `finally`. Custom ArrayAccess getters retain direct dispatch and computed defaults. The archive preserves its original SHA-1 algorithm, alias, member modes, compression, metadata and exact licensing JavaScript. See [build/README.md](build/README.md) for provenance and packaging.
+
+The checked launcher pins PHPUnit 9.6.38 and explicit parent/native startup flags. Its private durable journal records before throwing, so caught suppressed diagnostics still reject the invocation. It checks actual native PID/startup receipts, complete captured streams, cleanup, positive fresh JUnit and two exact generated harness sentinels tied to their current case identities. No product diagnostic is permitted. Native timeout/cancellation controls operate only on owned processes. The file-helper fixture returns the real helper's failure value for known invalid fixture paths without intentionally generating support warnings.
+
+| PHP | Initial cases / assertions | Initial errors / failures | Final cases / assertions |
+| --- | --- | --- | --- |
+| 7.4.33 | 312 / 1428 | 14 / 18 | 330 / 1497 |
+| 8.0.30 | 312 / 1422 | 15 / 16 | 330 / 1497 |
+| 8.1.33 | 312 / 1421 | 16 / 16 | 330 / 1497 |
+| 8.2.30 | 312 / 1417 | 17 / 16 | 330 / 1497 |
+| 8.3.28 | 312 / 1417 | 17 / 16 | 330 / 1497 |
+| 8.4.15 | 312 / 1417 | 17 / 16 | 330 / 1497 |
+| 8.5.0 | 312 / 1417 | 17 / 16 | 330 / 1497 |
+
+The initial matrix used byte-identical untouched baseline production before source edits. All 312 original case identities remain; 17 focused storage/getter/handler/warm-cache cases and one native helper-class compilation were added. Final failures, errors, warnings, risky, skipped, incomplete and unexpected diagnostics are zero on each version. Each full run deliberately retains two exact synthetic harness events; zero total events is not claimed. Every final runtime has 79 native attempts with 80 actual startup receipts, including the main process, and positive owned cleanup.
+
+Forty-two negative controls cover caught suppressed main/provider/native diagnostics, wakeup and nested-parser callbacks, and native handler argument forwarding across seven versions. Further controls cover disabled startup settings, an extra native startup warning alongside the exact intentional sentinel, and main/descendant interruption cleanup. A separate probe executes the actual EE Facade replacement/removal contract on all seven versions. Original/current artifact probes preserve custom ArrayAccess computed getters on 7.4 and 8.5.
+
+Evidence, raw native streams, fresh JUnit, receipts, commands, actual binary hashes, closed-result verification and review packets are retained separately under `/private/tmp/php-compat-2026-01a16ed8/low_options`. Earlier preflight/superseded final attempts remain separate. Independent exact-diff approval is required before publication.
+
+No installed EE request, live SQL/DDL/migration, browser, licensing-server transport, third-party combination, historical EE installation or Windows/fallback platform integration is certified. Native legacy constants exercise shipped version branches without booting those frameworks. Existing coverage graphs were not recollected or combined across processes. The diagnostic proof covers ordinary unexpected diagnostics; deliberate authority replacement or malicious journal tampering is outside its finite scope.

@@ -24,16 +24,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $this->autoloaders = spl_autoload_functions() ?: array();
         $this->ee = new Environment();
         $GLOBALS['low_options_ee'] = $this->ee;
-        set_error_handler(function ($severity, $message, $file, $line) {
-            // Source diagnostics remain failures even if production used @.
-            if (strpos($file, LOW_OPTIONS_ROOT . '/low_options/') !== false) {
-                throw new \ErrorException($message, 0, $severity, $file, $line);
-            }
-            if (!(error_reporting() & $severity)) {
-                return false;
-            }
-            throw new \ErrorException($message, 0, $severity, $file, $line);
-        });
+        set_error_handler(Diagnostics::handler());
     }
 
     /**

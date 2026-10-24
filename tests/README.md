@@ -1,6 +1,6 @@
 # Low Options PHPUnit suite
 
-The add-on's PHP and PHAR are immutable. Tests load the shipped PHAR through the shipped autoloader; they do not rebuild or patch it. `reports/inventory.json` inventories all 27 source units: four loose PHP files, 22 archive members, and the executable archive stub. It includes constructors, magic methods, closures, procedural/view code and source hashes.
+The historical test checkpoint kept the add-on's PHP and PHAR immutable. The current compatibility candidate uses scoped, reproducible Foundation build inputs documented in [PHP_COMPATIBILITY_2026.md](../PHP_COMPATIBILITY_2026.md). Tests execute the distributed PHAR through its normal autoloader. `reports/inventory.json` inventories all 27 source units: four loose PHP files, 22 archive members, and the executable archive stub. It includes constructors, magic methods, closures, procedural/view code and source hashes.
 
 ## Run
 
@@ -21,7 +21,7 @@ The matrix script uses each absolute Herd binary directly. It never changes Herd
 
 Source diagnostics are exceptions under `E_ALL`, including diagnostics production hides with `@`. `DiagnosticHarnessTest` verifies this policy with an intentional diagnostic-handler probe. Native load/compilation tests start fresh processes under the parent `PHP_BINARY`, with explicit diagnostics and isolated `TMPDIR`/`sys_temp_dir`. They execute the normal source directly. Native probes deliberately do not merge instrumentation graphs with the parent suite.
 
-The suite is intentionally red for documented production behavior. Do not suppress or skip these regressions to make the suite pass. See `STATUS.md` and `reports/matrix/*.txt`.
+The historical STATUS and reports retain their original red checkpoint results. Current compatibility results are separate; their checked launcher rejects retained unexpected diagnostics even when code catches the exception. Existing source expectations are preserved. Direct historical coverage commands below need explicit strict startup settings and `-d auto_prepend_file=tests/Support/Diagnostics.php`; use the checked launcher for acceptance runs.
 
 ## Coverage
 
