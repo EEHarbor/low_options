@@ -255,9 +255,9 @@ class CompatibilityFixTest extends TestCase
     }
 
     /**
-     * Read native clamped cache values without rewriting their stored bytes.
+     * Read native integer cache boundaries without rewriting their stored bytes.
      *
-     * @dataProvider overflowValues
+     * @dataProvider integerBoundaries
      * @param string $integer
      * @param int $expected
      * @return void
@@ -279,6 +279,19 @@ class CompatibilityFixTest extends TestCase
             rmdir(PATH_CACHE . 'low_options');
             rmdir(PATH_CACHE);
         }
+    }
+
+    /**
+     * Include diagnostic-free native integer boundaries for raw cache storage.
+     *
+     * @return array
+     */
+    public static function integerBoundaries(): array
+    {
+        return array(
+            'positive' => array((string) PHP_INT_MAX, PHP_INT_MAX),
+            'negative' => array((string) PHP_INT_MIN, PHP_INT_MIN),
+        );
     }
 
     /**

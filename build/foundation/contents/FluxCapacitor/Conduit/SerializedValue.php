@@ -9,10 +9,11 @@ final class SerializedValue
      * Return false for malformed storage and retain unrelated diagnostics.
      *
      * @param string $serialized
+     * @param bool $quiet_range Retain the legacy suppressed settings range warning.
      * @return mixed
      * @throws \Throwable
      */
-    public static function decode($serialized)
+    public static function decode($serialized, $quiet_range = true)
     {
         if (strpos($serialized, 'S:') !== false) {
             $serialized = self::normalizeEscapedStrings($serialized);
@@ -20,13 +21,13 @@ final class SerializedValue
         $parse_line = 0;
         $invalid = false;
         $previous = null;
-        $previous = set_error_handler(static function ($severity, $message, $file, $line) use (&$parse_line, &$invalid, &$previous) {
+        $previous = set_error_handler(static function ($severity, $message, $file, $line) use (&$parse_line, &$invalid, &$previous, $quiet_range) {
             if ($file === __FILE__ && $line === $parse_line && in_array($severity, array(E_NOTICE, E_WARNING), true) && preg_match('/^(?:unserialize\(\): (?:Error at offset [0-9]+ of [0-9]+ bytes|Unexpected end of serialized data|Maximum depth of [0-9]+ exceeded.*)|Insufficient data for unserializing - -?[0-9]+ required, [0-9]+ present)$/D', $message)) {
                 $invalid = true;
                 return true;
             }
-            // Native parsing retains clamped integers and complete prefixes with unused bytes.
-            if ($file === __FILE__ && $line === $parse_line && in_array($severity, array(E_NOTICE, E_WARNING), true) && preg_match('/^unserialize\(\): (?:Numerical result out of range|Extra data starting at offset [0-9]+ of [0-9]+ bytes)$/D', $message)) {
+            // Settings suppressed range warnings; raw cache reads retained them.
+            if ($file === __FILE__ && $line === $parse_line && in_array($severity, array(E_NOTICE, E_WARNING), true) && (($quiet_range && $message === 'unserialize(): Numerical result out of range') || preg_match('/^unserialize\(\): Extra data starting at offset [0-9]+ of [0-9]+ bytes$/D', $message))) {
                 return true;
             }
             return $previous ? call_user_func_array($previous, func_get_args()) : false;

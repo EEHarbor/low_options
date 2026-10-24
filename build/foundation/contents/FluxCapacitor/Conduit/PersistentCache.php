@@ -175,7 +175,7 @@ class PersistentCache
      */
     private static function serveCacheData($value)
     {
-        return SerializedValue::decode($value);
+        return SerializedValue::decode($value, false);
     }
 
     /**
