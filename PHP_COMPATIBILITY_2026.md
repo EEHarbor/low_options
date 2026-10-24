@@ -2,23 +2,25 @@
 
 The compatibility branch starts at fresh tests baseline `efc2b3bbff5bcad75c9530c55225da99e9ed3a02`; its develop base is `ffa06e5eed4ea35657d3175a00fc82a297f8b912`. Historical test/coverage reports retain their original meaning. Current validation executes actual distributed source and does not claim full branch coverage.
 
-The plugin preserves numeric-zero option labels and consistent number/string ignore matching. Optional null parameter input retains the old empty result. The scoped Foundation build corrects static plugin metadata, extension argument forwarding, declared pagination state, optional-file includes, the legacy EE2 comparison operator and persistent deletion, native Facade replacement, cache key/value handling, legacy settings reads, Pro payload metadata, and extraction/entry-size cleanup behavior.
+The plugin preserves numeric-zero option labels and consistent number/string ignore matching. Optional null parameter input retains the old empty result. The scoped Foundation build corrects static plugin metadata, extension argument forwarding, legacy controller data behavior, optional-file includes, the legacy EE2 comparison operator and persistent deletion, native Facade replacement, cache key/value handling, legacy settings reads, Pro payload metadata, and extraction/entry-size cleanup behavior.
 
 All 22 original archive members are retained: 13 contain scoped fixes and nine remain byte-identical. One `SerializedValue` member shares native decoding between settings and persistent cache. It preserves existing objects, references, valid noncanonical numeric/reference spellings, duplicate-key semantics and ArrayAccess roots. Only enumerated native parser notices/warnings at the actual parser call site classify malformed storage; other diagnostics and callback exceptions reach the caller's handler, which is restored in `finally`. Custom ArrayAccess getters retain direct dispatch and computed defaults. Legacy uppercase escaped strings are rewritten by a length-aware lexer before native parsing, preserving opaque ordinary strings/custom payloads, signed object counts, references and historically valid prefixes. Baseline PHP7.4 and rebuilt PHP7.4/8.5 settings reads match 500 deterministic binary vectors with ordinary and trailing-byte forms each; reads preserve stored bytes. Lexical failure delegates the processed prefix and untouched remainder to native parsing so queued object callbacks and their exceptions still run; negative custom payload lengths are checked before indexing. Extraction rejects scoped root/container symlinks before realpath or cleanup; direct helper links are unlinked themselves, with native separator handling preserving POSIX backslash filenames. The archive preserves its original SHA-1 algorithm, alias, member modes, compression, metadata and exact licensing JavaScript. See [build/README.md](build/README.md) for provenance and packaging.
+
+The shared legacy controller base permits its existing dynamic data state without introducing a parent property that would restrict protected/private subclasses or bypass magic access. Actual original PHP7.4 and rebuilt PHP7.4–8.5 bare/public/protected/private/magic/ArrayAccess consumer probes match; configured regressions retain bare pagination, protected arrays, private state, reference-returning magic and ArrayObject identity.
 
 The checked launcher pins PHPUnit 9.6.38 and explicit parent/native startup flags. Its private durable journal records before throwing, so caught suppressed diagnostics still reject the invocation. It checks actual native PID/startup receipts, complete captured streams, cleanup, positive fresh JUnit and two exact generated harness sentinels tied to their current case identities. No product diagnostic is permitted. Native timeout/cancellation controls operate only on owned processes. The file-helper fixture returns the real helper's failure value for known invalid fixture paths without intentionally generating support warnings.
 
 | PHP | Initial cases / assertions | Initial errors / failures | Final cases / assertions |
 | --- | --- | --- | --- |
-| 7.4.33 | 312 / 1428 | 14 / 18 | 353 / 1548 |
-| 8.0.30 | 312 / 1422 | 15 / 16 | 353 / 1548 |
-| 8.1.33 | 312 / 1421 | 16 / 16 | 353 / 1548 |
-| 8.2.30 | 312 / 1417 | 17 / 16 | 353 / 1548 |
-| 8.3.28 | 312 / 1417 | 17 / 16 | 353 / 1548 |
-| 8.4.15 | 312 / 1417 | 17 / 16 | 353 / 1548 |
-| 8.5.0 | 312 / 1417 | 17 / 16 | 353 / 1548 |
+| 7.4.33 | 312 / 1428 | 14 / 18 | 357 / 1558 |
+| 8.0.30 | 312 / 1422 | 15 / 16 | 357 / 1558 |
+| 8.1.33 | 312 / 1421 | 16 / 16 | 357 / 1558 |
+| 8.2.30 | 312 / 1417 | 17 / 16 | 357 / 1558 |
+| 8.3.28 | 312 / 1417 | 17 / 16 | 357 / 1558 |
+| 8.4.15 | 312 / 1417 | 17 / 16 | 357 / 1558 |
+| 8.5.0 | 312 / 1417 | 17 / 16 | 357 / 1558 |
 
-The initial matrix used byte-identical untouched baseline production before source edits. All 312 original case identities remain; 40 focused storage/getter/handler/warm-cache/extraction cases and one native helper-class compilation were added. Final failures, errors, warnings, risky, skipped, incomplete and unexpected diagnostics are zero on each version. Each full run deliberately retains two exact synthetic harness events; zero total events is not claimed. Every final runtime has 87 native attempts with 88 actual startup receipts, including the main process, and positive owned cleanup.
+The initial matrix used byte-identical untouched baseline production before source edits. All 312 original case identities remain; 44 focused storage/getter/handler/warm-cache/extraction cases and one native helper-class compilation were added. Final failures, errors, warnings, risky, skipped, incomplete and unexpected diagnostics are zero on each version. Each full run deliberately retains two exact synthetic harness events; zero total events is not claimed. Every final runtime has 87 native attempts with 88 actual startup receipts, including the main process, and positive owned cleanup.
 
 Seventy negative controls cover caught suppressed main/provider/native diagnostics, wakeup and nested-parser callbacks, native handler argument forwarding, missing-class callback warnings, callbacks after escaped-string normalization, and queued callbacks after malformed tails across seven versions. Further controls cover disabled startup settings, an extra native startup warning alongside the exact intentional sentinel, and main/descendant interruption cleanup. A separate probe executes the actual EE Facade replacement/removal contract on all seven versions. Original/current artifact probes preserve custom ArrayAccess computed getters on 7.4 and 8.5.
 

@@ -11,6 +11,9 @@ use @@@ADDON_NAMESPACE@@@\FluxCapacitor\FluxCapacitor;
 /**
  * EEHarbor mcp parent class
  *
+ * Legacy consumers own data visibility and magic access; bare pagination also
+ * creates its public data container dynamically.
+ *
  * @package         EEHarbor MCP Parent
  * @version         @@@FOUNDATION_VERSION@@@
  * @author          Tom Jaeger <Tom@EEHarbor.com>
@@ -18,12 +21,12 @@ use @@@ADDON_NAMESPACE@@@\FluxCapacitor\FluxCapacitor;
  * @copyright       Copyright (c) 2018, Tom Jaeger/EEHarbor
  */
 
+#[\AllowDynamicProperties]
 class Mcp
 {
     public $flux;
     public $version;
     public $nav;
-    public $data = array();
 
     public function __construct()
     {
