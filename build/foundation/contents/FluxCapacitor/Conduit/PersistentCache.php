@@ -179,63 +179,49 @@ class PersistentCache
     }
 
     /**
-     * Preserve native directory creation and handle its documented failure result.
-     *
-     * @param string $path
-     * @return bool
-     * @throws \Throwable When an unrelated diagnostic is rejected by the caller.
-     */
-    private static function createDirectory($path)
-    {
-        $directory = rtrim($path, DIRECTORY_SEPARATOR === '\\' ? '/\\' : '/');
-        $parent = dirname($directory);
-        if (!is_dir($parent) || !self::isWritableDirectory($parent)) {
-            return false;
-        }
-
-        $mkdir_line = 0;
-        $previous = null;
-        $previous = set_error_handler(static function ($severity, $message, $file, $line) use (&$mkdir_line, &$previous) {
-            if ($severity === E_WARNING && $file === __FILE__ && $line === $mkdir_line
-                && preg_match('/^mkdir\(\): (?:Permission denied|File exists|Not a directory|No such file or directory|Too many levels of symbolic links|Read-only file system)$/D', $message)) {
-                return true;
-            }
-            return $previous ? call_user_func_array($previous, func_get_args()) : false;
-        });
-
-        try {
-            // Keep native alias spelling and its trailing separator intact.
-            $mkdir_line = __LINE__ + 1;
-            return mkdir($path, DIR_WRITE_MODE);
-        } finally {
-            restore_error_handler();
-        }
-    }
-
-    /**
-     * Require search permission as well as write permission on POSIX directories.
-     *
-     * @param string $path
-     * @return bool
-     */
-    private static function isWritableDirectory($path)
-    {
-        return is_writable($path) && (DIRECTORY_SEPARATOR === '\\' || is_executable($path));
-    }
-
-    /**
      * Make sure the EE global cache folder and our module-specific folders
      * exist and are writable.
-     * @return bool  Whether the folders exist and are writable
+     *
+     * @return bool Whether the folders exist and are writable.
+     * @throws \Throwable When an unrelated diagnostic is rejected by the caller.
      */
     private static function checkPath()
     {
+        $isWritableDirectory = static function ($path) {
+            return is_writable($path) && (DIRECTORY_SEPARATOR === '\\' || is_executable($path));
+        };
+        $createDirectory = static function ($path) use ($isWritableDirectory) {
+            $directory = rtrim($path, DIRECTORY_SEPARATOR === '\\' ? '/\\' : '/');
+            $parent = dirname($directory);
+            if (!is_dir($parent) || !$isWritableDirectory($parent)) {
+                return false;
+            }
+
+            $mkdir_line = 0;
+            $previous = null;
+            $previous = set_error_handler(static function ($severity, $message, $file, $line) use (&$mkdir_line, &$previous) {
+                if ($severity === E_WARNING && $file === __FILE__ && $line === $mkdir_line
+                    && preg_match('/^mkdir\(\): (?:Permission denied|File exists|Not a directory|No such file or directory|Too many levels of symbolic links|Read-only file system)$/D', $message)) {
+                    return true;
+                }
+                return $previous ? call_user_func_array($previous, func_get_args()) : false;
+            });
+
+            try {
+                // Keep native alias spelling and its trailing separator intact.
+                $mkdir_line = __LINE__ + 1;
+                return mkdir($path, DIR_WRITE_MODE);
+            } finally {
+                restore_error_handler();
+            }
+        };
+
         // Add a trailing slash to the path if needed
         self::$cache_path = preg_replace("/(.+?)\/*$/", "\\1/", self::$cache_path);
 
         // If the generic cache folder doesn't exist, try to create it.
         if (! @is_dir(self::$cache_path)) {
-            if (!self::createDirectory(self::$cache_path)) {
+            if (!$createDirectory(self::$cache_path)) {
                 ee()->load->library('logger');
                 ee()->logger->developer('@@@MODULE_NAME@@@: Write Cache enabled but could not create cache folder: ' . self::$cache_path);
                 return false;
@@ -246,7 +232,7 @@ class PersistentCache
         }
 
         // Make sure the generic cache folder is writable.
-        if (!self::isWritableDirectory(self::$cache_path)) {
+        if (!$isWritableDirectory(self::$cache_path)) {
             ee()->load->library('logger');
             ee()->logger->developer('@@@MODULE_NAME@@@: Write Cache enabled but cache path not writable: ' . self::$cache_path);
             return false;
@@ -254,7 +240,7 @@ class PersistentCache
 
         // If the module-specific cache folder doesn't exist, try to create it.
         if (!@is_dir(self::$module_cache_path)) {
-            if (!self::createDirectory(self::$module_cache_path)) {
+            if (!$createDirectory(self::$module_cache_path)) {
                 ee()->load->library('logger');
                 ee()->logger->developer('@@@MODULE_NAME@@@: Write Cache enabled but could not create module cache folder: ' . self::$module_cache_path);
                 return false;
@@ -265,7 +251,7 @@ class PersistentCache
         }
 
         // Make sure the module-specific cache folder is writable.
-        if (!self::isWritableDirectory(self::$module_cache_path)) {
+        if (!$isWritableDirectory(self::$module_cache_path)) {
             // If the path is wrong we'll turn off caching
             ee()->load->library('logger');
             ee()->logger->developer('@@@MODULE_NAME@@@: Write Cache enabled but module cache path not writable: ' . self::$module_cache_path);

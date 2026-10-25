@@ -4,7 +4,7 @@ namespace @@@ADDON_NAMESPACE@@@\FluxCapacitor\Conduit;
 
 use @@@ADDON_NAMESPACE@@@\FluxCapacitor\FluxCapacitor;
 
-if (is_file(PATH_THIRD . '@@@MODULE@@@/Conduit/McpNav.php')) {
+if (is_file(PATH_THIRD . '@@@MODULE@@@/Conduit/McpNav.php') && is_readable(PATH_THIRD . '@@@MODULE@@@/Conduit/McpNav.php')) {
     include_once PATH_THIRD . '@@@MODULE@@@/Conduit/McpNav.php';
 }
 

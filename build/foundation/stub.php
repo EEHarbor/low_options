@@ -305,6 +305,8 @@ static function _removeTmpFiles($temp, $origdir)
 $link = rtrim($temp, DIRECTORY_SEPARATOR === '\\' ? '/\\' : '/');
 if (is_link($link)) {
 unlink($link);
+chdir($origdir);
+clearstatcache();
 return;
 }
 $temp = realpath($temp);

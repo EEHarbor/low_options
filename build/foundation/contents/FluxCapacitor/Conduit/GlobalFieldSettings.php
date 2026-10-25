@@ -31,7 +31,19 @@ class GlobalFieldSettings
             if (is_bool($name) || $name === null) {
                 $name = $name === null ? '' : (int) $name;
             }
-            if (is_float($name) && is_finite($name) && $name >= PHP_INT_MIN && $name < PHP_INT_MAX && floor($name) === $name) {
+            // Preserve PHP 7.4 integer-width keys without an out-of-range cast.
+            if (is_float($name) && !is_finite($name)) {
+                $name = 0;
+            }
+            if (is_float($name)) {
+                $width = 2.0 ** (PHP_INT_SIZE * 8);
+                $name = fmod($name, $width);
+                if ($name >= $width / 2) {
+                    $name -= $width;
+                }
+                if ($name < -$width / 2) {
+                    $name += $width;
+                }
                 $name = (int) $name;
             }
         }
@@ -61,20 +73,45 @@ class GlobalFieldSettings
         return $ftSettings;
     }
 
+    /**
+     * Write one setting while preserving native array keys and string offsets.
+     *
+     * @param mixed $key
+     * @param mixed $value
+     * @return bool
+     * @throws \Throwable
+     */
     public function updateSetting($key, $value)
     {
         $ftSettings = $this->getSettings();
-
-        if (!is_null($ftSettings)) {
-            $ftSettings[$key] = $value;
-            $settingsForDb = array('settings' => base64_encode(serialize($ftSettings)));
-
-            ee()->db->where('name', $this->fieldtype_name)
-                ->update('fieldtypes', $settingsForDb);
-        } else {
+        if (is_null($ftSettings)) {
             return false;
         }
+        // Preserve PHP 7.4 integer-width keys without an out-of-range cast.
+        if (is_array($ftSettings) && is_float($key) && !is_finite($key)) {
+            $key = 0;
+        }
+        if (is_array($ftSettings) && is_float($key)) {
+            $width = 2.0 ** (PHP_INT_SIZE * 8);
+            $key = fmod($key, $width);
+            if ($key >= $width / 2) {
+                $key -= $width;
+            }
+            if ($key < -$width / 2) {
+                $key += $width;
+            }
+            $key = (int) $key;
+        }
+        if (is_string($ftSettings) && is_string($value) && strlen($value) > 1) {
+            $value = $value[0];
+        }
+        $ftSettings[$key] = $value;
+        $settingsForDb = array('settings' => base64_encode(serialize($ftSettings)));
+
+        ee()->db->where('name', $this->fieldtype_name)
+            ->update('fieldtypes', $settingsForDb);
 
         return true;
     }
+
 }

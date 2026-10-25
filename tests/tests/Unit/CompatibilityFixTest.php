@@ -10,6 +10,174 @@ use Low\Options\FluxCapacitor\Conduit\StaticCache;
 class CompatibilityFixTest extends TestCase
 {
     /**
+     * Preserve legal child methods without adding parent helper declarations.
+     *
+     * @dataProvider existingCacheMethods
+     * @param string $method
+     * @param string $visibility
+     * @param string $static
+     * @return void
+     */
+    public function testExistingCacheSubclassMethods($method, $visibility, $static): void
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+        $result = NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/cache-subclass-probe.php', array(LOW_OPTIONS_ROOT . '/low_options/low_options.phar', $method, $visibility, $static));
+        self::assertSame(0, $result[0], $result[2] . $result[1]);
+        self::assertSame('', $result[2]);
+        self::assertSame(array('value' => 'existing child method'), json_decode($result[1], true));
+    }
+
+    /**
+     * Keep public, protected and private static and instance child methods legal.
+     *
+     * @return array
+     */
+    public static function existingCacheMethods(): array
+    {
+        $cases = array();
+        foreach (array('createDirectory', 'isWritableDirectory') as $method) {
+            foreach (array('public', 'protected', 'private') as $visibility) {
+                foreach (array('static', 'instance') as $static) {
+                    $cases[] = array($method, $visibility, $static);
+                }
+            }
+        }
+        return $cases;
+    }
+
+    /**
+     * Keep legal child method names available in the legacy extensible settings class.
+     *
+     * @return void
+     */
+    public function testExistingSettingsSubclassMethod(): void
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+        $result = NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/settings-subclass-probe.php');
+        self::assertSame(0, $result[0], $result[2] . $result[1]);
+        self::assertSame('', $result[2]);
+        self::assertSame(['value' => 'existing child method'], json_decode($result[1], true));
+    }
+
+    /**
+     * Restore the explicit caller directory after unlinking a stale extraction root.
+     *
+     * @dataProvider cleanupDirectories
+     * @param string $kind
+     * @return void
+     */
+    public function testCleanupRestoresSuppliedDirectory($kind): void
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+        $result = NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/cleanup-directory-probe.php', [$kind]);
+        self::assertSame(0, $result[0], $result[2] . $result[1]);
+        self::assertSame('', $result[2]);
+        self::assertSame(['restored' => true, 'removed' => true, 'retained' => 'unchanged'], json_decode($result[1], true));
+    }
+
+    /**
+     * Cover existing, dangling and separator-suffixed root links.
+     *
+     * @return array
+     */
+    public function cleanupDirectories(): array
+    {
+        return [['existing'], ['dangling'], ['trailing']];
+    }
+
+    /**
+     * Load the Foundation fallback when its optional override cannot be read.
+     *
+     * @dataProvider optionalOverrides
+     * @param string $state
+     * @return void
+     */
+    public function testOptionalNavigationOverride($state): void
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+        $result = NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/optional-nav-probe.php', [$state]);
+        self::assertSame(0, $result[0], $result[2] . $result[1]);
+        self::assertSame('', $result[2]);
+        self::assertSame(['loaded' => true, 'override' => $state === 'readable'], json_decode($result[1], true));
+    }
+
+    /**
+     * Include the normal extension and both optional fallback boundaries.
+     *
+     * @return array
+     */
+    public function optionalOverrides(): array
+    {
+        return [['readable'], ['missing'], ['unreadable']];
+    }
+
+    /**
+     * Preserve native float array-key reads and writes without conversion warnings.
+     *
+     * @dataProvider floatSettingKeys
+     * @param float $key
+     * @param int $integer
+     * @return void
+     */
+    public function testNativeFloatSettingKeys($key, $integer): void
+    {
+        $stored = array($integer => 'native', 'keep' => 'retained');
+        $this->ee->db->num_rows = 1;
+        $this->ee->db->record = array('settings' => base64_encode(serialize($stored)));
+        $settings = new GlobalFieldSettings();
+        self::assertSame('native', $settings->getSetting($key));
+        self::assertSame(serialize($stored), serialize($settings->getSettings()));
+        self::assertTrue($settings->updateSetting($key, 'changed'));
+        $writes = array_values(array_filter($this->ee->db->calls, function ($call) { return $call[0] === 'update'; }));
+        $written = $writes[0][1][1]['settings'];
+        self::assertSame(serialize(array($integer => 'changed', 'keep' => 'retained')), base64_decode($written));
+    }
+
+    /**
+     * Include native fractional, nonfinite and integer-width wrapping keys.
+     *
+     * @return array
+     */
+    public static function floatSettingKeys(): array
+    {
+        $width = 2.0 ** (PHP_INT_SIZE * 8);
+        return array(
+            array(1.9, 1), array(-1.9, -1), array(INF, 0), array(-INF, 0), array(NAN, 0),
+            array(1e100, 0), array(-1e100, 0), array($width / 2, PHP_INT_MIN),
+            array($width + 4096.0, 4096), array(-$width - 4096.0, -4096),
+        );
+    }
+
+    /**
+     * Keep the native first byte when writing a longer string to a stored offset.
+     *
+     * @dataProvider stringOffsetValues
+     * @param string $value
+     * @param string $expected
+     * @return void
+     */
+    public function testNativeStringOffsetWrite($value, $expected): void
+    {
+        $stored = 'abc';
+        $this->ee->db->num_rows = 1;
+        $this->ee->db->record = array('settings' => base64_encode(serialize($stored)));
+        self::assertTrue((new GlobalFieldSettings())->updateSetting(1, $value));
+        $writes = array_values(array_filter($this->ee->db->calls, function ($call) { return $call[0] === 'update'; }));
+        $written = $writes[0][1][1]['settings'];
+        self::assertSame(serialize($expected), base64_decode($written));
+    }
+
+    /**
+     * Retain byte semantics for ordinary text, UTF-8 and embedded null bytes.
+     *
+     * @return array
+     */
+    public static function stringOffsetValues(): array
+    {
+        return array(array('long', 'alc'), array("\xc3\xa9", "a\xc3c"), array("\0tail", "a\0c"));
+    }
+
+    /**
      * Preserve native hydration callbacks even when a later token is malformed.
      *
      * @dataProvider malformedTails
@@ -184,7 +352,7 @@ class CompatibilityFixTest extends TestCase
             array('abc', 'missing', null), array('abc', 99, null), array('abc', array(), null),
             array('abc', true, null), array('abc', 1.2, null), array(7, 'key', null), array(true, 'key', null),
             array(array(1 => 'value'), true, 'value'), array(array('' => 'value'), null, 'value'),
-            array(array(1 => 'value'), 1.0, 'value'), array(array(1 => 'value'), 1.2, null),
+            array(array(1 => 'value'), 1.0, 'value'), array(array(1 => 'value'), 1.2, 'value'),
             array(array('key' => 1), array(), null), array(array('key' => null), 'key', null),
         );
     }

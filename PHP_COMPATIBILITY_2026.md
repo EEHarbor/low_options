@@ -14,17 +14,21 @@ The checked launcher pins PHPUnit 9.6.38 and explicit parent/native startup flag
 
 | PHP | Initial cases / assertions | Initial errors / failures | Best-candidate cases / assertions |
 | --- | --- | --- | --- |
-| 7.4.33 | 312 / 1428 | 14 / 18 | 430 / 1804 |
-| 8.0.30 | 312 / 1422 | 15 / 16 | 430 / 1804 |
-| 8.1.33 | 312 / 1421 | 16 / 16 | 430 / 1804 |
-| 8.2.30 | 312 / 1417 | 17 / 16 | 430 / 1804 |
-| 8.3.28 | 312 / 1417 | 17 / 16 | 430 / 1804 |
-| 8.4.15 | 312 / 1417 | 17 / 16 | 430 / 1804 |
-| 8.5.0 | 312 / 1417 | 17 / 16 | 430 / 1804 |
+| 7.4.33 | 312 / 1428 | 14 / 18 | 462 / 1907 |
+| 8.0.30 | 312 / 1422 | 15 / 16 | 462 / 1907 |
+| 8.1.33 | 312 / 1421 | 16 / 16 | 462 / 1907 |
+| 8.2.30 | 312 / 1417 | 17 / 16 | 462 / 1907 |
+| 8.3.28 | 312 / 1417 | 17 / 16 | 462 / 1907 |
+| 8.4.15 | 312 / 1417 | 17 / 16 | 462 / 1907 |
+| 8.5.0 | 312 / 1417 | 17 / 16 | 462 / 1907 |
 
-The initial matrix used byte-identical untouched baseline production before source edits. All 312 original case identities remain; 118 focused storage/getter/handler/cache/navigation/extraction and native helper-class cases were added. Configured best-candidate failures, errors, warnings, risky, skipped, incomplete and unexpected diagnostics are zero on each version. Each full run deliberately retains two exact synthetic harness events; zero total events is not claimed. Every final runtime has 90 native attempts with 91 actual startup receipts, including the main process, and positive owned cleanup.
+The initial matrix used byte-identical untouched baseline production before source edits. All 312 original case identities remain; 150 focused storage/getter/handler/cache/navigation/extraction and native helper-class cases were added. Configured best-candidate failures, errors, warnings, risky, skipped, incomplete and unexpected diagnostics are zero on each version. Each full run deliberately retains two exact synthetic harness events; zero total events is not claimed. Every final runtime has 109 native attempts with 110 actual startup receipts, including the main process, and positive owned cleanup.
 
 Ninety-one negative controls cover caught suppressed main/provider/native diagnostics, wakeup and nested-parser callbacks, native handler argument forwarding, missing-class callback warnings, callbacks after escaped-string normalization, queued callbacks after malformed tails, native numeric overflow inside callbacks, oversized malformed tails, and unrelated caught diagnostics inside the exact native mkdir handling path across seven versions. Further controls cover disabled startup settings, an extra native startup warning alongside the exact intentional sentinel, and main/descendant interruption cleanup. A separate probe executes the actual EE Facade replacement/removal contract on all seven versions. Original/current artifact probes preserve custom ArrayAccess computed getters on 7.4 and 8.5.
+
+The ordinary review corrections restore the supplied caller directory after direct root-link cleanup and skip unreadable optional navigation overrides while preserving readable overrides. Existing, dangling and trailing-separator links retain their outside targets and hidden sentinels. New positive tests provide a caller directory different from the active directory, alongside readable/missing/unreadable override contexts.
+
+Float array keys preserve the native PHP 7.4 truncation and integer-width results, including nonfinite keys. The bounded conversion stays local to the existing read/write methods to preserve legal child method names. Actual original PHP 7.4 and current PHP 7.4–8.5 public read/write/reread probes agree for 2,011 deterministic IEEE float values. String-offset writes retain the native first byte for ordinary text, UTF-8 and embedded null bytes. Direct ArrayAccess dispatch and its stored values remain unchanged. The newly authored fractional-key null fixture now reflects the actual original value. An actual PHP 7.4 child-method collision exposed a discarded private-helper prototype; the final class adds no helper method, and a positive subclass regression guards that contract.
 
 The raw-range correction distinguishes the original unsuppressed cache reader from the original `@unserialize` settings reader. `PersistentCache` explicitly requests native range-warning forwarding; settings and existing decoder callback tests keep their established quiet range policy. The newly authored raw-cache overflow positive fixture was incorrectly grounded: actual original PHP 7.4 and 8.5 emit `Numerical result out of range` while returning the clamp. It now uses exact `PHP_INT_MAX`/`PHP_INT_MIN` wire values. Genuine settings overflow and callback regressions are retained unchanged. A separate two-case actual raw-reader fixture deliberately catches both range warnings: all seven checked invocations reject with 70 despite raw PHPUnit 2/A2 green. It is a negative harness control outside the configured ordinary suite, not an expected diagnostic exception accepted by the source tests.
 
@@ -33,3 +37,5 @@ Actual original/current PHP 7.4 and 8.5 counterexamples retain notice-only handl
 Evidence, raw native streams, fresh JUnit, receipts, commands, actual binary hashes, closed-result verification and review packets are retained separately under `/private/tmp/php-compat-2026-01a16ed8/low_options`. Earlier preflight/superseded final attempts remain separate. The prior v5 was published as PR20; a later shared audit reopened its oversized numeric casts, navigation, filesystem and lookup boundaries. V6 independent review requires native cache alias creation and callback handler-state preservation. The cache alias correction retains the original native mkdir argument and handles only six explicit expected native E_WARNING messages at its exact file/call line; 20 added cases cover existing and missing-target aliases, cycles, unresolved chains and blocked target parents, with handler restoration checked. The callback issue remains unresolved for both serialization and custom-stream mkdir callbacks. This best candidate remains unpublished and requires full native contract resolution, complete validation and fresh independent exact-diff approval before updating that PR. Earlier exact packets, reviews, publication proof and the withdrawn approval addendum remain retained.
 
 No installed EE request, live SQL/DDL/migration, browser, licensing-server transport, third-party combination, historical EE installation or Windows integration is certified. Native legacy constants exercise shipped version branches without booting those frameworks. Existing coverage graphs were not recollected or combined across processes. The diagnostic proof covers ordinary unexpected diagnostics; deliberate authority replacement or malicious journal tampering is outside its finite scope.
+
+The existing nonfinal PersistentCache class retains its original method names. Directory checks and native mkdir handling use local closures in checkPath; twelve actual archive child cases retain public, protected and private static and instance methods with the former helper names. Native handler B1 remains unchanged.
