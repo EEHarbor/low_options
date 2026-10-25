@@ -25,7 +25,7 @@ class GlobalFieldSettings
     {
         $ftSettings = $this->getSettings();
         if ($ftSettings instanceof \ArrayAccess) {
-            return $ftSettings[$name];
+            return @$ftSettings[$name];
         }
         if (\is_array($ftSettings)) {
             if (\is_bool($name) || $name === null) {
@@ -54,7 +54,7 @@ class GlobalFieldSettings
     }
 
     /**
-     * Read native legacy settings while normalizing malformed or empty storage.
+     * Read stored settings with the original native argument and hook lifetime.
      *
      * @return mixed
      * @throws \Throwable
@@ -66,29 +66,41 @@ class GlobalFieldSettings
             ->get('fieldtypes');
 
         if ((bool) $ftSettingsQuery->num_rows()) {
-            // Native call sites bind outer, then inner, before reading the row.
-            $hooks = array(
-                \function_exists(__NAMESPACE__ . '\\unserialize'),
-                \function_exists(__NAMESPACE__ . '\\base64_decode')
-            );
-            $hooks = SerializedValue::bindCaller(__METHOD__, $hooks);
-            $stored = $ftSettingsQuery->row('settings');
-            $decoded = $hooks[1]
-                ? base64_decode($stored) : \base64_decode($stored === null ? '' : $stored);
-            if ($hooks[0]) {
-                $ftSettings = unserialize($decoded);
-            } else {
-                if (\is_object($decoded) && \method_exists($decoded, '__toString')) {
-                    $decoded = (string) $decoded;
-                }
-                $ftSettings = \is_string($decoded) ? SerializedValue::decode($decoded) : \unserialize($decoded);
+            // Uninitialized typed flags survive restoration of unrelated static state.
+            $callees = new class {
+                public static bool $parser;
+                public static bool $carrier;
+            };
+            if (!isset($callees::$parser)) {
+                $callees::$parser = \function_exists(__NAMESPACE__ . '\\unserialize');
+                $callees::$carrier = \function_exists(__NAMESPACE__ . '\\base64_decode');
             }
-            $ftSettings = $ftSettings ?: array();
+            /**
+             * Transfer temporary operands to native base64 conversion without retaining them.
+             *
+             * @param mixed $carrier Original stored row value.
+             * @return string|false
+             * @throws \Throwable When a native conversion callback fails.
+             */
+            $nativeCarrier = static function ($carrier) {
+                if ($carrier === null || (\is_float($carrier) && \is_nan($carrier))) {
+                    $carrier = $carrier === null ? '' : 'NAN';
+                }
+                $carrier = array($carrier);
+                return \base64_decode(\array_pop($carrier));
+            };
+            $parser = $callees::$parser ? __NAMESPACE__ . '\\unserialize' : array(SerializedValue::class, 'decode');
+            $carrier = $callees::$carrier ? __NAMESPACE__ . '\\base64_decode' : $nativeCarrier;
+            $ftSettings = @$parser(@$carrier($ftSettingsQuery->row('settings')));
         } else {
             return null;
         }
 
-        return $ftSettings;
+        // PHP 7.4 retained NAN without PHP 8.5's boolean-coercion diagnostic.
+        if (\is_float($ftSettings) && \is_nan($ftSettings)) {
+            return $ftSettings;
+        }
+        return $ftSettings ?: array();
     }
 
     /**
@@ -105,38 +117,41 @@ class GlobalFieldSettings
         if (is_null($ftSettings)) {
             return false;
         }
+        $offset = $key;
         // Preserve PHP 7.4 integer-width keys without an out-of-range cast.
-        if (\is_array($ftSettings) && \is_float($key) && !\is_finite($key)) {
-            $key = 0;
+        if (\is_array($ftSettings) && \is_float($offset) && !\is_finite($offset)) {
+            $offset = 0;
         }
-        if (\is_array($ftSettings) && \is_float($key)) {
+        if (\is_array($ftSettings) && \is_float($offset)) {
             $width = 2.0 ** (\PHP_INT_SIZE * 8);
-            $key = \fmod($key, $width);
-            if ($key >= $width / 2) {
-                $key -= $width;
+            $offset = \fmod($offset, $width);
+            if ($offset >= $width / 2) {
+                $offset -= $width;
             }
-            if ($key < -$width / 2) {
-                $key += $width;
+            if ($offset < -$width / 2) {
+                $offset += $width;
             }
-            $key = (int) $key;
+            $offset = (int) $offset;
         }
-        if (\is_array($ftSettings) && $key === null) {
-            $key = '';
+        if (\is_array($ftSettings) && $offset === null) {
+            $offset = '';
         }
         $stringOffset = null;
-        if (\is_string($ftSettings) && (\is_int($key) || (\is_string($key) && \preg_match('/^[\x09-\x0d ]*[+-]?[0-9]+$/D', $key)))) {
-            $stringOffset = $key + 0;
+        if (\is_string($ftSettings) && (\is_int($offset) || (\is_string($offset) && \preg_match('/^[\x09-\x0d ]*[+-]?[0-9]+$/D', $offset)))) {
+            $stringOffset = $offset + 0;
         }
+        // Keep the original parameter alive until the database update finishes.
+        $replacement = $value;
         if (\is_int($stringOffset) && $stringOffset >= -\strlen($ftSettings) && $stringOffset < \PHP_INT_MAX
             && (\is_scalar($value) || \is_resource($value) || \gettype($value) === 'resource (closed)'
             || (\is_object($value) && \method_exists($value, '__toString')))) {
             // Native offsets coerce once and retain one byte, including NAN.
-            $value = \is_float($value) && \is_nan($value) ? 'NAN' : (string) $value;
-            if (\strlen($value) > 1) {
-                $value = $value[0];
+            $replacement = \is_float($value) && \is_nan($value) ? 'NAN' : (string) $value;
+            if (\strlen($replacement) > 1) {
+                $replacement = $replacement[0];
             }
         }
-        $ftSettings[$key] = $value;
+        $ftSettings[$offset] = $replacement;
         $settingsForDb = array('settings' => base64_encode(serialize($ftSettings)));
 
         ee()->db->where('name', $this->fieldtype_name)

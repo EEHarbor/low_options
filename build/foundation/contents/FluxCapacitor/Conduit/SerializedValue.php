@@ -5,33 +5,21 @@ namespace @@@ADDON_NAMESPACE@@@\FluxCapacitor\Conduit;
 /** Decode stored PHP values while preserving native types and references. */
 final class SerializedValue
 {
-    private static $callers = array();
-
     /**
-     * Retain each original call site's first resolution across inherited callers.
+     * Parse stored strings while leaving nonstring conversion to native PHP.
      *
-     * @param string $caller Lexical method containing the original expression.
-     * @param array $hooks Namespace resolutions in native evaluation order.
-     * @return array
-     */
-    public static function bindCaller($caller, array $hooks)
-    {
-        if (!isset(self::$callers[$caller])) {
-            self::$callers[$caller] = $hooks;
-        }
-        return self::$callers[$caller];
-    }
-
-    /**
-     * Return false for malformed storage and retain unrelated diagnostics.
-     *
-     * @param string $serialized
+     * @param mixed $serialized Original native parser operand.
      * @param bool $quiet_range Retain the legacy suppressed settings range warning.
      * @return mixed
      * @throws \Throwable
      */
     public static function decode($serialized, $quiet_range = true)
     {
+        if (!\is_string($serialized)) {
+            // Pop the sole local reference so native conversion owns temporary release.
+            $serialized = array($serialized === null ? '' : $serialized);
+            return \unserialize(\array_pop($serialized));
+        }
         if (\strpos($serialized, 'S:') !== false) {
             $serialized = self::normalizeEscapedStrings($serialized);
         }

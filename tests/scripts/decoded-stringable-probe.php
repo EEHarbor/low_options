@@ -56,6 +56,7 @@ namespace {
     $GLOBALS['owned_error'] = new RuntimeException('owned decoded wire callback');
     $GLOBALS['owned_carrier_same'] = true;
     $wires = array('array' => serialize(array('keep' => 7)), 'legacy-S' => 'S:3:"abc";',
+        'prefix' => serialize(array('keep' => 7)) . 'trailing',
         'object' => serialize((object) array('value' => 'native')), 'throw' => 'N;');
     $GLOBALS['owned_decoded_wire'] = $wires[$argv[2]];
     $GLOBALS['app'] = (object) array('db' => new SettingsContractDatabase());
