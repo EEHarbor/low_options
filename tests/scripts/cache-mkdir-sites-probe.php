@@ -21,7 +21,14 @@ final class CacheSiteStream
      * @param int $flags
      * @return array|false
      */
-    public function url_stat($path, $flags) { $path = $this->target($path); return file_exists($path) ? stat($path) : false; }
+    public function url_stat($path, $flags)
+    {
+        if ($GLOBALS['cache_site_case'] === 'parent' && rtrim($path, '/') === 'ownedsite://root') {
+            return false;
+        }
+        $path = $this->target($path);
+        return file_exists($path) ? stat($path) : false;
+    }
     /**
      * Register a hook during the first native creation.
      * @param string $path
@@ -161,7 +168,7 @@ if ($case === 'snapshot') {
 $results = array();
 try {
     $results[] = $cache::set('entry', 'stored');
-    if ($case !== 'late') {
+    if ($case !== 'late' && $case !== 'parent') {
         unlink($physical . $module . '/' . sha1('entry'));
         rmdir($physical . $module);
         rmdir($physical);
@@ -171,7 +178,7 @@ try {
         }
         $results[] = $cache::set('entry', 'stored');
     }
-    echo json_encode(array('results' => $results, 'native' => $GLOBALS['cache_site_native'], 'hooks' => $GLOBALS['cache_site_hooks'], 'logs' => $GLOBALS['cache_site_logs']), JSON_THROW_ON_ERROR), "\n";
+    echo json_encode(array('results' => $results, 'native' => $GLOBALS['cache_site_native'], 'hooks' => $GLOBALS['cache_site_hooks'], 'logs' => $GLOBALS['cache_site_logs'], 'stored' => $case === 'parent' && is_file($physical . $module . '/' . sha1('entry')) ? file_get_contents($physical . $module . '/' . sha1('entry')) : false), JSON_THROW_ON_ERROR), "\n";
 } finally {
     $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($GLOBALS['cache_site_root'], FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST);
     foreach ($files as $file) { $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getPathname()); }

@@ -196,9 +196,6 @@ class PersistentCache
      */
     private static function checkPath()
     {
-        $isWritableDirectory = static function ($path) {
-            return \is_writable($path) && (\DIRECTORY_SEPARATOR === '\\' || \is_executable($path));
-        };
         /**
          * Create a native directory after preserving its original caller binding.
          *
@@ -207,13 +204,7 @@ class PersistentCache
          * @return bool
          * @throws \Throwable When an unrelated native callback fails.
          */
-        $createDirectory = static function ($path, $mode) use ($isWritableDirectory) {
-            $directory = \rtrim($path, \DIRECTORY_SEPARATOR === '\\' ? '/\\' : '/');
-            $parent = \dirname($directory);
-            if (!\is_dir($parent) || !$isWritableDirectory($parent)) {
-                return false;
-            }
-
+        $createDirectory = static function ($path, $mode) {
             $mkdir_line = 0;
             $previous = null;
             $previous = \set_error_handler(static function ($severity, $message, $file, $line) use (&$mkdir_line, &$previous) {

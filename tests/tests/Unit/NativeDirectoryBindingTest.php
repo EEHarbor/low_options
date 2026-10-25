@@ -33,6 +33,9 @@ final class NativeDirectoryBindingTest extends TestCase
             self::assertSame(0700, $hook[1]);
             self::assertSame(@error_reporting(), $hook[2]);
         }
+        if ($case === 'parent') {
+            self::assertSame(serialize('stored'), $observed['stored']);
+        }
         self::assertCount(count($hookPaths), $observed['logs']);
         foreach ($observed['logs'] as $message) {
             self::assertStringContainsString('could not create', $message);
@@ -49,6 +52,7 @@ final class NativeDirectoryBindingTest extends TestCase
         $base = 'ownedsite://root/cache/';
         $module = $base . 'low_options/';
         return array(
+            'native parent stat unavailable' => array('parent', array(true), array($base, $module), array()),
             'between original sites' => array('late', array(false), array($base), array($module)),
             'unused site' => array('unused', array(true, false), array($module), array($base)),
             'static restoration' => array('snapshot', array(true, true), array($base, $module, $base, $module), array())
