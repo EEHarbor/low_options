@@ -33,8 +33,11 @@ final class NativeDirectoryBindingTest extends TestCase
             self::assertSame(0700, $hook[1]);
             self::assertSame(@error_reporting(), $hook[2]);
         }
-        if ($case === 'parent') {
+        if ($case === 'parent' || $case === 'virtual' || $case === 'nonalpha' || $case === 'opaque') {
             self::assertSame(serialize('stored'), $observed['stored']);
+        }
+        if ($case === 'opaque') {
+            self::assertSame(8, $observed['conversions']);
         }
         self::assertCount(count($hookPaths), $observed['logs']);
         foreach ($observed['logs'] as $message) {
@@ -52,6 +55,9 @@ final class NativeDirectoryBindingTest extends TestCase
         $base = 'ownedsite://root/cache/';
         $module = $base . 'low_options/';
         return array(
+            'nonalphabetic native stream scheme' => array('nonalpha', array(true), array('1x://root/cache/', '1x://root/cache/low_options/'), array()),
+            'opaque referenced directory path' => array('opaque', array(true), array($base, $module), array()),
+            'virtual directory without host search bits' => array('virtual', array(true), array($base, $module), array()),
             'native parent stat unavailable' => array('parent', array(true), array($base, $module), array()),
             'between original sites' => array('late', array(false), array($base), array($module)),
             'unused site' => array('unused', array(true, false), array($module), array($base)),

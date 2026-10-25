@@ -30,7 +30,8 @@ class ArchiveCacheFilesystemTest extends TestCase
      */
     public static function nonsearchablePaths(): array
     {
-        return array(array('base'), array('module'), array('existing-module'));
+        return array(array('base'), array('module'), array('existing-module'),
+            array('file-base'), array('file-module'), array('file-existing-module'), array('letter-existing-module'));
     }
 
     /**

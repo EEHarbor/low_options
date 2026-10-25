@@ -14,7 +14,7 @@ final class CacheSiteStream
      * @return string
 
      */
-    private function target($path) { return $GLOBALS['cache_site_root'] . substr($path, strlen('ownedsite://')); }
+    private function target($path) { return $GLOBALS['cache_site_root'] . substr($path, strlen($GLOBALS['cache_site_scheme'] . '://')); }
     /**
      * Observe native directory state.
      * @param string $path
@@ -27,7 +27,12 @@ final class CacheSiteStream
             return false;
         }
         $path = $this->target($path);
-        return file_exists($path) ? stat($path) : false;
+        $info = file_exists($path) ? stat($path) : false;
+        if ($info !== false && ($GLOBALS['cache_site_case'] === 'virtual' || $GLOBALS['cache_site_case'] === 'nonalpha' || $GLOBALS['cache_site_case'] === 'opaque')) {
+            $info['mode'] &= ~0111;
+            $info[2] = $info['mode'];
+        }
+        return $info;
     }
     /**
      * Register a hook during the first native creation.
@@ -85,6 +90,23 @@ final class CacheSiteStream
     public function stream_stat() { return fstat($this->handle); }
 }
 
+final class CacheSitePath
+{
+    private $path;
+
+    /**
+     * Retain the original opaque cache-directory path.
+     * @param string $path
+     */
+    public function __construct($path) { $this->path = $path; }
+
+    /**
+     * Observe native path coercion without changing its valid storage target.
+     * @return string
+     */
+    public function __toString() { $GLOBALS['cache_site_conversions']++; return $this->path; }
+}
+
 /**
 
  * Register a legal namespace hook without diagnostic allowances.
@@ -112,14 +134,16 @@ function ee() { return $GLOBALS['cache_site_app']; }
 $archive = $argv[1];
 $GLOBALS['cache_site_namespace'] = $argv[2];
 $GLOBALS['cache_site_case'] = $argv[3];
+$GLOBALS['cache_site_scheme'] = $argv[3] === 'nonalpha' ? '1x' : 'ownedsite';
 $GLOBALS['cache_site_native'] = array();
+$GLOBALS['cache_site_conversions'] = 0;
 $GLOBALS['cache_site_hooks'] = array();
 $GLOBALS['cache_site_logs'] = array();
 $GLOBALS['cache_site_root'] = sys_get_temp_dir() . '/mkdir-sites-' . bin2hex(random_bytes(8)) . '/';
 mkdir($GLOBALS['cache_site_root'] . 'root', 0700, true);
-stream_wrapper_register('ownedsite', CacheSiteStream::class);
+stream_wrapper_register($GLOBALS['cache_site_scheme'], CacheSiteStream::class);
 define('BASEPATH', __DIR__);
-define('PATH_CACHE', 'ownedsite://root/cache/');
+define('PATH_CACHE', $GLOBALS['cache_site_scheme'] . '://root/cache/');
 define('DIR_WRITE_MODE', 0700);
 define('FILE_WRITE_MODE', 0600);
 define('FOPEN_WRITE_CREATE_DESTRUCTIVE', 'wb');
@@ -156,6 +180,10 @@ $cache = $GLOBALS['cache_site_namespace'] . '\\FluxCapacitor\\Conduit\\Persisten
 $module = $argv[5];
 $physical = $GLOBALS['cache_site_root'] . 'root/cache/';
 $case = $GLOBALS['cache_site_case'];
+if ($case === 'opaque') {
+    $namespace = $GLOBALS['cache_site_namespace'] . '\\FluxCapacitor\\Conduit';
+    eval('namespace ' . $namespace . '; function mkdir(&$path, $mode) { $path = new \\CacheSitePath((string) $path); return \\mkdir($path, $mode); }');
+}
 if ($case === 'unused') { mkdir($physical, 0700); }
 if ($case === 'snapshot') {
     $tool = $argv[6];
@@ -168,7 +196,7 @@ if ($case === 'snapshot') {
 $results = array();
 try {
     $results[] = $cache::set('entry', 'stored');
-    if ($case !== 'late' && $case !== 'parent') {
+    if ($case !== 'late' && $case !== 'parent' && $case !== 'virtual' && $case !== 'nonalpha' && $case !== 'opaque') {
         unlink($physical . $module . '/' . sha1('entry'));
         rmdir($physical . $module);
         rmdir($physical);
@@ -178,7 +206,7 @@ try {
         }
         $results[] = $cache::set('entry', 'stored');
     }
-    echo json_encode(array('results' => $results, 'native' => $GLOBALS['cache_site_native'], 'hooks' => $GLOBALS['cache_site_hooks'], 'logs' => $GLOBALS['cache_site_logs'], 'stored' => $case === 'parent' && is_file($physical . $module . '/' . sha1('entry')) ? file_get_contents($physical . $module . '/' . sha1('entry')) : false), JSON_THROW_ON_ERROR), "\n";
+    echo json_encode(array('conversions' => $GLOBALS['cache_site_conversions'], 'results' => $results, 'native' => $GLOBALS['cache_site_native'], 'hooks' => $GLOBALS['cache_site_hooks'], 'logs' => $GLOBALS['cache_site_logs'], 'stored' => ($case === 'parent' || $case === 'virtual' || $case === 'nonalpha' || $case === 'opaque') && is_file($physical . $module . '/' . sha1('entry')) ? file_get_contents($physical . $module . '/' . sha1('entry')) : false), JSON_THROW_ON_ERROR), "\n";
 } finally {
     $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($GLOBALS['cache_site_root'], FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST);
     foreach ($files as $file) { $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getPathname()); }

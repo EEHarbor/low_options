@@ -197,6 +197,20 @@ class PersistentCache
     private static function checkPath()
     {
         /**
+         * Apply POSIX search permissions only to explicit filesystem path strings.
+         * Native stream schemes have at least two ASCII alphanumeric or +.- characters.
+         *
+         * @param mixed $path
+         * @return bool
+         */
+        $hasSearchAccess = static function ($path) {
+            if (!\is_string($path) || \DIRECTORY_SEPARATOR === '\\'
+                || (\preg_match('~^[a-z0-9+.-]{2,}://~i', $path) && \strncasecmp($path, 'file://', 7) !== 0)) {
+                return true;
+            }
+            return \is_executable($path);
+        };
+        /**
          * Create a native directory after preserving its original caller binding.
          *
          * @param string $path
@@ -248,7 +262,7 @@ class PersistentCache
         }
 
         // Make sure the generic cache folder is writable.
-        if (!is_writable(self::$cache_path) || (\DIRECTORY_SEPARATOR !== '\\' && !\is_executable(self::$cache_path))) {
+        if (!is_writable(self::$cache_path) || !$hasSearchAccess(self::$cache_path)) {
             ee()->load->library('logger');
             ee()->logger->developer('@@@MODULE_NAME@@@: Write Cache enabled but cache path not writable: ' . self::$cache_path);
             return false;
@@ -275,7 +289,7 @@ class PersistentCache
         }
 
         // Make sure the module-specific cache folder is writable.
-        if (!is_writable(self::$module_cache_path) || (\DIRECTORY_SEPARATOR !== '\\' && !\is_executable(self::$module_cache_path))) {
+        if (!is_writable(self::$module_cache_path) || !$hasSearchAccess(self::$module_cache_path)) {
             // If the path is wrong we'll turn off caching
             ee()->load->library('logger');
             ee()->logger->developer('@@@MODULE_NAME@@@: Write Cache enabled but module cache path not writable: ' . self::$module_cache_path);

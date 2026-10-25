@@ -1,17 +1,33 @@
 <?php
 
 $mode = $argv[1];
+$letterPath = $mode === 'letter-existing-module';
+if ($letterPath) {
+    $mode = 'existing-module';
+}
+$fileUri = substr($mode, 0, 5) === 'file-';
+if ($fileUri) {
+    $mode = substr($mode, 5);
+}
 $directory = sys_get_temp_dir() . '/cache-search';
 mkdir($directory, 0700);
-mkdir($directory . '/parent', 0700);
-$cache = $directory . '/parent/cache/';
+$storage = $letterPath ? $directory . '/a:' : $directory;
+if ($letterPath) {
+    mkdir($storage, 0700);
+}
+mkdir($storage . '/parent', 0700);
+$cache = $storage . '/parent/cache/';
 if ($mode !== 'base') {
     mkdir($cache, 0700);
 }
 if ($mode === 'existing-module') {
     mkdir($cache . 'low_options', 0700);
 }
-define('PATH_CACHE', $cache);
+$originalDirectory = getcwd();
+if ($letterPath) {
+    chdir($directory);
+}
+define('PATH_CACHE', $letterPath ? 'a://parent/cache/' : ($fileUri ? 'file://' . $cache : $cache));
 define('DIR_WRITE_MODE', 0700);
 define('FILE_WRITE_MODE', 0600);
 $app = (object) array(
@@ -84,6 +100,7 @@ try {
     );
 } finally {
     chmod($locked, 0700);
+    chdir($originalDirectory);
     foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $file) {
         if ($file->isDir()) {
             rmdir($file->getPathname());
