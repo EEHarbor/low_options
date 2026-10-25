@@ -15,7 +15,7 @@ class StaticCache
     {
         $key = self::createKey($key, $key_processed);
 
-        return array_key_exists($key, self::$cache_array) ? self::$cache_array[$key] : false;
+        return \array_key_exists($key, self::$cache_array) ? self::$cache_array[$key] : false;
     }
 
     /**
@@ -63,7 +63,7 @@ class StaticCache
      */
     public static function has($key, $key_processed = false)
     {
-        return array_key_exists(self::createKey($key, $key_processed), self::$cache_array);
+        return \array_key_exists(self::createKey($key, $key_processed), self::$cache_array);
     }
 
     /**

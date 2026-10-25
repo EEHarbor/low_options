@@ -175,7 +175,15 @@ class PersistentCache
      */
     private static function serveCacheData($value)
     {
-        return SerializedValue::decode($value, false);
+        $hooks = array(\function_exists(__NAMESPACE__ . '\\unserialize'));
+        $hooks = SerializedValue::bindCaller(__METHOD__, $hooks);
+        if ($hooks[0]) {
+            return unserialize($value);
+        }
+        if (\is_object($value) && \method_exists($value, '__toString')) {
+            $value = (string) $value;
+        }
+        return \is_string($value) ? SerializedValue::decode($value, false) : \unserialize($value);
     }
 
     /**
@@ -188,23 +196,23 @@ class PersistentCache
     private static function checkPath()
     {
         $isWritableDirectory = static function ($path) {
-            return is_writable($path) && (DIRECTORY_SEPARATOR === '\\' || is_executable($path));
+            return \is_writable($path) && (\DIRECTORY_SEPARATOR === '\\' || \is_executable($path));
         };
         $createDirectory = static function ($path) use ($isWritableDirectory) {
-            $directory = rtrim($path, DIRECTORY_SEPARATOR === '\\' ? '/\\' : '/');
-            $parent = dirname($directory);
-            if (!is_dir($parent) || !$isWritableDirectory($parent)) {
+            $directory = \rtrim($path, \DIRECTORY_SEPARATOR === '\\' ? '/\\' : '/');
+            $parent = \dirname($directory);
+            if (!\is_dir($parent) || !$isWritableDirectory($parent)) {
                 return false;
             }
 
             $mkdir_line = 0;
             $previous = null;
-            $previous = set_error_handler(static function ($severity, $message, $file, $line) use (&$mkdir_line, &$previous) {
-                if ($severity === E_WARNING && $file === __FILE__ && $line === $mkdir_line
-                    && preg_match('/^mkdir\(\): (?:Permission denied|File exists|Not a directory|No such file or directory|Too many levels of symbolic links|Read-only file system)$/D', $message)) {
+            $previous = \set_error_handler(static function ($severity, $message, $file, $line) use (&$mkdir_line, &$previous) {
+                if ($severity === \E_WARNING && $file === __FILE__ && $line === $mkdir_line
+                    && \preg_match('/^mkdir\(\): (?:Permission denied|File exists|Not a directory|No such file or directory|Too many levels of symbolic links|Read-only file system)$/D', $message)) {
                     return true;
                 }
-                return $previous ? call_user_func_array($previous, func_get_args()) : false;
+                return $previous ? \call_user_func_array($previous, \func_get_args()) : false;
             });
 
             try {
@@ -212,7 +220,7 @@ class PersistentCache
                 $mkdir_line = __LINE__ + 1;
                 return mkdir($path, DIR_WRITE_MODE);
             } finally {
-                restore_error_handler();
+                \restore_error_handler();
             }
         };
 
@@ -232,7 +240,7 @@ class PersistentCache
         }
 
         // Make sure the generic cache folder is writable.
-        if (!$isWritableDirectory(self::$cache_path)) {
+        if (!is_writable(self::$cache_path) || (\DIRECTORY_SEPARATOR !== '\\' && !\is_executable(self::$cache_path))) {
             ee()->load->library('logger');
             ee()->logger->developer('@@@MODULE_NAME@@@: Write Cache enabled but cache path not writable: ' . self::$cache_path);
             return false;
@@ -251,7 +259,7 @@ class PersistentCache
         }
 
         // Make sure the module-specific cache folder is writable.
-        if (!$isWritableDirectory(self::$module_cache_path)) {
+        if (!is_writable(self::$module_cache_path) || (\DIRECTORY_SEPARATOR !== '\\' && !\is_executable(self::$module_cache_path))) {
             // If the path is wrong we'll turn off caching
             ee()->load->library('logger');
             ee()->logger->developer('@@@MODULE_NAME@@@: Write Cache enabled but module cache path not writable: ' . self::$module_cache_path);

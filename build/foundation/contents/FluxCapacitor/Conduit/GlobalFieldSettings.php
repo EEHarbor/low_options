@@ -27,17 +27,17 @@ class GlobalFieldSettings
         if ($ftSettings instanceof \ArrayAccess) {
             return $ftSettings[$name];
         }
-        if (is_array($ftSettings)) {
-            if (is_bool($name) || $name === null) {
+        if (\is_array($ftSettings)) {
+            if (\is_bool($name) || $name === null) {
                 $name = $name === null ? '' : (int) $name;
             }
             // Preserve PHP 7.4 integer-width keys without an out-of-range cast.
-            if (is_float($name) && !is_finite($name)) {
+            if (\is_float($name) && !\is_finite($name)) {
                 $name = 0;
             }
-            if (is_float($name)) {
-                $width = 2.0 ** (PHP_INT_SIZE * 8);
-                $name = fmod($name, $width);
+            if (\is_float($name)) {
+                $width = 2.0 ** (\PHP_INT_SIZE * 8);
+                $name = \fmod($name, $width);
                 if ($name >= $width / 2) {
                     $name -= $width;
                 }
@@ -47,7 +47,7 @@ class GlobalFieldSettings
                 $name = (int) $name;
             }
         }
-        if ((is_array($ftSettings) || is_string($ftSettings)) && (is_int($name) || is_string($name))) {
+        if ((\is_array($ftSettings) || \is_string($ftSettings)) && (\is_int($name) || \is_string($name))) {
             return isset($ftSettings[$name]) ? $ftSettings[$name] : null;
         }
         return null;
@@ -57,6 +57,7 @@ class GlobalFieldSettings
      * Read native legacy settings while normalizing malformed or empty storage.
      *
      * @return mixed
+     * @throws \Throwable
      */
     public function getSettings()
     {
@@ -65,7 +66,24 @@ class GlobalFieldSettings
             ->get('fieldtypes');
 
         if ((bool) $ftSettingsQuery->num_rows()) {
-            $ftSettings = SerializedValue::decode(base64_decode((string) $ftSettingsQuery->row('settings'))) ?: array();
+            // Native call sites bind outer, then inner, before reading the row.
+            $hooks = array(
+                \function_exists(__NAMESPACE__ . '\\unserialize'),
+                \function_exists(__NAMESPACE__ . '\\base64_decode')
+            );
+            $hooks = SerializedValue::bindCaller(__METHOD__, $hooks);
+            $stored = $ftSettingsQuery->row('settings');
+            $decoded = $hooks[1]
+                ? base64_decode($stored) : \base64_decode($stored === null ? '' : $stored);
+            if ($hooks[0]) {
+                $ftSettings = unserialize($decoded);
+            } else {
+                if (\is_object($decoded) && \method_exists($decoded, '__toString')) {
+                    $decoded = (string) $decoded;
+                }
+                $ftSettings = \is_string($decoded) ? SerializedValue::decode($decoded) : \unserialize($decoded);
+            }
+            $ftSettings = $ftSettings ?: array();
         } else {
             return null;
         }
@@ -88,12 +106,12 @@ class GlobalFieldSettings
             return false;
         }
         // Preserve PHP 7.4 integer-width keys without an out-of-range cast.
-        if (is_array($ftSettings) && is_float($key) && !is_finite($key)) {
+        if (\is_array($ftSettings) && \is_float($key) && !\is_finite($key)) {
             $key = 0;
         }
-        if (is_array($ftSettings) && is_float($key)) {
-            $width = 2.0 ** (PHP_INT_SIZE * 8);
-            $key = fmod($key, $width);
+        if (\is_array($ftSettings) && \is_float($key)) {
+            $width = 2.0 ** (\PHP_INT_SIZE * 8);
+            $key = \fmod($key, $width);
             if ($key >= $width / 2) {
                 $key -= $width;
             }
@@ -102,8 +120,21 @@ class GlobalFieldSettings
             }
             $key = (int) $key;
         }
-        if (is_string($ftSettings) && is_string($value) && strlen($value) > 1) {
-            $value = $value[0];
+        if (\is_array($ftSettings) && $key === null) {
+            $key = '';
+        }
+        $stringOffset = null;
+        if (\is_string($ftSettings) && (\is_int($key) || (\is_string($key) && \preg_match('/^[\x09-\x0d ]*[+-]?[0-9]+$/D', $key)))) {
+            $stringOffset = $key + 0;
+        }
+        if (\is_int($stringOffset) && $stringOffset >= -\strlen($ftSettings) && $stringOffset < \PHP_INT_MAX
+            && (\is_scalar($value) || \is_resource($value) || \gettype($value) === 'resource (closed)'
+            || (\is_object($value) && \method_exists($value, '__toString')))) {
+            // Native offsets coerce once and retain one byte, including NAN.
+            $value = \is_float($value) && \is_nan($value) ? 'NAN' : (string) $value;
+            if (\strlen($value) > 1) {
+                $value = $value[0];
+            }
         }
         $ftSettings[$key] = $value;
         $settingsForDb = array('settings' => base64_encode(serialize($ftSettings)));

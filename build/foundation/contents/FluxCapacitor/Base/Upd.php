@@ -68,7 +68,7 @@ class Upd
         // If you add an extension after installing, it just doesnt work.
         try{
             $extension_path = PATH_THIRD . '@@@MODULE@@@/ext.@@@MODULE@@@.php';
-            if (is_file($extension_path)) {
+            if (\is_file($extension_path) && \is_readable($extension_path)) {
                 include_once $extension_path;
             }
 

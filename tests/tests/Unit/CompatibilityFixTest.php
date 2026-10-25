@@ -10,6 +10,275 @@ use Low\Options\FluxCapacitor\Conduit\StaticCache;
 class CompatibilityFixTest extends TestCase
 {
     /**
+     * Preserve native first-resolution lifetime, ordering and inherited callers.
+     *
+     * @dataProvider nativeCalleeLifetimes
+     * @param string $route
+     * @param string $scenario
+     * @param string $expected
+     * @return void
+     */
+    public function testNativeCalleeLifetime($route, $scenario, $expected): void
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+        $result = NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/callee-lifetime-probe.php', array(
+            dirname(__DIR__, 3) . '/low_options/low_options.phar', 'Low\\Options', $scenario, $route
+        ));
+        self::assertSame(0, $result[0], $result[2] . $result[1]);
+        self::assertSame('', $result[2]);
+        self::assertSame(json_decode(base64_decode($expected), true), json_decode($result[1], true));
+    }
+
+    /**
+     * Retain the actual pinned original's positive query and file-helper contracts.
+     *
+     * @return array
+     */
+    public static function nativeCalleeLifetimes(): array
+    {
+        return array(
+            array('settings', 'between', 'eyJpdGVtcyI6W3siZmlyc3QiOjd9LHsic2Vjb25kIjo3fSx7ImluaGVyaXRlZCI6N31dLCJvdXRlcl9jYWxscyI6MCwiaW5uZXJfY2FsbHMiOjB9'),
+            array('settings', 'row', 'eyJpdGVtcyI6W3siZmlyc3QiOjd9LHsic2Vjb25kIjo3fSx7ImluaGVyaXRlZCI6N31dLCJvdXRlcl9jYWxscyI6MCwiaW5uZXJfY2FsbHMiOjB9'),
+            array('settings', 'no-row', 'eyJpdGVtcyI6W3siZmlyc3QiOm51bGx9LHsic2Vjb25kIjoib3V0ZXItaG9vayJ9LHsiaW5oZXJpdGVkIjoib3V0ZXItaG9vayJ9XSwib3V0ZXJfY2FsbHMiOjIsImlubmVyX2NhbGxzIjoyfQ=='),
+            array('settings', 'row-throws', 'eyJpdGVtcyI6W3siZmlyc3QiOiJvd25lZC1yb3ctdGhyb3cifSx7InNlY29uZCI6N30seyJpbmhlcml0ZWQiOjd9XSwib3V0ZXJfY2FsbHMiOjAsImlubmVyX2NhbGxzIjowfQ=='),
+            array('settings', 'num-rows', 'eyJpdGVtcyI6W3siZmlyc3QiOiJvdXRlci1ob29rIn0seyJzZWNvbmQiOiJvdXRlci1ob29rIn0seyJpbmhlcml0ZWQiOiJvdXRlci1ob29rIn1dLCJvdXRlcl9jYWxscyI6MywiaW5uZXJfY2FsbHMiOjN9'),
+            array('settings', 'inner-registers-outer', 'eyJpdGVtcyI6W3siZmlyc3QiOjd9LHsic2Vjb25kIjo3fSx7ImluaGVyaXRlZCI6N31dLCJvdXRlcl9jYWxscyI6MCwiaW5uZXJfY2FsbHMiOjN9'),
+            array('settings', 'outer-only-row-inner', 'eyJpdGVtcyI6W3siZmlyc3QiOiJvdXRlci1ob29rIn0seyJzZWNvbmQiOiJvdXRlci1ob29rIn0seyJpbmhlcml0ZWQiOiJvdXRlci1ob29rIn1dLCJvdXRlcl9jYWxscyI6MywiaW5uZXJfY2FsbHMiOjB9'),
+            array('settings', 'child-first', 'eyJpdGVtcyI6W3siZmlyc3QiOjd9LHsic2Vjb25kIjo3fSx7ImluaGVyaXRlZCI6N31dLCJvdXRlcl9jYWxscyI6MCwiaW5uZXJfY2FsbHMiOjB9'),
+            array('settings', 'recursive', 'eyJpdGVtcyI6W3sicmVjdXJzaXZlIjo3fSx7ImZpcnN0Ijo3fSx7InNlY29uZCI6N30seyJpbmhlcml0ZWQiOjd9XSwib3V0ZXJfY2FsbHMiOjAsImlubmVyX2NhbGxzIjowfQ=='),
+            array('settings', 'preexisting', 'eyJpdGVtcyI6W3siZmlyc3QiOiJvdXRlci1ob29rIn0seyJzZWNvbmQiOiJvdXRlci1ob29rIn0seyJpbmhlcml0ZWQiOiJvdXRlci1ob29rIn1dLCJvdXRlcl9jYWxscyI6MywiaW5uZXJfY2FsbHMiOjN9'),
+            array('cache', 'between', 'eyJpdGVtcyI6W3siZmlyc3QiOjd9LHsic2Vjb25kIjo3fV0sIm91dGVyX2NhbGxzIjowLCJpbm5lcl9jYWxscyI6MH0='),
+            array('cache', 'read-registers', 'eyJpdGVtcyI6W3siZmlyc3QiOiJvdXRlci1ob29rIn0seyJzZWNvbmQiOiJvdXRlci1ob29rIn1dLCJvdXRlcl9jYWxscyI6MiwiaW5uZXJfY2FsbHMiOjB9'),
+            array('cache', 'read-missing', 'eyJpdGVtcyI6W3siZmlyc3QiOmZhbHNlfSx7InNlY29uZCI6Im91dGVyLWhvb2sifV0sIm91dGVyX2NhbGxzIjoxLCJpbm5lcl9jYWxscyI6MH0='),
+            array('cache', 'preexisting', 'eyJpdGVtcyI6W3siZmlyc3QiOiJvdXRlci1ob29rIn0seyJzZWNvbmQiOiJvdXRlci1ob29rIn1dLCJvdXRlcl9jYWxscyI6MiwiaW5uZXJfY2FsbHMiOjB9')
+        );
+    }
+
+    /**
+     * Coerce native parser inputs once after preserving original host hook dispatch.
+     *
+     * @dataProvider decodedStringableValues
+     * @param string $route
+     * @param string $kind
+     * @param string|null $expected
+     * @return void
+     */
+    public function testNativeDecodedStringable($route, $kind, $expected): void
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+        $result = NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/decoded-stringable-probe.php', array($route, $kind));
+        self::assertSame(0, $result[0], $result[2] . $result[1]);
+        self::assertSame('', $result[2]);
+        self::assertSame(array('wire' => $expected, 'calls' => 1, 'same_exception' => $kind === 'throw', 'carrier_same' => true), json_decode($result[1], true));
+    }
+
+    /**
+     * Include both public parser callers, legacy escaped text, native roots and throws.
+     *
+     * @return array
+     */
+    public static function decodedStringableValues(): array
+    {
+        $rows = array();
+        foreach (array('settings', 'cache') as $route) {
+            $rows[] = array($route, 'array', serialize(array('keep' => 7)));
+            $rows[] = array($route, 'legacy-S', serialize('abc'));
+            $rows[] = array($route, 'object', serialize((object) array('value' => 'native')));
+            $rows[] = array($route, 'throw', null);
+        }
+        return $rows;
+    }
+
+    /**
+     * Preserve raw base64 hook input before native-only escaped string handling.
+     *
+     * @return void
+     */
+    public function testOriginalBase64HookBeforeNativeParser(): void
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+        $result = NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/settings-base64-hook-probe.php');
+        self::assertSame(0, $result[0], $result[2] . $result[1]);
+        self::assertSame('', $result[2]);
+        self::assertSame(array('value' => 'abc', 'raw_object' => true, 'support_calls' => 0), json_decode($result[1], true));
+    }
+
+    /**
+     * Preserve raw carrier values and decoded bytes passed to existing host hooks.
+     *
+     * @return void
+     */
+    public function testOriginalSettingsHookInputs(): void
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+        $result = NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/settings-hook-inputs-probe.php');
+        self::assertSame(0, $result[0], $result[2] . $result[1]);
+        self::assertSame('', $result[2]);
+        $rows = json_decode($result[1], true);
+        foreach (array('raw-string', 'raw-null', 'raw-object', 'decoded-array', 'decoded-null', 'decoded-stringable') as $name) {
+            self::assertSame(array('value' => array('value' => 'original-hook')), $rows[$name]['result']);
+            self::assertSame(array(), $rows[$name]['events']);
+        }
+        self::assertSame(array('base64', 'NULL', null), $rows['raw-null']['inputs'][0]);
+        self::assertSame(array('base64', 'object', array('carrier' => 1)), $rows['raw-object']['inputs'][0]);
+        self::assertSame(array('unserialize', 'string', 'S:3:"abc";'), $rows['raw-string']['inputs'][1]);
+        self::assertSame(array('unserialize', 'array', array('native' => 'wire')), $rows['decoded-array']['inputs'][1]);
+        self::assertSame(array('unserialize', 'NULL', null), $rows['decoded-null']['inputs'][1]);
+        self::assertSame(array('unserialize', 'object', array('wire' => 'S:3:"abc";')), $rows['decoded-stringable']['inputs'][1]);
+        self::assertSame(0, $rows['decoded-stringable']['conversions']);
+        self::assertSame(array('value' => array('value' => 'original-hook')), $rows['cache']['result']);
+        self::assertSame(array(array('unserialize', 'string', 'S:3:"abc";')), $rows['cache']['inputs']);
+        self::assertTrue($rows['cache']['writable_paths_match']);
+    }
+
+    /**
+     * Preserve quiet native integer spellings and extension of stored strings.
+     *
+     * @dataProvider writableStringOffsets
+     * @param int|string $key
+     * @param string $expected
+     * @return void
+     */
+    public function testWritableStringOffsetConversion($key, $expected): void
+    {
+        $this->ee->db->num_rows = 1;
+        $this->ee->db->record = array('settings' => base64_encode(serialize('abc')));
+        NativeOffsetText::$calls = 0;
+        NativeOffsetText::$failure = null;
+        self::assertTrue((new GlobalFieldSettings())->updateSetting($key, new NativeOffsetText()));
+        $writes = array_values(array_filter($this->ee->db->calls, function ($call) { return $call[0] === 'update'; }));
+        $written = $writes[0][1][1]['settings'];
+        self::assertSame(serialize($expected), base64_decode($written));
+        self::assertSame(1, NativeOffsetText::$calls);
+    }
+
+    /**
+     * Include signed, padded and leading-whitespace integers accepted by PHP74.
+     *
+     * @return array
+     */
+    public static function writableStringOffsets(): array
+    {
+        return array(array(0, 'lbc'), array(-1, 'abl'), array(-3, 'lbc'), array(3, 'abcl'), array(5, 'abc  l'),
+            array('1', 'alc'), array('01', 'alc'), array('+1', 'alc'), array(' 1', 'alc'), array('-1', 'abl'));
+    }
+
+    /**
+     * Retain readable updater extensions and quiet optional-file fallback.
+     *
+     * @dataProvider optionalOverrides
+     * @param string $state
+     * @return void
+     */
+    public function testOptionalUpdaterExtension($state): void
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+        $result = NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/optional-updater-probe.php', [$state]);
+        self::assertSame(0, $result[0], $result[2] . $result[1]);
+        self::assertSame('', $result[2]);
+        self::assertSame(array('updated' => true, 'extension_calls' => $state === 'readable' ? 1 : 0), json_decode($result[1], true));
+    }
+
+    /**
+     * Preserve native scalar, resource and object byte conversion exactly once.
+     *
+     * @dataProvider nativeOffsetValues
+     * @param string $label
+     * @param string $expected
+     * @return void
+     */
+    public function testNativeNonstringOffsetValues($label, $expected): void
+    {
+        $values = array('integer' => 100, 'negative' => -100, 'float' => 12.5, 'infinity' => INF,
+            'negative-infinity' => -INF, 'nan' => NAN, 'true' => true, 'stringable' => new NativeOffsetText());
+        $resource = in_array($label, array('resource', 'closed-resource'), true) ? tmpfile() : null;
+        if ($label === 'closed-resource') {
+            fclose($resource);
+        }
+        $value = $resource === null ? $values[$label] : $resource;
+        NativeOffsetText::$calls = 0;
+        NativeOffsetText::$failure = null;
+        $this->ee->db->num_rows = 1;
+        $this->ee->db->record = array('settings' => base64_encode(serialize('abc')));
+        try {
+            self::assertTrue((new GlobalFieldSettings())->updateSetting(1, $value));
+            $writes = array_values(array_filter($this->ee->db->calls, function ($call) { return $call[0] === 'update'; }));
+            self::assertSame(serialize($expected), base64_decode($writes[0][1][1]['settings']));
+            self::assertSame($label === 'stringable' ? 1 : 0, NativeOffsetText::$calls);
+        } finally {
+            if (is_resource($resource)) {
+                fclose($resource);
+            }
+        }
+    }
+
+    /**
+     * Include native quiet PHP74 coercions rather than originally invalid values.
+     *
+     * @return array
+     */
+    public static function nativeOffsetValues(): array
+    {
+        return array(array('integer', 'a1c'), array('negative', 'a-c'), array('float', 'a1c'), array('infinity', 'aIc'),
+            array('negative-infinity', 'a-c'), array('nan', 'aNc'), array('true', 'a1c'), array('resource', 'aRc'),
+            array('closed-resource', 'aRc'), array('stringable', 'alc'));
+    }
+
+    /**
+     * Preserve a stringable callback exception before any database write.
+     *
+     * @return void
+     */
+    public function testNativeOffsetException(): void
+    {
+        NativeOffsetText::$calls = 0;
+        $error = new \RuntimeException('owned native string conversion');
+        NativeOffsetText::$failure = $error;
+        $this->ee->db->num_rows = 1;
+        $this->ee->db->record = array('settings' => base64_encode(serialize('abc')));
+        try {
+            (new GlobalFieldSettings())->updateSetting(1, new NativeOffsetText());
+            self::fail('The native string conversion exception must propagate.');
+        } catch (\RuntimeException $actual) {
+            self::assertSame($error, $actual);
+        } finally {
+            NativeOffsetText::$failure = null;
+        }
+        self::assertSame(1, NativeOffsetText::$calls);
+        self::assertSame(array(), array_values(array_filter($this->ee->db->calls, function ($call) { return $call[0] === 'update'; })));
+    }
+
+    /**
+     * Preserve the native empty-string array key for null reads and writes.
+     *
+     * @return void
+     */
+    public function testNullSettingArrayKey(): void
+    {
+        $this->ee->db->num_rows = 1;
+        $this->ee->db->record = array('settings' => base64_encode(serialize(array('' => 'native', 'keep' => 'retained'))));
+        $settings = new GlobalFieldSettings();
+        self::assertSame('native', $settings->getSetting(null));
+        self::assertTrue($settings->updateSetting(null, 'changed'));
+        $writes = array_values(array_filter($this->ee->db->calls, function ($call) { return $call[0] === 'update'; }));
+        self::assertSame(serialize(array('' => 'changed', 'keep' => 'retained')), base64_decode($writes[0][1][1]['settings']));
+    }
+
+    /**
+     * Retain legal unrelated namespace functions and platform constants.
+     *
+     * @return void
+     */
+    public function testNativeSettingsFunctionResolution(): void
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeProcess.php';
+        $result = NativeProcess::run(LOW_OPTIONS_ROOT . '/tests/scripts/settings-native-resolution.php');
+        self::assertSame(0, $result[0], $result[2] . $result[1]);
+        self::assertSame('', $result[2]);
+        self::assertSame(array('read' => 'native', 'saved' => true, 'wire' => serialize(array(1000 => 'changed', 'keep' => 'retained')), 'legacy' => 'abc', 'support_calls' => 0, 'helper_calls' => 0), json_decode($result[1], true));
+    }
+
+    /**
      * Preserve legal child methods without adding parent helper declarations.
      *
      * @dataProvider existingCacheMethods
@@ -658,5 +927,26 @@ class ThrowingSettingsCallback
     public function __wakeup(): void
     {
         throw new \RuntimeException('owned native callback exception');
+    }
+}
+
+final class NativeOffsetText
+{
+    public static $calls = 0;
+    public static $failure;
+
+    /**
+     * Retain the native stringable conversion count and callback exception.
+     *
+     * @return string
+     * @throws \RuntimeException
+     */
+    public function __toString()
+    {
+        self::$calls++;
+        if (self::$failure !== null) {
+            throw self::$failure;
+        }
+        return 'long';
     }
 }
