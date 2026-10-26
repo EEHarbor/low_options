@@ -1,0 +1,102 @@
+<?php
+
+namespace LowOptionsTests;
+
+abstract class TestCase extends \PHPUnit\Framework\TestCase
+{
+    protected $ee;
+    private $requestGlobals;
+    private $includePath;
+    private $autoloaders;
+
+    /**
+     * Create an isolated EE request and strict diagnostic handler.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        $this->requestGlobals = array(
+            '_GET' => $_GET, '_POST' => $_POST, '_REQUEST' => $_REQUEST,
+            '_SERVER' => $_SERVER, '_COOKIE' => $_COOKIE, '_FILES' => $_FILES,
+        );
+        $this->includePath = get_include_path();
+        $this->autoloaders = spl_autoload_functions() ?: array();
+        $this->ee = new Environment();
+        $GLOBALS['low_options_ee'] = $this->ee;
+        set_error_handler(Diagnostics::handler());
+    }
+
+    /**
+     * Restore diagnostics and release request-local state.
+     *
+     * @return void
+     */
+    protected function tearDown(): void
+    {
+        restore_error_handler();
+        foreach ($this->requestGlobals as $key => $value) {
+            $GLOBALS[$key] = $value;
+        }
+        set_include_path($this->includePath);
+        foreach (spl_autoload_functions() ?: array() as $autoloader) {
+            if (!in_array($autoloader, $this->autoloaders, true)) {
+                spl_autoload_unregister($autoloader);
+            }
+        }
+        unset($GLOBALS['low_options_ee']);
+        if (class_exists('Low\\Options\\FluxCapacitor\\Conduit\\StaticCache', false)) {
+            \Low\Options\FluxCapacitor\Conduit\StaticCache::clear();
+        }
+    }
+
+    /**
+     * Decode a native crypto observation without touching the caller's OpenSSL queue.
+     *
+     * @param string $context
+     * @param array $options
+     * @return array
+     */
+    protected function cryptoProbe($context, array $options = array())
+    {
+        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeCrypto.php';
+        $result = NativeCrypto::run($context, $options);
+        self::assertSame(0, $result[0], $result[1] . $result[2]);
+        self::assertSame('', $result[2]);
+        return json_decode($result[1], true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * Invoke a source method without changing visibility in production.
+     *
+     * @param object|string $object
+     * @param string $method
+     * @param array $arguments
+     * @return mixed
+     */
+    protected function invoke($object, $method, array $arguments = array())
+    {
+        $reflection = new \ReflectionMethod($object, $method);
+        if (PHP_VERSION_ID < 80100) {
+            $reflection->setAccessible(true);
+        }
+        return $reflection->invokeArgs(is_object($object) ? $object : null, $arguments);
+    }
+
+    /**
+     * Set a source property for isolated collaborator tests.
+     *
+     * @param object|string $object
+     * @param string $property
+     * @param mixed $value
+     * @return void
+     */
+    protected function property($object, $property, $value)
+    {
+        $reflection = new \ReflectionProperty($object, $property);
+        if (PHP_VERSION_ID < 80100) {
+            $reflection->setAccessible(true);
+        }
+        $reflection->setValue(is_object($object) ? $object : null, $value);
+    }
+}

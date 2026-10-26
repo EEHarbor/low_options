@@ -160,11 +160,10 @@ class Low_options extends Pi
     // --------------------------------------------------------------------
 
     /**
-     * Filter out non-existing stuff
+     * Remove unused options while preserving meaningful numeric zero labels.
      *
-     * @access     private
-     * @param      array
-     * @return     void
+     * @param array $some
+     * @return void
      */
     private function _filter($some = array())
     {
@@ -172,27 +171,26 @@ class Low_options extends Pi
             // 1 level nesting
             if (is_array($val)) {
                 foreach ($val as $k => $v) {
-                    if (! in_array($k, $some)) {
+                    if (! in_array((string) $k, $some)) {
                         unset($this->field_options[$key][$k]);
                     }
                 }
             } else {
-                if (! in_array($key, $some)) {
+                if (! in_array((string) $key, $some)) {
                     unset($this->field_options[$key]);
                 }
             }
         }
 
-        // Danger! Anything with value '0' gets filtered out, too
-        // Fix when needed
-        $this->field_options = array_filter($this->field_options);
+        $this->field_options = array_filter($this->field_options, function ($value) {
+            return $value === '0' || $value === 0 || (bool) $value;
+        });
     }
 
     /**
-     * Parse options
+     * Parse options with consistent numeric-key ignore matching.
      *
-     * @access      private
-     * @return      string
+     * @return string
      */
     private function _parse_field_options()
     {
@@ -208,7 +206,7 @@ class Low_options extends Pi
             if (is_array($val)) {
                 foreach ($val as $k => $v) {
                     // Skip ignored
-                    if (($in && in_array($k, $ignore)) || (! $in && ! in_array($k, $ignore))) {
+                    if (($in && in_array((string) $k, $ignore)) || (! $in && ! in_array((string) $k, $ignore))) {
                         continue;
                     }
 
@@ -218,7 +216,7 @@ class Low_options extends Pi
                 $group_name = $key;
             } else {
                 // Skip ignored
-                if (($in && in_array($key, $ignore)) || (! $in && ! in_array($key, $ignore))) {
+                if (($in && in_array((string) $key, $ignore)) || (! $in && ! in_array((string) $key, $ignore))) {
                     continue;
                 }
 
@@ -377,14 +375,15 @@ class Low_options extends Pi
     // --------------------------------------------------------------------
 
     /**
-     * Converts EE parameter to workable php vars
+     * Split optional include/exclude parameters using the legacy empty result.
      *
-     * @access      private
-     * @param       string    String like 'not 1|2|3' or '40|15|34|234'
-     * @return      array     [0] = array of ids, [1] = boolean whether to include or exclude: TRUE means include, FALSE means exclude
+     * @param string|false|null $str
+     * @return array
      */
     private function _explode_param($str)
     {
+        $str = $str ?? '';
+
         // --------------------------------------
         // Initiate $in var to TRUE
         // --------------------------------------
