@@ -171,12 +171,12 @@ class Low_options extends Pi
             // 1 level nesting
             if (is_array($val)) {
                 foreach ($val as $k => $v) {
-                    if (! in_array($k, $some)) {
+                    if (! in_array((string) $k, $some)) {
                         unset($this->field_options[$key][$k]);
                     }
                 }
             } else {
-                if (! in_array($key, $some)) {
+                if (! in_array((string) $key, $some)) {
                     unset($this->field_options[$key]);
                 }
             }

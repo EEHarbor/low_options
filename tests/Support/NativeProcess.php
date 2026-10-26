@@ -34,7 +34,13 @@ final class NativeProcess
         $spawned = false;
         $environment = getenv();
         $environment['TMPDIR'] = $temporary;
+        $journal = Diagnostics::journalPath();
+        if ($journal !== null) {
+            $environment['LOW_OPTIONS_DIAGNOSTIC_JOURNAL'] = $journal;
+            unset($environment['LOW_OPTIONS_NATIVE_OBSERVER']);
+        }
         $process = null;
+        $termination = null;
         try {
             $process = proc_open($command, array(0 => array('pipe', 'r'), 1 => array('file', $temporary . '/stdout', 'w'), 2 => array('file', $temporary . '/stderr', 'w')), $pipes, LOW_OPTIONS_ROOT, $environment);
             if (!is_resource($process)) {
@@ -43,9 +49,6 @@ final class NativeProcess
             fclose($pipes[0]);
             $deadline = hrtime(true) + ($timeout * 1000000000);
             do {
-                if (hrtime(true) >= $deadline) {
-                    throw new \RuntimeException('Native PHP probe exceeded its deadline.');
-                }
                 $status = proc_get_status($process);
                 if (!$spawned) {
                     Diagnostics::record(array('kind' => 'native-spawn', 'id' => $invocation, 'pid' => $status['pid']));
@@ -55,21 +58,36 @@ final class NativeProcess
                     $closed = proc_close($process);
                     $process = null;
                     $exit = $status['exitcode'] !== -1 ? $status['exitcode'] : $closed;
+                    Diagnostics::record(array('kind' => 'native-reaped', 'id' => $invocation, 'status' => $status, 'close_status' => $closed));
                     $stdout = file_get_contents($temporary . '/stdout');
                     $stderr = file_get_contents($temporary . '/stderr');
                     Diagnostics::record(array('kind' => 'native-end', 'id' => $invocation, 'exit' => $exit, 'pid' => $status['pid'], 'stdout_base64' => base64_encode($stdout), 'stderr_base64' => base64_encode($stderr)));
                     $completed = true;
                     return array($exit, $stdout, $stderr);
                 }
+                if (hrtime(true) >= $deadline) {
+                    throw new \RuntimeException('Native PHP probe exceeded its deadline.');
+                }
                 usleep(10000);
             } while (true);
         } finally {
             if (is_resource($process)) {
-                proc_terminate($process, 9);
-                proc_close($process);
+                $requested = proc_terminate($process, 9);
+                $termination_deadline = hrtime(true) + 2000000000;
+                do {
+                    $status = proc_get_status($process);
+                    if (!$status['running'] || hrtime(true) >= $termination_deadline) {
+                        break;
+                    }
+                    usleep(10000);
+                } while (true);
+                $closed = proc_close($process);
+                $process = null;
+                $termination = array('requested' => $requested, 'signal' => 9, 'status' => $status, 'close_status' => $closed);
+                Diagnostics::record(array('kind' => 'native-termination', 'id' => $invocation) + $termination);
             }
             if (!$completed) {
-                Diagnostics::record(array('kind' => 'native-aborted', 'id' => $invocation, 'stdout_base64' => is_file($temporary . '/stdout') ? base64_encode(file_get_contents($temporary . '/stdout')) : null, 'stderr_base64' => is_file($temporary . '/stderr') ? base64_encode(file_get_contents($temporary . '/stderr')) : null));
+                Diagnostics::record(array('kind' => 'native-aborted', 'id' => $invocation, 'termination' => $termination, 'stdout_base64' => is_file($temporary . '/stdout') ? base64_encode(file_get_contents($temporary . '/stdout')) : null, 'stderr_base64' => is_file($temporary . '/stderr') ? base64_encode(file_get_contents($temporary . '/stderr')) : null));
             }
             $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($temporary, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
             foreach ($files as $file) {

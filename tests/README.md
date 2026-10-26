@@ -1,6 +1,18 @@
 # Low Options PHPUnit suite
 
-The historical test checkpoint kept the add-on's PHP and PHAR immutable. The current compatibility candidate uses scoped, reproducible Foundation build inputs documented in [PHP_COMPATIBILITY_2026.md](../PHP_COMPATIBILITY_2026.md). Tests execute the distributed PHAR through its normal autoloader. The historical `reports/inventory.json` inventories the original 27 source units: four loose PHP files, 22 archive members, and the executable archive stub. The current helper brings the candidate to 28 units; exact current inventory is retained with the separate compatibility packet. It includes constructors, magic methods, closures, procedural/view code and source hashes.
+Current source scope and strict command: see [../PHP_COMPATIBILITY_2026.md](../PHP_COMPATIBILITY_2026.md). The original Foundation PHAR/loader are restored to develop; the only retained production diff is the add-on plugin. The current source inventory has 27 units: four loose PHP files, 22 archive members and the stub. No new shared factory or extracted Foundation build source is shipped.
+
+Every original configured suite, provider and test remains selected. The complete matrix can remain red on the restored shared dependency. Keep strict startup, prethrow journals, native outcome/capture checks and all original failure assertions. Historical matrices and coverage below are preserved history, not current acceptance or a coverage-completion claim.
+
+```sh
+PHP_BINARY='/Users/tomjaeger/Library/Application Support/Herd/bin/php74' ./tests/.phpunit/run-phpunit.sh -c phpunit.xml --do-not-cache-result
+```
+
+Repeat for php80–php85 under the campaign lease. Generic caught/provider/native authority controls now execute this add-on's metadata entry point; deliberately faulty controls earn only harness rejection evidence. The scope-correction review packet records exact inputs, preserved selections, full streams and shared dependency failures. No publication approval is claimed.
+
+## Historical tests-only documentation
+
+The add-on's PHP and PHAR are immutable. Tests load the shipped PHAR through the shipped autoloader; they do not rebuild or patch it. `reports/inventory.json` inventories all 27 source units: four loose PHP files, 22 archive members, and the executable archive stub. It includes constructors, magic methods, closures, procedural/view code and source hashes.
 
 ## Run
 
@@ -21,7 +33,7 @@ The matrix script uses each absolute Herd binary directly. It never changes Herd
 
 Source diagnostics are exceptions under `E_ALL`, including diagnostics production hides with `@`. `DiagnosticHarnessTest` verifies this policy with an intentional diagnostic-handler probe. Native load/compilation tests start fresh processes under the parent `PHP_BINARY`, with explicit diagnostics and isolated `TMPDIR`/`sys_temp_dir`. They execute the normal source directly. Native probes deliberately do not merge instrumentation graphs with the parent suite.
 
-The historical STATUS and reports retain their original red checkpoint results. Current compatibility results are separate; their checked launcher rejects retained unexpected diagnostics even when code catches the exception. Existing source expectations are preserved. Direct historical coverage commands below need explicit strict startup settings and `-d auto_prepend_file=tests/Support/Diagnostics.php`; use the checked launcher for acceptance runs.
+The suite is intentionally red for documented production behavior. Do not suppress or skip these regressions to make the suite pass. See `STATUS.md` and `reports/matrix/*.txt`.
 
 ## Coverage
 
@@ -116,5 +128,3 @@ NativeProcess shares the crypto helper's bounded file-backed subprocess boundary
 Legacy/state probes import original AbstractBridge/StaticCache/EE2 entries directly with separate historical APP_VER constants and an owned temporary view directory. They do not boot historical EE or resolve the package loader. NativeLoadTest and ArchiveNavigationTest now use the shared bounded NativeProcess boundary. Database journals bind exact settings write traces/cache snapshots to their owning clone or fresh builder while preserving primary state.
 
 Collect20 native legacy graphs per runtime by setting LOW_OPTIONS_LEGACY_COVERAGE to a fresh prefix and LOW_OPTIONS_LEGACY_XDEBUG to the matching process-local Xdebug extension. The normal complete PHP82 raw suite collects the20 PHP82 contexts; a standalone ArchiveLegacyStateTest run collects20 PHP74 contexts. Each raw report has a .context companion with options and source/runtime/raw hashes. xdebug-legacy-php74/82.json.gz retain exact raw bytes and metadata; legacy-php74/82-coverage.json.gz retain separate complete per-unit/method reports. Parent, crypto, terminal, legacy and navigation graphs stay separate. tests/REMAINING.md is the incomplete-scope handoff.
-
-The compatibility follow-up adds actual-archive root navigation, oversized and padded native serialization, stored string offset/write, and POSIX non-searchable cache-directory regressions. Current complete results are recorded in `../PHP_COMPATIBILITY_2026.md`; historical counts below retain their original scope.

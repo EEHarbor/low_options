@@ -353,6 +353,49 @@ class LowOptionsTest extends TestCase
     }
 
     /**
+     * Match numeric option keys as strings when hiding unused flat or grouped options.
+     *
+     * @dataProvider zeroEntryOptions
+     * @param bool $grouped Whether the option belongs to a labeled group.
+     * @param string $stored The entry's selected option value.
+     * @param bool $included Whether the numeric-zero option must remain visible.
+     * @return void
+     */
+    public function testShowEmptyMatchesZeroOptionToStoredValue($grouped, $stored, $included): void
+    {
+        $options = array(0 => '0');
+        $field = $this->field(array('options' => $grouped ? array('Group' => $options) : $options));
+        $this->ee->TMPL->params['show_empty'] = 'no';
+        $this->ee->model->entries->values = array($stored);
+        $result = $this->plugin->$field();
+
+        if (!$included) {
+            self::assertSame('NO RESULTS', $result);
+            return;
+        }
+
+        self::assertSame(array(array(
+            'option:group' => $grouped ? 'Group' : '',
+            'options' => array(array('option:value' => 0, 'option:label' => '0')),
+        )), json_decode($result, true));
+    }
+
+    /**
+     * Supply used and unused zero keys through both public option layouts.
+     *
+     * @return array
+     */
+    public static function zeroEntryOptions(): array
+    {
+        return array(
+            'flat matched zero' => array(false, '0', true),
+            'flat unused zero' => array(false, 'other', false),
+            'grouped matched zero' => array(true, '0', true),
+            'grouped unused zero' => array(true, 'other', false),
+        );
+    }
+
+    /**
      * Verify missing parameter null remains diagnostic free.
      *
      * @return void

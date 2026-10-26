@@ -1315,8 +1315,8 @@
             ]
         },
         "low_options/pi.low_options.php": {
-            "sha256": "4d36f5a40e047c19e005b5a53481a9729e2c342d3d9e6f638227599b774c4499",
-            "bytes": 13317,
+            "sha256": "41cca0a21a2dba28db2d125facd6e342a48f33f5eb170aeafadd5045418ee1e3",
+            "bytes": 13281,
             "methods": [
                 {
                     "name": "__call",
@@ -1335,43 +1335,48 @@
                 },
                 {
                     "name": "_filter",
-                    "start": 169,
-                    "end": 189
-                },
-                {
-                    "name": "_parse_field_options",
-                    "start": 197,
-                    "end": 238
-                },
-                {
-                    "name": "_option",
-                    "start": 248,
-                    "end": 254
-                },
-                {
-                    "name": "_get_existing",
-                    "start": 264,
-                    "end": 354
+                    "start": 168,
+                    "end": 188
                 },
                 {
                     "name": "{closure}",
-                    "start": 315,
-                    "end": 317
+                    "start": 185,
+                    "end": 187
+                },
+                {
+                    "name": "_parse_field_options",
+                    "start": 195,
+                    "end": 236
+                },
+                {
+                    "name": "_option",
+                    "start": 246,
+                    "end": 252
+                },
+                {
+                    "name": "_get_existing",
+                    "start": 262,
+                    "end": 352
+                },
+                {
+                    "name": "{closure}",
+                    "start": 313,
+                    "end": 315
                 },
                 {
                     "name": "where",
-                    "start": 361,
-                    "end": 375
+                    "start": 359,
+                    "end": 373
                 },
                 {
                     "name": "_explode_param",
-                    "start": 386,
-                    "end": 411
+                    "start": 383,
+                    "end": 410
                 },
                 {
                     "name": "_flatten",
-                    "start": 426,
-                    "end": 439
+                    "start": 425,
+                    "end": 438
                 }
             ]
         },

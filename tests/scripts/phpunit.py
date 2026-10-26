@@ -97,6 +97,9 @@ def main():
     except ProcessLookupError:
         pass
     records = [json.loads(line) for line in journal.read_bytes().splitlines()]
+    record_kinds = {'startup', 'diagnostic', 'native-start', 'native-spawn', 'native-reaped', 'native-end', 'native-termination', 'native-aborted', 'native-cleanup'}
+    if any(record['kind'] not in record_kinds for record in records):
+        issues.append('Checked authority changed or an unknown journal record was retained.')
     startups = [record for record in records if record['kind'] == 'startup']
     if not startups or any(record['error_reporting'] != -1 or record['display_errors'] != 'stderr' or record['display_startup_errors'] != '1' or os.path.realpath(record['binary']) != os.path.realpath(PHP) for record in startups):
         issues.append('Missing or nonstrict actual startup receipt.')
@@ -153,8 +156,16 @@ def main():
     if set(spawns) != set(starts) or {record['pid'] for record in startups} != expected_pids or len(startups) != len(expected_pids):
         issues.append('Missing or duplicate startup receipt for an actual native child.')
     ends = {record['id']: record for record in records if record['kind'] == 'native-end'}
+    reaped = {record['id']: record for record in records if record['kind'] == 'native-reaped'}
+    terminations = {record['id']: record for record in records if record['kind'] == 'native-termination'}
     aborts = {record['id']: record for record in records if record['kind'] == 'native-aborted'}
     cleanup = {record['id']: record for record in records if record['kind'] == 'native-cleanup'}
+    for kind in ('native-start', 'native-spawn', 'native-reaped', 'native-end', 'native-termination', 'native-aborted', 'native-cleanup'):
+        identifiers = [record['id'] for record in records if record['kind'] == kind]
+        if len(identifiers) != len(set(identifiers)):
+            issues.append('Duplicate native invocation record: ' + kind)
+    if set(reaped) != set(ends) or set(terminations) != set(aborts) or set(ends) & set(aborts) or set(ends) | set(aborts) != set(starts):
+        issues.append('Native final outcomes do not match actual attempts and reaping.')
     if set(starts) != set(cleanup) or any(not record['removed'] for record in cleanup.values()):
         issues.append('Native ownership cleanup is incomplete.')
     aborted = 0
@@ -166,8 +177,18 @@ def main():
                 issues.append('Unexpected aborted native process.')
             elif aborted_record['stdout_base64'] != '' or aborted_record['stderr_base64'] != '':
                 issues.append('Unexpected output from the owned timeout control.')
+            termination = terminations.get(identifier)
+            if termination is None or aborted_record is None or aborted_record['termination'] != {key: value for key, value in termination.items() if key not in ('kind', 'id')}:
+                issues.append('Missing or inconsistent native termination receipt.')
+            elif not termination['requested'] or termination['status']['running'] or not termination['status']['signaled'] or termination['status']['termsig'] != 9 or termination['status']['pid'] != spawns[identifier]['pid']:
+                issues.append('Native timeout was not reaped with its recorded owned termination.')
             aborted += 1
             continue
+        final = reaped.get(identifier)
+        if final is None or final['status']['running'] or final['status']['pid'] != end['pid'] or final['status']['pid'] != spawns[identifier]['pid']:
+            issues.append('Missing or inconsistent native reaping receipt.')
+        elif end['exit'] != (final['status']['exitcode'] if final['status']['exitcode'] != -1 else final['close_status']):
+            issues.append('Native result disagrees with its actual final status.')
         output = base64.b64decode(end['stdout_base64'], validate=True) + b'\n' + base64.b64decode(end['stderr_base64'], validate=True)
         synthetic = start['command'][-2:] == [str(stub), 'diagnostic'] and end['pid'] in native_sentinel_pids and end['exit'] != 0
         if end['exit'] != 0 and not synthetic:

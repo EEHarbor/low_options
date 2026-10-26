@@ -1,3 +1,5 @@
+> Historical checkpoint only. Foundation is outside the current production scope. All original configured selections remain required; old matrices/coverage do not validate the cleanup candidate. See PHP_COMPATIBILITY_2026.md and the scope-correction review packet.
+
 # Coverage snapshot
 
 Basic-block execution is distinct from decision outcomes. Raw outgoing data and synthetic terminal limitations are retained in coverage.json.gz and xdebug-php82.json.gz. Unexecuted source is unknown. This is an incomplete checkpoint.

@@ -48,16 +48,33 @@ final class Diagnostics
     }
 
     /**
-     * Flush one lossless record to the checked invocation's private journal.
+     * Return the authority selected before PHPUnit can restore global state.
      *
-     * @param array $record
-     * @return void
+     * @return string|null Explicit standalone observers have no checked journal.
      */
-    public static function record(array $record)
+    public static function journalPath()
     {
+        return self::authority()['path'];
+    }
+
+    /**
+     * Keep the original journal handle outside mutable environment and class state.
+     *
+     * @return array
+     */
+    private static function authority()
+    {
+        static $authority;
+        if ($authority !== null) {
+            return $authority;
+        }
         $path = getenv('LOW_OPTIONS_DIAGNOSTIC_JOURNAL');
+        if (!$path && getenv('LOW_OPTIONS_NATIVE_OBSERVER') === '1') {
+            return $authority = array('path' => null, 'handle' => null, 'info' => null);
+        }
         if (!$path) {
-            return;
+            fwrite(STDERR, "A checked journal or explicit standalone observer is required.\n");
+            exit(70);
         }
         $info = lstat($path);
         if (!$info || ($info['mode'] & 0170000) !== 0100000 || $info['nlink'] !== 1) {
@@ -66,11 +83,40 @@ final class Diagnostics
         }
         $handle = fopen($path, 'ab');
         $actual = $handle ? fstat($handle) : null;
-        if (!$actual || $actual['dev'] !== $info['dev'] || $actual['ino'] !== $info['ino'] || !flock($handle, LOCK_EX)) {
+        if (!$actual || $actual['dev'] !== $info['dev'] || $actual['ino'] !== $info['ino']) {
             fwrite(STDERR, "Diagnostic journal ownership changed.\n");
             exit(70);
         }
-        $bytes = json_encode($record, JSON_THROW_ON_ERROR) . "\n";
+        return $authority = array('path' => $path, 'handle' => $handle, 'info' => $info);
+    }
+
+    /**
+     * Flush one lossless record to the checked invocation's private journal.
+     *
+     * @param array $record
+     * @return void
+     */
+    public static function record(array $record)
+    {
+        $authority = self::authority();
+        if ($authority['handle'] === null) {
+            return;
+        }
+        $handle = $authority['handle'];
+        clearstatcache(true, $authority['path']);
+        $info = lstat($authority['path']);
+        $actual = fstat($handle);
+        if (!$info || !$actual || $info['nlink'] !== 1
+            || $actual['dev'] !== $info['dev'] || $actual['ino'] !== $info['ino']
+            || !flock($handle, LOCK_EX)) {
+            fwrite(STDERR, "Diagnostic journal ownership changed.\n");
+            exit(70);
+        }
+        $bytes = '';
+        if (getenv('LOW_OPTIONS_DIAGNOSTIC_JOURNAL') !== $authority['path']) {
+            $bytes = json_encode(array('kind' => 'authority-violation', 'pid' => getmypid(), 'message' => 'Checked journal environment changed.'), JSON_THROW_ON_ERROR) . "\n";
+        }
+        $bytes .= json_encode($record, JSON_THROW_ON_ERROR) . "\n";
         $offset = 0;
         while ($offset < strlen($bytes)) {
             $written = fwrite($handle, substr($bytes, $offset));
@@ -85,7 +131,6 @@ final class Diagnostics
             exit(70);
         }
         flock($handle, LOCK_UN);
-        fclose($handle);
     }
 }
 

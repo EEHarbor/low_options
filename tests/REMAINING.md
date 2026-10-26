@@ -1,3 +1,5 @@
+> Historical checkpoint only. Foundation is outside the current production scope. All original configured selections remain required; old matrices/coverage do not validate the cleanup candidate. See PHP_COMPATIBILITY_2026.md and the scope-correction review packet.
+
 # Low Options remaining-source handoff
 
 Status: incomplete. Implementation stops after the reviewed312-case checkpoint at the coordinator's request so the campaign can rotate to remaining repositories. This is a scope handoff, not a coverage completion claim. Resume only with refreshed ownership, Git refs and the existing tests-only/source-immutable contract.
