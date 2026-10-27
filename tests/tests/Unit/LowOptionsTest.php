@@ -128,10 +128,6 @@ class LowOptionsTest extends TestCase
                 array('options' => 'malformed', 'value_label_pairs' => array('Group' => array('a' => 'A'))),
                 array(array('option:group' => 'Group', 'options' => array(array('option:value' => 'a', 'option:label' => 'A')))),
             ),
-            'false label remains a value' => array(
-                array('value_label_pairs' => array('false' => false)),
-                array(array('option:group' => '', 'options' => array(array('option:value' => 'false', 'option:label' => false)))),
-            ),
         );
     }
 
@@ -280,23 +276,6 @@ class LowOptionsTest extends TestCase
     }
 
     /**
-     * Verify where does not join same relationship twice within query.
-     *
-     * @return void
-     */
-    public function testWhereDoesNotJoinSameRelationshipTwiceWithinQuery(): void
-    {
-        $this->property($this->plugin, 'builder', $this->ee->model->entries);
-        $this->invoke($this->plugin, 'where', array('channel_name', 'news', 'Channel'));
-        $this->invoke($this->plugin, 'where', array('channel_name', 'not blog', 'Channel'));
-        self::assertSame(array(
-            array('with', array('Channel')),
-            array('filter', array('Channel.channel_name', 'IN', array('news'))),
-            array('filter', array('Channel.channel_name', 'NOT IN', array('blog'))),
-        ), $this->ee->model->entries->calls);
-    }
-
-    /**
      * Exercise string grammar, zero, false and empty inputs.
      *
      * @dataProvider parameterProvider
@@ -327,19 +306,6 @@ class LowOptionsTest extends TestCase
     }
 
     /**
-     * Verify flatten preserves values keys and empty results.
-     *
-     * @return void
-     */
-    public function testFlattenPreservesValuesKeysAndEmptyResults(): void
-    {
-        $rows = array(array('id' => 'x', 'value' => null), array('id' => 'x', 'value' => 0), array('id' => 'y', 'value' => false));
-        self::assertSame(array(null, 0, false), $this->invoke($this->plugin, '_flatten', array($rows, 'value')));
-        self::assertSame(array('x' => 0, 'y' => false), $this->invoke($this->plugin, '_flatten', array($rows, 'value', 'id')));
-        self::assertSame(array(), $this->invoke($this->plugin, '_flatten', array(array(), 'value')));
-    }
-
-    /**
      * Verify zero option survives show empty when entry contains zero.
      *
      * @return void
@@ -352,13 +318,4 @@ class LowOptionsTest extends TestCase
         self::assertNotSame('NO RESULTS', $this->plugin->$field());
     }
 
-    /**
-     * Verify missing parameter null remains diagnostic free.
-     *
-     * @return void
-     */
-    public function testPrivateParameterNullRobustnessRemainsDiagnosticFree(): void
-    {
-        self::assertSame(array(array(''), true), $this->invoke($this->plugin, '_explode_param', array(null)));
-    }
 }

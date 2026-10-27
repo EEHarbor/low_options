@@ -60,22 +60,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Decode a native crypto observation without touching the caller's OpenSSL queue.
-     *
-     * @param string $context
-     * @param array $options
-     * @return array
-     */
-    protected function cryptoProbe($context, array $options = array())
-    {
-        require_once LOW_OPTIONS_ROOT . '/tests/Support/NativeCrypto.php';
-        $result = NativeCrypto::run($context, $options);
-        self::assertSame(0, $result[0], $result[1] . $result[2]);
-        self::assertSame('', $result[2]);
-        return json_decode($result[1], true, 512, JSON_THROW_ON_ERROR);
-    }
-
-    /**
      * Invoke a source method without changing visibility in production.
      *
      * @param object|string $object
@@ -92,20 +76,4 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return $reflection->invokeArgs(is_object($object) ? $object : null, $arguments);
     }
 
-    /**
-     * Set a source property for isolated collaborator tests.
-     *
-     * @param object|string $object
-     * @param string $property
-     * @param mixed $value
-     * @return void
-     */
-    protected function property($object, $property, $value)
-    {
-        $reflection = new \ReflectionProperty($object, $property);
-        if (PHP_VERSION_ID < 80100) {
-            $reflection->setAccessible(true);
-        }
-        $reflection->setValue(is_object($object) ? $object : null, $value);
-    }
 }

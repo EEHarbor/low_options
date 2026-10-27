@@ -1,3 +1,9 @@
+# Current practical suite — 2026-10-27
+
+PHP 7.4: 28 tests, 79 assertions, 3 failures. PHP 8.0-8.5: 28 tests, 81 assertions, 1 failure each. No errors, warnings or skips. Real zero-valued option losses remain failing. Bundled Foundation/PHAR tests and synthetic harness cases are retired. See README.md for the current scope and direct command. Production code is unchanged.
+
+## Historical records
+
 # Low Options campaign status
 
 Status: **incomplete, final legacy/state checkpoint reviewed and published; implementation held for ownership rotation**. The reviewed final code/evidence checkpoint is published at `36909aa04512cbee5b612cda24b95e19cf3bdb2e`. Production defects and instrumentation/source constraints prevent a green 100% line-and-outcome milestone. Useful remaining coverage work is listed separately; this is not a claim that every uncovered method is blocked.

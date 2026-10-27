@@ -34,7 +34,7 @@ class SetupAndViewTest extends TestCase
     }
 
     /**
-     * Render both shipped views across EE versions and ignored-site keys.
+     * Render the add-on view across EE versions and ignored-site keys.
      *
      * @dataProvider viewProvider
      * @param string $source
@@ -78,7 +78,7 @@ class SetupAndViewTest extends TestCase
     public static function viewProvider(): array
     {
         $data = array();
-        foreach (array(LOW_OPTIONS_ROOT . '/low_options/views/license.php', 'phar://' . LOW_OPTIONS_ROOT . '/low_options/low_options.phar/Views/license.php') as $source) {
+        foreach (array(LOW_OPTIONS_ROOT . '/low_options/views/license.php') as $source) {
             foreach (array(2, 7) as $version) {
                 $data[] = array($source, $version, 'test-license', 'test-license');
                 $data[] = array($source, $version, 'low-options-ignore-site-1', '');

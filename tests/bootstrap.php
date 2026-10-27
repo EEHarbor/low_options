@@ -19,7 +19,6 @@ define('DIR_WRITE_MODE', 0700);
 
 require __DIR__ . '/Support/Environment.php';
 require __DIR__ . '/Support/Collection.php';
-require __DIR__ . '/Support/Fieldtype.php';
 require __DIR__ . '/Support/TestCase.php';
 require __DIR__ . '/Support/functions.php';
 $initialIncludePath = get_include_path();
@@ -33,17 +32,3 @@ register_shutdown_function(function () use ($initialIncludePath, $initialAutoloa
     }
 });
 require LOW_OPTIONS_ROOT . '/low_options/autoload.php';
-
-if (getenv('LOW_OPTIONS_RAW_COVERAGE')) {
-    if (!function_exists('xdebug_start_code_coverage')) {
-        throw new RuntimeException('Xdebug branch instrumentation is required.');
-    }
-    xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE | XDEBUG_CC_BRANCH_CHECK);
-    register_shutdown_function(function () {
-        $coverage = xdebug_get_code_coverage();
-        $coverage = array_filter($coverage, function ($file) {
-            return strpos($file, LOW_OPTIONS_ROOT . '/low_options/') !== false;
-        }, ARRAY_FILTER_USE_KEY);
-        file_put_contents(getenv('LOW_OPTIONS_RAW_COVERAGE'), json_encode($coverage, JSON_PRETTY_PRINT));
-    });
-}
