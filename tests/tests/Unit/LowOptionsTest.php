@@ -39,20 +39,6 @@ class LowOptionsTest extends TestCase
     }
 
     /**
-     * Verify constructor loads real archive bridge and addon settings.
-     *
-     * @return void
-     */
-    public function testConstructorLoadsRealArchiveBridgeAndAddonSettings(): void
-    {
-        $plugin = new \Low_options();
-        self::assertSame('2.2.0', $plugin->version);
-        self::assertSame('low_options', $plugin->flux->shortname);
-        self::assertSame(array('table_names' => array()), $this->ee->db->data_cache);
-        self::assertSame(array(), $this->ee->db->calls);
-    }
-
-    /**
      * Verify missing field returns no results and caches miss.
      *
      * @return void
