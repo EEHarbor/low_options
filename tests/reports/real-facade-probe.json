@@ -1,0 +1,181 @@
+{
+  "framework_file": "/Users/tomjaeger/Sites/ee_repo_2/system/ee/ExpressionEngine/Legacy/Facade.php",
+  "limitations": "Isolated real Facade and original archive bridge; declared APP_VER=7.5.0; no full EE boot, database or framework source included in add-on coverage.",
+  "results": [
+    {
+      "command": [
+        "/Users/tomjaeger/Library/Application Support/Herd/bin/php74",
+        "-d",
+        "error_reporting=-1",
+        "-d",
+        "display_errors=1",
+        "/Users/tomjaeger/Sites/add-ons/low_options/tests/scripts/probe-real-ee-facade.php",
+        "/Users/tomjaeger/Sites/ee_repo_2/system/ee"
+      ],
+      "exit": 1,
+      "stderr": "",
+      "result": {
+        "php": "7.4.33",
+        "declared_ee_context": "7.5.0",
+        "facade_sha256": "fae94c0dc34513f08fcce572fa34b7569e0ecdd3c989bc30b47f01838d301923",
+        "archive_sha256": "da3baba2287c04751cb25026aa64d2adf24b4b684bc62948b4d60cfb55da9774",
+        "replacement_succeeded": false,
+        "error": "RuntimeException: Cannot overwrite custom on the loader.",
+        "error_file": "/Users/tomjaeger/Sites/ee_repo_2/system/ee/ExpressionEngine/Legacy/Facade.php",
+        "error_line": 90,
+        "original_retained": true,
+        "removed": true
+      }
+    },
+    {
+      "command": [
+        "/Users/tomjaeger/Library/Application Support/Herd/bin/php80",
+        "-d",
+        "error_reporting=-1",
+        "-d",
+        "display_errors=1",
+        "/Users/tomjaeger/Sites/add-ons/low_options/tests/scripts/probe-real-ee-facade.php",
+        "/Users/tomjaeger/Sites/ee_repo_2/system/ee"
+      ],
+      "exit": 1,
+      "stderr": "",
+      "result": {
+        "php": "8.0.30",
+        "declared_ee_context": "7.5.0",
+        "facade_sha256": "fae94c0dc34513f08fcce572fa34b7569e0ecdd3c989bc30b47f01838d301923",
+        "archive_sha256": "da3baba2287c04751cb25026aa64d2adf24b4b684bc62948b4d60cfb55da9774",
+        "replacement_succeeded": false,
+        "error": "RuntimeException: Cannot overwrite custom on the loader.",
+        "error_file": "/Users/tomjaeger/Sites/ee_repo_2/system/ee/ExpressionEngine/Legacy/Facade.php",
+        "error_line": 90,
+        "original_retained": true,
+        "removed": true
+      }
+    },
+    {
+      "command": [
+        "/Users/tomjaeger/Library/Application Support/Herd/bin/php81",
+        "-d",
+        "error_reporting=-1",
+        "-d",
+        "display_errors=1",
+        "/Users/tomjaeger/Sites/add-ons/low_options/tests/scripts/probe-real-ee-facade.php",
+        "/Users/tomjaeger/Sites/ee_repo_2/system/ee"
+      ],
+      "exit": 1,
+      "stderr": "",
+      "result": {
+        "php": "8.1.33",
+        "declared_ee_context": "7.5.0",
+        "facade_sha256": "fae94c0dc34513f08fcce572fa34b7569e0ecdd3c989bc30b47f01838d301923",
+        "archive_sha256": "da3baba2287c04751cb25026aa64d2adf24b4b684bc62948b4d60cfb55da9774",
+        "replacement_succeeded": false,
+        "error": "RuntimeException: Cannot overwrite custom on the loader.",
+        "error_file": "/Users/tomjaeger/Sites/ee_repo_2/system/ee/ExpressionEngine/Legacy/Facade.php",
+        "error_line": 90,
+        "original_retained": true,
+        "removed": true
+      }
+    },
+    {
+      "command": [
+        "/Users/tomjaeger/Library/Application Support/Herd/bin/php82",
+        "-d",
+        "error_reporting=-1",
+        "-d",
+        "display_errors=1",
+        "/Users/tomjaeger/Sites/add-ons/low_options/tests/scripts/probe-real-ee-facade.php",
+        "/Users/tomjaeger/Sites/ee_repo_2/system/ee"
+      ],
+      "exit": 1,
+      "stderr": "",
+      "result": {
+        "php": "8.2.30",
+        "declared_ee_context": "7.5.0",
+        "facade_sha256": "fae94c0dc34513f08fcce572fa34b7569e0ecdd3c989bc30b47f01838d301923",
+        "archive_sha256": "da3baba2287c04751cb25026aa64d2adf24b4b684bc62948b4d60cfb55da9774",
+        "replacement_succeeded": false,
+        "error": "RuntimeException: Cannot overwrite custom on the loader.",
+        "error_file": "/Users/tomjaeger/Sites/ee_repo_2/system/ee/ExpressionEngine/Legacy/Facade.php",
+        "error_line": 90,
+        "original_retained": true,
+        "removed": true
+      }
+    },
+    {
+      "command": [
+        "/Users/tomjaeger/Library/Application Support/Herd/bin/php83",
+        "-d",
+        "error_reporting=-1",
+        "-d",
+        "display_errors=1",
+        "/Users/tomjaeger/Sites/add-ons/low_options/tests/scripts/probe-real-ee-facade.php",
+        "/Users/tomjaeger/Sites/ee_repo_2/system/ee"
+      ],
+      "exit": 1,
+      "stderr": "",
+      "result": {
+        "php": "8.3.28",
+        "declared_ee_context": "7.5.0",
+        "facade_sha256": "fae94c0dc34513f08fcce572fa34b7569e0ecdd3c989bc30b47f01838d301923",
+        "archive_sha256": "da3baba2287c04751cb25026aa64d2adf24b4b684bc62948b4d60cfb55da9774",
+        "replacement_succeeded": false,
+        "error": "RuntimeException: Cannot overwrite custom on the loader.",
+        "error_file": "/Users/tomjaeger/Sites/ee_repo_2/system/ee/ExpressionEngine/Legacy/Facade.php",
+        "error_line": 90,
+        "original_retained": true,
+        "removed": true
+      }
+    },
+    {
+      "command": [
+        "/Users/tomjaeger/Library/Application Support/Herd/bin/php84",
+        "-d",
+        "error_reporting=-1",
+        "-d",
+        "display_errors=1",
+        "/Users/tomjaeger/Sites/add-ons/low_options/tests/scripts/probe-real-ee-facade.php",
+        "/Users/tomjaeger/Sites/ee_repo_2/system/ee"
+      ],
+      "exit": 1,
+      "stderr": "",
+      "result": {
+        "php": "8.4.15",
+        "declared_ee_context": "7.5.0",
+        "facade_sha256": "fae94c0dc34513f08fcce572fa34b7569e0ecdd3c989bc30b47f01838d301923",
+        "archive_sha256": "da3baba2287c04751cb25026aa64d2adf24b4b684bc62948b4d60cfb55da9774",
+        "replacement_succeeded": false,
+        "error": "RuntimeException: Cannot overwrite custom on the loader.",
+        "error_file": "/Users/tomjaeger/Sites/ee_repo_2/system/ee/ExpressionEngine/Legacy/Facade.php",
+        "error_line": 90,
+        "original_retained": true,
+        "removed": true
+      }
+    },
+    {
+      "command": [
+        "/Users/tomjaeger/Library/Application Support/Herd/bin/php85",
+        "-d",
+        "error_reporting=-1",
+        "-d",
+        "display_errors=1",
+        "/Users/tomjaeger/Sites/add-ons/low_options/tests/scripts/probe-real-ee-facade.php",
+        "/Users/tomjaeger/Sites/ee_repo_2/system/ee"
+      ],
+      "exit": 1,
+      "stderr": "",
+      "result": {
+        "php": "8.5.0",
+        "declared_ee_context": "7.5.0",
+        "facade_sha256": "fae94c0dc34513f08fcce572fa34b7569e0ecdd3c989bc30b47f01838d301923",
+        "archive_sha256": "da3baba2287c04751cb25026aa64d2adf24b4b684bc62948b4d60cfb55da9774",
+        "replacement_succeeded": false,
+        "error": "RuntimeException: Cannot overwrite custom on the loader.",
+        "error_file": "/Users/tomjaeger/Sites/ee_repo_2/system/ee/ExpressionEngine/Legacy/Facade.php",
+        "error_line": 90,
+        "original_retained": true,
+        "removed": true
+      }
+    }
+  ]
+}

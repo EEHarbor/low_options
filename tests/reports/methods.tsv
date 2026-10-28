@@ -1,0 +1,245 @@
+source	method	range	lines	basic_block	decision_outcomes	state	uncovered_lines	unobserved_decision_exits	unobserved_synthetic_terminals
+low_options/autoload.php	{closure}	19-92	23/29	23/31	13/26	measured	57,63,66,82,87,90	46->150,48->65,48->73,73->100,73->91,73->93,73->97,73->142,76->114,81->120,81->125,81->126,81->131	35,87,90,92
+low_options/low_options.phar/<stub>.php	go	113-194	0/50	0/35	0/36	measured	115,116,117,118,121,122,123,125,126,127,129,131,132,135,136,138,139,141,145,146,148,152,154,155,156,157,158,159,161,164,165,166,167,168,170,171,172,173,175,176,177,178,180,181,183,184,189,191,192,194	122->34,122->39,127->49,127->53,127->54,127->26,129->59,129->67,138->78,138->86,139->84,139->86,145->89,145->97,146->95,146->97,154->104,154->109,154->110,154->148,156->121,156->132,158->138,158->143,158->144,158->146,170->187,170->285,175->217,175->284,175->218,175->284,180->252,180->262,191->292,191->294	132,141,148,159,194
+low_options/low_options.phar/<stub>.php	tmpdir	196-211	4/9	4/14	3/12	measured	199,200,202,203,205	198->7,199->12,199->17,199->23,199->25,202->30,202->34,202->35,202->40	200,203,205,208
+low_options/low_options.phar/<stub>.php	_unpack	213-237	20/20	4/4	2/2	measured			
+low_options/low_options.phar/<stub>.php	extractFile	239-270	15/18	12/14	10/12	measured	261,262,266	260->59,265->79	262,266
+low_options/low_options.phar/<stub>.php	_removeTmpFiles	272-288	9/10	10/12	9/12	measured	280	276->54,279->41,279->46	288
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	__construct	29-36	6/6	1/1	0/0	measured			36
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	activateExtension	38-46	3/3	4/4	3/4	measured		40->9	
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	updateExtension	48-53	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	disableExtension	59-72	6/6	3/3	1/2	measured		66->44	
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	updateVersion	74-87	5/5	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	registerExtension	89-124	20/20	9/9	7/8	measured		96->20	108
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	unregisterExtension	126-140	7/7	3/3	1/2	measured		129->7	
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	cpCustomMenu	149-157	2/4	2/3	1/2	measured	156,157	152->7	153,157
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	disable_extension	167-170	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	activate_extension	172-175	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	update_extension	177-180	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	update_version	182-185	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	register_extension	187-190	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	unregister_extension	192-195	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Ext.php	cp_custom_menu	197-200	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Ft.php	__construct	47-57	5/7	4/5	2/4	measured	54,55	53->25,53->26	57
+low_options/low_options.phar/FluxCapacitor/Base/Ft.php	update	59-62	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Ft.php	accepts_content_type	64-67	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Ft.php	getChannelId	69-99	12/13	12/13	11/12	measured	73	72->5	73
+low_options/low_options.phar/FluxCapacitor/Base/Ft.php	displaySettingsRow	101-126	8/13	3/7	1/4	measured	105,106,108,109,110	104->9,105->12,105->21	126
+low_options/low_options.phar/FluxCapacitor/Base/Ft.php	displaySettingsReturn	128-144	6/7	2/3	1/2	measured	134	133->21	134
+low_options/low_options.phar/FluxCapacitor/Base/Ft.php	_display_settings_add_row	147-150	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Ft.php	_package_display_settings	153-156	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	__construct	27-36	4/5	2/3	1/2	measured	34	33->16	36
+low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	index	38-41	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	license	43-66	14/14	6/6	4/4	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	save_license	68-138	35/38	19/19	19/20	measured	106,116,137	124->222	106,116
+low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	paginateModel	140-175	16/18	11/12	5/10	measured	147,174	146->20,154->42,154->46,154->51,154->61	
+low_options/low_options.phar/FluxCapacitor/Base/Mcp.php	canIncludeNav	183-196	2/6	4/8	2/8	measured	186,187,189,190	185->10,185->11,186->18,186->24,189->30,189->32	190
+low_options/low_options.phar/FluxCapacitor/Base/Mod.php	__construct	21-25	3/3	1/1	0/0	measured			25
+low_options/low_options.phar/FluxCapacitor/Base/Mod.php	getParameter	35-49	6/6	5/5	4/4	measured			45
+low_options/low_options.phar/FluxCapacitor/Base/Pi.php	__construct	21-25	3/3	1/1	0/0	measured			25
+low_options/low_options.phar/FluxCapacitor/Base/Pi.php	info	27-36	1/6	1/1	0/0	measured	31,32,33,34,36		36
+low_options/low_options.phar/FluxCapacitor/Base/Tab.php	__construct	22-31	4/6	4/5	2/4	measured	28,29	27->20,27->21	31
+low_options/low_options.phar/FluxCapacitor/Base/Tab.php	display	34-37	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Tab.php	publish_tabs	40-43	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Tab.php	save	46-49	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Tab.php	publish_data_db	52-55	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Tab.php	getEntryVariables	57-76	13/13	6/6	4/4	measured			
+low_options/low_options.phar/FluxCapacitor/Base/Upd.php	__construct	26-34	0/6	0/1	0/0	measured	28,29,30,32,33,34		34
+low_options/low_options.phar/FluxCapacitor/Base/Upd.php	install	36-54	2/10	2/3	1/2	measured	43,44,45,46,47,50,51,53	39->6	40
+low_options/low_options.phar/FluxCapacitor/Base/Upd.php	update	56-76	4/9	6/9	4/7	measured	66,68,69,70,75	68->32,68->41,72->43	59,72
+low_options/low_options.phar/FluxCapacitor/Base/Upd.php	uninstall	78-127	18/18	5/6	2/4	measured		95->44,121->135	
+low_options/low_options.phar/FluxCapacitor/Bridge/AbstractBridge.php	getEEVersion	22-31	4/4	3/3	2/2	measured			27
+low_options/low_options.phar/FluxCapacitor/Bridge/AbstractBridge.php	ver_lt	34-37	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/AbstractBridge.php	ver_gt	39-42	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/AbstractBridge.php	ver_lte	44-47	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/AbstractBridge.php	ver_gte	49-52	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/AbstractBridge.php	is_ee2	54-57	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/AbstractBridge.php	is_ee3	59-62	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/AbstractBridge.php	is_ee4	64-67	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/AbstractBridge.php	is_ee5	69-72	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE.php	ee	18-21	0/2	0/2	0/0	measured	18,20		
+low_options/low_options.phar/FluxCapacitor/Bridge/EE.php	__construct	42-45	0/2	1/1	0/0	measured	44,45		45
+low_options/low_options.phar/FluxCapacitor/Bridge/EE.php	__construct	50-53	0/2	0/0	0/0	measured	52,53		
+low_options/low_options.phar/FluxCapacitor/Bridge/EE.php	__construct	58-61	0/2	0/0	0/0	measured	60,61		
+low_options/low_options.phar/FluxCapacitor/Bridge/EE.php	__construct	66-69	0/2	0/0	0/0	measured	68,69		
+low_options/low_options.phar/FluxCapacitor/Bridge/EE.php	__construct	74-77	0/2	0/0	0/0	measured	76,77		
+low_options/low_options.phar/FluxCapacitor/Bridge/EE.php	__construct	82-85	2/2	0/0	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	__construct	26-30	3/3	1/1	0/0	measured			30
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	instantiate	32-35	2/2	1/1	0/0	measured			35
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	getBaseURL	37-76	4/22	4/26	2/26	measured	41,42,49,51,54,55,56,57,58,59,60,61,65,67,68,71,72,75	39->8,41->10,41->15,47->46,47->47,47->50,55->67,55->78,55->89,55->62,56->64,56->67,59->66,59->78,67->109,67->115,67->112,67->114,67->116,67->121,71->125,71->127,71->128,71->132	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	getNav	78-90	0/7	0/6	0/6	measured	80,81,82,83,86,89,90	81->7,81->25,81->8,81->25,82->16,82->21	90
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	cpURL	92-140	31/31	28/28	25/33	measured		94->16,94->31,94->43,94->50,94->59,94->63,98->29,135->91	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	moduleURL	142-155	0/6	0/6	0/6	measured	144,146,147,150,151,154	146->15,146->17,150->19,150->28,150->20,150->28	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	view	157-171	0/5	0/5	0/4	measured	160,162,163,164,170	162->11,162->17,162->18,162->27	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	getCurrentPage	173-184	6/6	5/5	4/4	measured			178,180
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	getStartNum	186-189	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	pagination	191-201	5/5	3/3	1/2	measured		194->8	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	getSettings	203-212	4/4	3/3	2/2	measured			208
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	getConfig	214-219	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	setConfig	221-253	16/16	7/7	5/6	measured		229->18	253
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	cache	255-293	20/21	25/26	21/28	measured	286	262->33,262->79,262->116,262->116,262->138,282->116,283->128	265,267,269,275,277,291,293
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	flashData	302-305	2/2	1/1	0/0	measured			305
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	getAddonThemesDir	311-315	2/2	3/4	1/2	measured		313->8	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	overwriteEEClass	324-327	2/2	1/1	0/0	measured			327
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	removeEEClass	335-338	2/2	1/1	0/0	measured			338
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	xss_clean	345-348	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	url_title	355-358	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	getCurrentUrlInfo	365-380	10/10	8/8	6/6	measured			376
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	getCachePath	386-395	4/4	3/3	2/2	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	getFooter	397-400	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	reduce_double_slashes	406-414	3/4	2/3	1/2	measured	409	408->9	409
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	initiateSettings	420-475	20/25	10/17	7/16	measured	444,445,458,461,462	434->25,443->55,444->59,444->66,444->60,444->66,457->91,461->109,461->111	427
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	javascript_to_page	480-483	2/2	1/1	0/0	measured			483
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	module_installed	485-495	5/5	3/3	2/2	measured			491
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	assign_parameters	497-500	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE2.php	assign_variables	507-510	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	__construct	34-38	3/3	1/1	0/0	measured			38
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	instantiate	40-43	2/2	1/1	0/0	measured			43
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	getBaseURL	45-54	5/5	5/5	3/4	measured		49->13	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	getNav	62-104	24/24	26/26	23/26	measured		69->94,84->76,89->86	104
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	cpURL	106-129	13/13	14/14	13/14	measured		120->34	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	moduleURL	131-136	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	view	138-164	0/11	0/8	0/6	measured	141,143,144,147,148,151,152,154,158,160,162	143->13,143->18,147->22,147->29,151->31,151->43	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	getCurrentPage	166-176	5/5	5/5	4/4	measured			170,172
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	getStartNum	178-181	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	pagination	183-201	8/8	5/5	4/4	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	getSettings	203-212	4/4	3/3	2/2	measured			208
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	getConfig	214-219	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	setConfig	221-254	15/16	6/7	5/6	measured	231	230->14	254
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	cache	256-284	13/13	14/14	13/18	measured		259->15,259->44,259->74,259->74,259->88	262,264,270,272,278
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	flashData	293-323	14/14	13/13	11/12	measured		314->55	323
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	getAddonThemesDir	329-333	2/2	3/4	1/2	measured		331->8	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	overwriteEEClass	342-345	2/2	1/1	0/0	measured			345
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	removeEEClass	353-356	2/2	1/1	0/0	measured			356
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	xss_clean	363-366	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	url_title	373-376	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	assign_variables	383-386	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	prep_url	393-396	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	getCurrentUrlInfo	403-420	10/10	8/8	6/6	measured			416
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	getCachePath	426-435	4/4	3/3	2/2	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	getFooter	437-440	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	reduce_double_slashes	446-450	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	initiateSettings	456-512	19/25	9/17	7/16	measured	472,481,482,495,498,499	471->21,480->54,481->58,481->65,481->59,481->65,494->90,498->108,498->110	463
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	javascript_to_page	517-520	2/2	1/1	0/0	measured			520
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	module_installed	522-525	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php	assign_parameters	527-530	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	__construct	34-38	3/3	1/1	0/0	measured			38
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	instantiate	40-43	2/2	1/1	0/0	measured			43
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	getBaseURL	45-54	5/5	5/5	3/4	measured		49->13	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	getNav	62-104	24/24	26/26	23/26	measured		69->94,84->76,89->86	104
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	cpURL	106-129	13/13	14/14	13/14	measured		120->34	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	moduleURL	131-136	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	view	138-164	0/11	0/8	0/6	measured	141,143,144,147,148,151,152,154,158,160,162	143->13,143->18,147->22,147->29,151->31,151->43	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	getCurrentPage	166-176	5/5	5/5	4/4	measured			170,172
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	getStartNum	178-181	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	pagination	183-201	8/8	5/5	4/4	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	getSettings	203-212	4/4	3/3	2/2	measured			208
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	getConfig	214-219	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	setConfig	221-254	15/16	6/7	5/6	measured	231	230->14	254
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	cache	256-284	13/13	14/14	13/18	measured		259->15,259->44,259->74,259->74,259->88	262,264,270,272,278
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	flashData	293-323	14/14	13/13	11/12	measured		314->55	323
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	getAddonThemesDir	329-333	2/2	3/4	1/2	measured		331->8	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	overwriteEEClass	342-345	2/2	1/1	0/0	measured			345
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	removeEEClass	353-356	2/2	1/1	0/0	measured			356
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	xss_clean	363-366	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	url_title	373-376	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	assign_variables	383-386	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	prep_url	393-396	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	getCurrentUrlInfo	403-420	10/10	8/8	6/6	measured			416
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	getCachePath	426-435	4/4	3/3	2/2	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	getFooter	437-440	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	reduce_double_slashes	446-450	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	initiateSettings	456-512	19/25	9/17	7/16	measured	472,481,482,495,498,499	471->21,480->54,481->58,481->65,481->59,481->65,494->90,498->108,498->110	463
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	javascript_to_page	517-520	2/2	1/1	0/0	measured			520
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	module_installed	522-525	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php	assign_parameters	527-530	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	__construct	34-38	3/3	1/1	0/0	measured			38
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	instantiate	40-43	2/2	1/1	0/0	measured			43
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	getBaseURL	45-54	5/5	5/5	4/4	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	getNav	62-104	24/24	26/26	23/26	measured		69->94,84->76,89->86	104
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	cpURL	106-129	13/13	14/14	13/14	measured		120->34	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	moduleURL	131-136	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	view	138-164	11/11	8/8	6/6	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	getCurrentPage	166-176	5/5	5/5	4/4	measured			170,172
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	getStartNum	178-181	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	pagination	183-201	8/8	5/5	4/4	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	getSettings	203-212	4/4	3/3	2/2	measured			208
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	getConfig	214-219	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	setConfig	221-254	15/16	6/7	5/6	measured	231	230->14	254
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	cache	256-284	13/13	14/14	13/18	measured		259->15,259->44,259->74,259->74,259->88	262,264,270,272,278
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	flashData	293-323	14/14	13/13	11/12	measured		314->55	323
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	getAddonThemesDir	329-333	2/2	3/4	1/2	measured		331->8	
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	overwriteEEClass	342-345	2/2	1/1	0/0	measured			345
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	removeEEClass	353-356	2/2	1/1	0/0	measured			356
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	xss_clean	363-366	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	url_title	373-376	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	assign_variables	383-386	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	prep_url	393-396	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	getCurrentUrlInfo	403-429	11/15	16/18	10/14	measured	413,414,415,416	412->22,412->23,419->45,420->53	425
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	getCachePath	435-444	4/4	3/3	2/2	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	getFooter	446-449	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	reduce_double_slashes	455-459	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	initiateSettings	465-521	19/25	9/17	7/16	measured	481,490,491,504,507,508	480->21,489->54,490->58,490->65,490->59,490->65,503->90,507->108,507->110	472
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	javascript_to_page	526-529	2/2	1/1	0/0	measured			529
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	module_installed	531-534	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php	assign_parameters	536-539	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php	__construct	11-15	3/3	1/1	0/0	measured			15
+low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php	getSetting	17-24	4/4	3/3	2/2	measured			21
+low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php	getSettings	26-39	7/7	4/4	2/2	measured			35
+low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php	updateSetting	41-56	8/8	4/4	2/2	measured			52
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	__construct	31-58	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	generateNav	64-75	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	formatItems	77-109	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	itemsToNav	111-125	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	buttonsToItems	127-135	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	setActive	137-164	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	setBreadcrumb	166-172	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	getActiveItem	174-177	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	deferGenerate	179-182	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	preGenerateNav	184-186	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	postGenerateNav	188-190	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	getUrl	213-226	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	defaultItems	228-231	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	defaultButtons	233-236	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	defaultActiveMap	238-241	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php	setToolbarIcon	243-258	0/0	0/0	0/0	unknown_unexecuted			
+low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php	get	18-48	14/14	7/7	6/6	measured			24,28,38
+low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php	set	55-82	12/12	5/5	4/4	measured			58,70
+low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php	delete	88-104	7/7	5/5	4/4	measured			91
+low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php	has	112-116	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php	clear	122-141	7/7	8/8	7/8	measured		128->37	125
+low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php	createKey	154-161	3/3	3/3	2/2	measured			
+low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php	prepCacheData	169-172	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php	serveCacheData	179-182	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php	checkPath	189-234	16/22	11/13	10/12	measured	197,198,199,216,217,218	196->32,215->108	199,210,218,230
+low_options/low_options.phar/FluxCapacitor/Conduit/StaticCache.php	get	14-19	2/2	4/4	2/2	measured			
+low_options/low_options.phar/FluxCapacitor/Conduit/StaticCache.php	set	28-31	2/2	1/1	0/0	measured			31
+low_options/low_options.phar/FluxCapacitor/Conduit/StaticCache.php	put	40-43	2/2	1/1	0/0	measured			43
+low_options/low_options.phar/FluxCapacitor/Conduit/StaticCache.php	delete	51-56	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Conduit/StaticCache.php	has	64-67	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Conduit/StaticCache.php	all	73-76	1/1	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Conduit/StaticCache.php	clear	82-87	2/2	1/1	0/0	measured			
+low_options/low_options.phar/FluxCapacitor/Conduit/StaticCache.php	createKey	96-107	5/5	5/5	4/4	measured			99
+low_options/low_options.phar/FluxCapacitor/Conduit/Version.php	__construct	25-29	3/3	1/1	0/0	measured			29
+low_options/low_options.phar/FluxCapacitor/Conduit/Version.php	keyExistsForAddon	31-46	7/7	3/3	2/2	measured			34
+low_options/low_options.phar/FluxCapacitor/Conduit/Version.php	saveLicenseKey	48-65	9/9	10/10	6/6	measured			65
+low_options/low_options.phar/FluxCapacitor/Conduit/Version.php	deleteLicenseKey	67-72	4/4	1/1	0/0	measured			72
+low_options/low_options.phar/FluxCapacitor/Conduit/Version.php	verifyLicenseTable	74-128	22/22	14/14	13/14	measured		82->24	77
+low_options/low_options.phar/FluxCapacitor/Conduit/Version.php	check	130-189	0/33	0/19	0/16	measured	132,133,135,138,140,141,143,144,147,148,149,150,151,152,153,154,155,156,157,158,162,165,167,169,170,173,174,176,180,182,186,187,189	132->5,132->9,132->10,132->13,140->25,140->32,157->94,157->97,173->142,173->154,173->143,173->154,174->150,174->153,186->166,186->171	176,189
+low_options/low_options.phar/FluxCapacitor/Conduit/Version.php	getLicenseKey	191-204	8/8	3/3	2/2	measured			
+low_options/low_options.phar/FluxCapacitor/Conduit/Version.php	getIgnoreSite	206-218	7/7	3/3	2/2	measured			
+low_options/low_options.phar/FluxCapacitor/Conduit/Version.php	getOpenSSLPublicKey	220-223	0/1	0/1	0/0	measured	222		
+low_options/low_options.phar/FluxCapacitor/Conduit/Version.php	spiderSafe	225-233	5/5	4/4	2/2	measured			
+low_options/low_options.phar/FluxCapacitor/FluxCapacitor.php	__construct	20-24	3/3	1/1	0/0	measured			24
+low_options/low_options.phar/index.php	{closure}	3-28	6/12	2/6	1/4	measured	14,17,18,21,24,26	9->16,24->44,24->46	29,10,28
+low_options/pi.low_options.php	__call	58-62	2/2	1/1	0/0	measured			
+low_options/pi.low_options.php	get	70-77	3/3	3/3	2/2	measured			
+low_options/pi.low_options.php	_set_field_options	88-158	32/32	27/27	25/26	measured		115->65	158
+low_options/pi.low_options.php	_filter	169-189	9/9	13/13	12/14	measured		171->38,174->25	189
+low_options/pi.low_options.php	_parse_field_options	197-238	20/20	29/29	26/28	measured		205->98,209->59	
+low_options/pi.low_options.php	_option	248-254	2/2	1/1	0/0	measured			
+low_options/pi.low_options.php	_get_existing	264-354	43/43	23/23	19/20	measured		345->234	
+low_options/pi.low_options.php	{closure}	315-317	3/3	1/1	0/0	measured			
+low_options/pi.low_options.php	where	361-375	8/8	8/8	6/6	measured			375
+low_options/pi.low_options.php	_explode_param	386-411	5/5	3/3	2/2	measured			
+low_options/pi.low_options.php	_flatten	426-439	6/6	7/7	5/6	measured		430->22	

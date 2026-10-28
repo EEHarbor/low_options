@@ -1,0 +1,301 @@
+PHP 7.4.33 (cli) (built: Dec 13 2023 21:52:05) ( NTS )
+Copyright (c) The PHP Group
+Zend Engine v3.4.0, Copyright (c) Zend Technologies
+
+COMMAND: ['/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh', '-c', 'phpunit.xml', '--colors=never', '--log-junit', '/Users/tomjaeger/Sites/add-ons/low_options/tests/reports/runs/20261023-160519-y332zwa1/php74.xml']
+PHPUnit 9.6.38 by Sebastian Bergmann and contributors.
+
+.E........F................................F...................  63 / 312 ( 20%)
+........FEEE.FFFF.F..EF............EE.....EEEE................. 126 / 312 ( 40%)
+..........................FF..........................E........ 189 / 312 ( 60%)
+.......................EE..F..........F.................F.....F 252 / 312 ( 80%)
+..............F................F............F...............    312 / 312 (100%)
+
+Time: 00:04.070, Memory: 34.00 MB
+
+There were 14 errors:
+
+1) LowOptionsTests\ArchiveBaseTest::testStaticPluginMetadataIsCallable
+Error: Using $this when not in object context
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Pi.php:30
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:39
+
+2) LowOptionsTests\ArchiveCacheFilesystemTest::testBlockedDirectoryCreationReturnsFalse with data set #0 ('base')
+ErrorException: mkdir(): Not a directory
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:196
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:57
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveCacheFilesystemTest.php:206
+
+3) LowOptionsTests\ArchiveCacheFilesystemTest::testBlockedDirectoryCreationReturnsFalse with data set #1 ('module')
+ErrorException: mkdir(): Not a directory
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:215
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:57
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveCacheFilesystemTest.php:206
+
+4) LowOptionsTests\ArchiveCacheFilesystemTest::testCorruptCacheReturnsFalseWithoutDiagnostic
+ErrorException: unserialize(): Error at offset 0 of 14 bytes
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:181
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:45
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveCacheFilesystemTest.php:229
+
+5) LowOptionsTests\ArchiveConduitTest::testPersistentCacheRetrievesArrayKey
+ErrorException: Illegal offset type in isset or empty
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/StaticCache.php:18
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/PersistentCache.php:21
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:124
+
+6) LowOptionsTests\ArchiveConduitTest::testMissingNamedSettingDoesNotEmitSuppressedUndefinedKeyDiagnostic
+ErrorException: Undefined index: absent
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php:21
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:257
+
+7) LowOptionsTests\ArchiveConduitTest::testMalformedSettingsDoNotEmitSuppressedUnserializeDiagnostic
+ErrorException: unserialize(): Error at offset 0 of 14 bytes
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/GlobalFieldSettings.php:33
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:270
+
+8) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #0 ('EE3')
+RuntimeException: Cannot overwrite custom on the loader.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:479
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE3.php:344
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
+
+9) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #1 ('EE4')
+RuntimeException: Cannot overwrite custom on the loader.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:479
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE4.php:344
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
+
+10) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #2 ('EE5')
+RuntimeException: Cannot overwrite custom on the loader.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:479
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php:344
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
+
+11) LowOptionsTests\ArchiveDelegationTest::testReplacingAlreadyLoadedNativeClass with data set #3 ('EE6')
+RuntimeException: Cannot overwrite custom on the loader.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/Support/Environment.php:479
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Bridge/EE5.php:344
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveDelegationTest.php:76
+
+12) LowOptionsTests\ArchiveMcpTest::testUpdaterHandlesAddonWithoutOptionalExtensionDiagnostics
+ErrorException: include_once(/Users/tomjaeger/Sites/add-ons/low_options/low_options/ext.low_options.php): failed to open stream: No such file or directory
+
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Upd.php:64
+phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Base/Upd.php:64
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveMcpTest.php:90
+
+13) LowOptionsTests\ArchiveStubHelperTest::testTemporaryExtractionTreeCleanup with data set "nonempty nested directory" (array('nested/child.bin'), array('nested'))
+ErrorException: rmdir(nested): Directory not empty
+
+/Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:278
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubHelperTest.php:183
+
+14) LowOptionsTests\ArchiveStubHelperTest::testTemporaryExtractionTreeCleanup with data set "dangling symlink robustness" (array(), array(), array('absent'))
+ErrorException: rmdir(/var/folders/07/g6ql86ns3m75y257j7nb6pv00000gn/T/low-options-stub-e0d8e990bd275502): Directory not empty
+
+/Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:285
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubHelperTest.php:183
+
+--
+
+There were 18 failures:
+
+1) LowOptionsTests\ArchiveBaseTest::testLegacyRegistrationAliasPreservesExplicitArguments
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'custom_hook'
++'handler'
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBaseTest.php:143
+
+2) LowOptionsTests\ArchiveBridgeTest::testCacheRoutingAndDeletion with data set #0 ('EE2')
+Failed asserting that Array &0 (
+    0 => 1
+) is false.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveBridgeTest.php:176
+
+3) LowOptionsTests\ArchiveCacheFilesystemTest::testHasAcceptsProcessedHashKey
+Failed asserting that false is true.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveCacheFilesystemTest.php:187
+
+4) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #0 (0)
+Failed asserting that false is identical to 0.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
+
+5) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #1 ('0')
+Failed asserting that false is identical to '0'.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
+
+6) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #2 ('')
+Failed asserting that false is identical to ''.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
+
+7) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #3 (array())
+Failed asserting that false is identical to Array &0 ().
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
+
+8) LowOptionsTests\ArchiveConduitTest::testStaticCachePreservesFalsyValues with data set #5 (null)
+Failed asserting that false is identical to null.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:65
+
+9) LowOptionsTests\ArchiveConduitTest::testPersistentCacheDoesNotConfuseLiteralHashKeyWithInternalKey
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+ Array &0 (
+-    'from' => 'literal-hash-key'
++    'from' => 'other'
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveConduitTest.php:137
+
+10) LowOptionsTests\ArchiveLegacyStateTest::testHistoricalSessionUrls with data set "workaround start" ('2.6.0', '/admin.php?S=0', array('s', 'c'), array('admin'), 'admin', 'cp')
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+     'C' => 'addons_modules'
+     'D' => 'cp'
+     'M' => 'show_module_cp'
+-    'S' => 'admin'
++    'S' => '0'
+     'method' => 'history'
+     'module' => 'low_options'
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveLegacyStateTest.php:89
+
+11) LowOptionsTests\ArchiveLegacyStateTest::testHistoricalSessionUrls with data set "workaround end" ('2.7.3', '/admin.php?S=0', array('s', 'c'), array('admin'), 'admin', 'cp')
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+     'C' => 'addons_modules'
+     'D' => 'cp'
+     'M' => 'show_module_cp'
+-    'S' => 'admin'
++    'S' => '0'
+     'method' => 'history'
+     'module' => 'low_options'
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveLegacyStateTest.php:89
+
+12) LowOptionsTests\ArchiveStubTerminalTest::testNativeEntryTermination with data set "size" ('size', 'Invalid internal .phar file (... != 5)')
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+ Array &0 (
+-    0 => 0
+-    1 => 'Invalid internal .phar file (size error 4 != 5)'
++    0 => 255
++    1 => '\n
++Fatal error: Uncaught ErrorException: Undefined variable: stat in /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:262\n
++Stack trace:\n
++#0 /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar(262): {closure}(8, 'Undefined varia...', '/Users/tomjaege...', 262, Array)\n
++#1 /Users/tomjaeger/Sites/add-ons/low_options/tests/scripts/stub-probe.php(51): Extract_low_options::extractFile('fixture.bin', Array, Resource id #19)\n
++#2 {main}\n
++  thrown in /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar on line 262\n
++'
+     2 => ''
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveStubTerminalTest.php:25
+
+13) LowOptionsTests\ArchiveVersionTest::testVersionCheckEncryptedPayload with data set "installed" (array('2.1.0'), '2.1.0')
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+     'l' => ''
+     'lc' => false
+     'p' => '7.4.33'
+-    'pi' => '2.1.0'
++    'pi' => 0
+     'pl' => 'test-site-key'
+     's' => 1
+     'v' => '2.2.0'
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/ArchiveVersionTest.php:166
+
+14) LowOptionsTests\LowOptionsTest::testSettingsOptions with data set "options override value label pairs" (array(array('Zero', 'Ex'), array('Ignored')), array(array('', array(array(0, 'Zero'))), array('', array(array('x', 'Ex')))))
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+         'option:group' => ''
+         'options' => Array &2 (
+             0 => Array &3 (
+-                'option:value' => 0
+-                'option:label' => 'Zero'
+-            )
+-        )
+-    )
+-    1 => Array &4 (
+-        'option:group' => ''
+-        'options' => Array &5 (
+-            0 => Array &6 (
+                 'option:value' => 'x'
+                 'option:label' => 'Ex'
+             )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:109
+
+15) LowOptionsTests\LowOptionsTest::testExistingValuesAreUniqueNaturallySortedAndReversed
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+     0 => 'item10'
+     1 => 'item2'
+     2 => 'item1'
+-    3 => 0
+ )
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:181
+
+16) LowOptionsTests\LowOptionsTest::testZeroOptionSurvivesShowEmptyWhenEntryContainsZero
+Failed asserting that two strings are not identical.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/LowOptionsTest.php:352
+
+17) LowOptionsTests\NativeLoadTest::testNativeArchiveClassLoadsWithoutDiagnostics with data set "FluxCapacitor/Conduit/McpNav.php" ('Conduit\McpNav')
+ErrorException: include_once(/Users/tomjaeger/Sites/add-ons/low_options/low_options/Conduit/McpNav.php): failed to open stream: No such file or directory at phar:///Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar/FluxCapacitor/Conduit/McpNav.php:7
+
+Failed asserting that 1 is identical to 0.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:32
+
+18) LowOptionsTests\NativeLoadTest::testArchiveSelfExtractsWhenPharWrapperIsUnavailable
+ErrorException: mkdir(): File exists at /Users/tomjaeger/Sites/add-ons/low_options/low_options/low_options.phar:177
+
+Failed asserting that 1 is identical to 0.
+
+/Users/tomjaeger/Sites/add-ons/low_options/tests/tests/Unit/NativeLoadTest.php:113
+
+ERRORS!
+Tests: 312, Assertions: 1428, Errors: 14, Failures: 18.
