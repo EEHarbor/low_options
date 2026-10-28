@@ -1,5 +1,7 @@
 # Low Options practical tests
 
+Current review corrections and PHP 7.4–8.5 results: [PRACTICAL_REVIEW_2026.md](PRACTICAL_REVIEW_2026.md). Earlier campaign counts are historical.
+
 The configured suite covers field lookup, flat/grouped options, include/exclude parameters, existing values, sorting, template query filters, missing/empty results, setup metadata and the loose add-on license view. Normal add-on inheritance and autoloading use the shipped PHAR. Tests whose subject was bundled Foundation/PHAR implementation, archive loading or synthetic harness protocols have been removed; the Foundation repository owns shared-code tests.
 
 Run the pinned PHPUnit 9.6.38 runner after `tests/.phpunit/install.sh`:
