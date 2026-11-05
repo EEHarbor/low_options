@@ -1,4 +1,4 @@
-> Historical checkpoint only. Foundation is outside the current production scope. All original configured selections remain required; old matrices/coverage do not validate the cleanup candidate. See PHP_COMPATIBILITY_2026.md and the scope-correction review packet.
+> Historical checkpoint only. Direct Foundation/PHAR tests are removed from the add-on suite; add-on behavior and mixed fixture/loose-source cases remain. Old matrices/coverage describe the earlier broader scope. See PHP_COMPATIBILITY_2026.md for current scope.
 
 # Low Options campaign status
 

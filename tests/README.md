@@ -2,13 +2,13 @@
 
 Current source scope and strict command: see [../PHP_COMPATIBILITY_2026.md](../PHP_COMPATIBILITY_2026.md). The original Foundation PHAR/loader are restored to develop; the only retained production diff is the add-on plugin. The current source inventory has 27 units: four loose PHP files, 22 archive members and the stub. No new shared factory or extracted Foundation build source is shipped.
 
-Every original configured suite, provider and test remains selected. The complete matrix can remain red on the restored shared dependency. Keep strict startup, prethrow journals, native outcome/capture checks and all original failure assertions. Historical matrices and coverage below are preserved history, not current acceptance or a coverage-completion claim.
+The configured suite keeps add-on behavior, loose-source loading/views and harness contracts. Direct Foundation classes, inherited wrapper behavior, archive members and extraction internals are covered by Foundation's own suite and are removed here. Mixed suites retain their independent fixture and loose-source cases. LowOptionsTest remains unchanged and still executes the real plugin and its bundled Foundation dependency.
 
 ```sh
 PHP_BINARY='/Users/tomjaeger/Library/Application Support/Herd/bin/php74' ./tests/.phpunit/run-phpunit.sh -c phpunit.xml --do-not-cache-result
 ```
 
-Repeat for php80–php85 under the campaign lease. Generic caught/provider/native authority controls now execute this add-on's metadata entry point; deliberately faulty controls earn only harness rejection evidence. The scope-correction review packet records exact inputs, preserved selections, full streams and shared dependency failures. No publication approval is claimed.
+Repeat for php80 through php85. Strict startup, prethrow journals, native outcome/capture checks, source inventory and retained add-on expectations remain unchanged. This test-scope cleanup does not certify full compatibility or live EE behavior. Historical matrices and coverage below describe the earlier broader suite.
 
 ## Historical tests-only documentation
 

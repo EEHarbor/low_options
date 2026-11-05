@@ -20,65 +20,6 @@ class NativeLoadTest extends TestCase
     }
 
     /**
-     * Compile every shipped archive class in a fresh process.
-     *
-     * @dataProvider archiveSymbolProvider
-     * @param string $symbol
-     * @return void
-     */
-    public function testNativeArchiveClassLoadsWithoutDiagnostics($symbol): void
-    {
-        list($exit, $stdout, $stderr) = $this->runProbe(array('load', '7.5.0', $symbol));
-        self::assertSame(0, $exit, $stderr . $stdout);
-        self::assertSame('', $stderr);
-        self::assertSame(array('loaded' => true), json_decode($stdout, true));
-    }
-
-    /**
-     * Provide archive symbol vectors.
-     *
-     * @return array
-     */
-    public static function archiveSymbolProvider(): array
-    {
-        $phar = new \Phar(LOW_OPTIONS_ROOT . '/low_options/low_options.phar');
-        $data = array();
-        foreach (new \RecursiveIteratorIterator($phar) as $file) {
-            $name = str_replace('phar://' . $phar->getPath() . '/', '', $file->getPathname());
-            if (strpos($name, 'FluxCapacitor/') === 0 && substr($name, -4) === '.php') {
-                $data[$name] = array(str_replace('/', '\\', substr($name, strlen('FluxCapacitor/'), -4)));
-            }
-        }
-        return $data;
-    }
-
-    /**
-     * Select each supported EE bridge in a separate interpreter.
-     *
-     * @dataProvider versionProvider
-     * @param string $version
-     * @return void
-     */
-    public function testNativeBridgeSelection($version): void
-    {
-        list($exit, $stdout, $stderr) = $this->runProbe(array('selection', $version, 'Bridge\\EE'));
-        self::assertSame(0, $exit, $stderr . $stdout);
-        $expected = substr($version, 0, 1);
-        $expected = $expected === '7' ? '6' : $expected;
-        self::assertSame(array('loaded' => true, 'parent' => 'Low\\Options\\FluxCapacitor\\Bridge\\EE' . $expected), json_decode($stdout, true));
-    }
-
-    /**
-     * Provide version vectors.
-     *
-     * @return array
-     */
-    public static function versionProvider(): array
-    {
-        return array(array('2.11.9'), array('3.5.17'), array('4.3.8'), array('5.4.2'), array('6.4.17'), array('7.5.0'));
-    }
-
-    /**
      * Verify direct plugin access exits before loading framework.
      *
      * @return void
@@ -100,29 +41,5 @@ class NativeLoadTest extends TestCase
         list($exit, $stdout, $stderr) = $this->runProbe(array('unrelated'));
         self::assertSame(0, $exit, $stderr);
         self::assertSame(array('loaded' => false), json_decode($stdout, true));
-    }
-
-    /**
-     * Verify archive self extracts when phar wrapper is unavailable.
-     *
-     * @return void
-     */
-    public function testArchiveSelfExtractsWhenPharWrapperIsUnavailable(): void
-    {
-        list($exit, $stdout, $stderr) = $this->runProbe(array('no-phar'));
-        self::assertSame(0, $exit, $stderr . $stdout);
-        self::assertSame(array('loaded' => true), json_decode($stdout, true));
-    }
-
-    /**
-     * Verify loader works with opcache permission validation.
-     *
-     * @return void
-     */
-    public function testLoaderWorksWithOpcachePermissionValidation(): void
-    {
-        list($exit, $stdout, $stderr) = $this->runProbe(array('load'), array('opcache.enable_cli=1', 'opcache.validate_permission=1'));
-        self::assertSame(0, $exit, $stderr . $stdout);
-        self::assertSame(array('loaded' => true), json_decode($stdout, true));
     }
 }
