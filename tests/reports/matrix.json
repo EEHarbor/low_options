@@ -1,0 +1,191 @@
+[
+  {
+    "version": "PHP 7.4.33 (cli) (built: Dec 13 2023 21:52:05) ( NTS )",
+    "runtime": "/Users/tomjaeger/Library/Application Support/Herd/bin/php74",
+    "exit": 2,
+    "command": [
+      "/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh",
+      "-c",
+      "phpunit.xml",
+      "--colors=never",
+      "--log-junit",
+      "<fresh-run-directory>/php74.xml"
+    ],
+    "environment": {
+      "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php74"
+    },
+    "counts": {
+      "tests": 312,
+      "assertions": 1428,
+      "errors": 14,
+      "failures": 18,
+      "warnings": 0,
+      "skipped": 0,
+      "risky": 0,
+      "incomplete": 0
+    },
+    "log": "tests/reports/matrix/php74.txt"
+  },
+  {
+    "version": "PHP 8.0.30 (cli) (built: Dec 21 2023 08:22:38) ( NTS )",
+    "runtime": "/Users/tomjaeger/Library/Application Support/Herd/bin/php80",
+    "exit": 2,
+    "command": [
+      "/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh",
+      "-c",
+      "phpunit.xml",
+      "--colors=never",
+      "--log-junit",
+      "<fresh-run-directory>/php80.xml"
+    ],
+    "environment": {
+      "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php80"
+    },
+    "counts": {
+      "tests": 312,
+      "assertions": 1422,
+      "errors": 15,
+      "failures": 16,
+      "warnings": 0,
+      "skipped": 0,
+      "risky": 0,
+      "incomplete": 0
+    },
+    "log": "tests/reports/matrix/php80.txt"
+  },
+  {
+    "version": "PHP 8.1.33 (cli) (built: Jul  4 2025 00:24:36) (NTS)",
+    "runtime": "/Users/tomjaeger/Library/Application Support/Herd/bin/php81",
+    "exit": 2,
+    "command": [
+      "/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh",
+      "-c",
+      "phpunit.xml",
+      "--colors=never",
+      "--log-junit",
+      "<fresh-run-directory>/php81.xml"
+    ],
+    "environment": {
+      "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php81"
+    },
+    "counts": {
+      "tests": 312,
+      "assertions": 1421,
+      "errors": 16,
+      "failures": 16,
+      "warnings": 0,
+      "skipped": 0,
+      "risky": 0,
+      "incomplete": 0
+    },
+    "log": "tests/reports/matrix/php81.txt"
+  },
+  {
+    "version": "PHP 8.2.30 (cli) (built: Dec 19 2025 07:42:41) (NTS clang 15.0.0)",
+    "runtime": "/Users/tomjaeger/Library/Application Support/Herd/bin/php82",
+    "exit": 2,
+    "command": [
+      "/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh",
+      "-c",
+      "phpunit.xml",
+      "--colors=never",
+      "--log-junit",
+      "<fresh-run-directory>/php82.xml"
+    ],
+    "environment": {
+      "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php82"
+    },
+    "counts": {
+      "tests": 312,
+      "assertions": 1417,
+      "errors": 17,
+      "failures": 16,
+      "warnings": 0,
+      "skipped": 0,
+      "risky": 0,
+      "incomplete": 0
+    },
+    "log": "tests/reports/matrix/php82.txt"
+  },
+  {
+    "version": "PHP 8.3.28 (cli) (built: Nov 20 2025 11:21:23) (NTS clang 15.0.0)",
+    "runtime": "/Users/tomjaeger/Library/Application Support/Herd/bin/php83",
+    "exit": 2,
+    "command": [
+      "/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh",
+      "-c",
+      "phpunit.xml",
+      "--colors=never",
+      "--log-junit",
+      "<fresh-run-directory>/php83.xml"
+    ],
+    "environment": {
+      "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php83"
+    },
+    "counts": {
+      "tests": 312,
+      "assertions": 1417,
+      "errors": 17,
+      "failures": 16,
+      "warnings": 0,
+      "skipped": 0,
+      "risky": 0,
+      "incomplete": 0
+    },
+    "log": "tests/reports/matrix/php83.txt"
+  },
+  {
+    "version": "PHP 8.4.15 (cli) (built: Nov 20 2025 14:28:49) (NTS clang 15.0.0)",
+    "runtime": "/Users/tomjaeger/Library/Application Support/Herd/bin/php84",
+    "exit": 2,
+    "command": [
+      "/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh",
+      "-c",
+      "phpunit.xml",
+      "--colors=never",
+      "--log-junit",
+      "<fresh-run-directory>/php84.xml"
+    ],
+    "environment": {
+      "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php84"
+    },
+    "counts": {
+      "tests": 312,
+      "assertions": 1417,
+      "errors": 17,
+      "failures": 16,
+      "warnings": 0,
+      "skipped": 0,
+      "risky": 0,
+      "incomplete": 0
+    },
+    "log": "tests/reports/matrix/php84.txt"
+  },
+  {
+    "version": "PHP 8.5.0 (cli) (built: Nov 20 2025 09:30:23) (NTS clang 15.0.0)",
+    "runtime": "/Users/tomjaeger/Library/Application Support/Herd/bin/php85",
+    "exit": 2,
+    "command": [
+      "/Users/tomjaeger/Sites/add-ons/low_options/tests/.phpunit/run-phpunit.sh",
+      "-c",
+      "phpunit.xml",
+      "--colors=never",
+      "--log-junit",
+      "<fresh-run-directory>/php85.xml"
+    ],
+    "environment": {
+      "PHP_BINARY": "/Users/tomjaeger/Library/Application Support/Herd/bin/php85"
+    },
+    "counts": {
+      "tests": 312,
+      "assertions": 1417,
+      "errors": 17,
+      "failures": 16,
+      "warnings": 0,
+      "skipped": 0,
+      "risky": 0,
+      "incomplete": 0
+    },
+    "log": "tests/reports/matrix/php85.txt"
+  }
+]

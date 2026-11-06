@@ -1,0 +1,9 @@
+/tests/.phpunit/*.phar
+/tests/.phpunit/.download.*
+/tests/reports/runs/
+/tests/reports/measurement/
+/.phpunit.result.cache
+/tests/reports/coverage.json
+/tests/reports/skill-method-lines.json
+/tests/reports/nav-coverage.json
+/tests/reports/nav-skill-method-lines.json

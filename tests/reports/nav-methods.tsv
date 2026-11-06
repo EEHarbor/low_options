@@ -1,0 +1,17 @@
+method	range	lines	basic_block	decision_outcomes	uncovered_lines	unobserved_decision_exits
+__construct	31-58	13/14	6/7	5/6	47	46->50
+generateNav	64-75	7/8	2/3	1/2	67	66->5
+formatItems	77-109	17/17	21/21	18/20	-	80->21,81->46
+itemsToNav	111-125	6/6	6/6	5/6	-	114->36
+buttonsToItems	127-135	4/4	7/7	6/8	-	130->23,130->21
+setActive	137-164	9/9	5/5	4/4	-	-
+setBreadcrumb	166-172	4/4	3/3	2/2	-	-
+getActiveItem	174-177	1/1	1/1	0/0	-	-
+deferGenerate	179-182	1/1	1/1	0/0	-	-
+preGenerateNav	184-186	1/1	1/1	0/0	-	-
+postGenerateNav	188-190	1/1	1/1	0/0	-	-
+getUrl	213-226	6/6	6/6	4/4	-	-
+defaultItems	228-231	1/1	1/1	0/0	-	-
+defaultButtons	233-236	1/1	1/1	0/0	-	-
+defaultActiveMap	238-241	1/1	1/1	0/0	-	-
+setToolbarIcon	243-258	7/7	3/3	2/2	-	-
