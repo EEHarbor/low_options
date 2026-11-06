@@ -6,7 +6,7 @@ The retained add-on source fixes cover: Zero-valued option labels, numeric-key i
 
 When `show_empty=no`, flat and grouped numeric option keys use the same string-key comparison as the existing ignore parser. A stored `'0'` keeps option `0 => '0'`; an unrelated stored value removes it on every supported PHP runtime. This avoids PHP7.4's numeric-zero comparison with unrelated text while preserving numeric/string key matching.
 
-Direct tests of distributed Foundation classes, inherited wrappers, archive members and extraction internals are removed because Foundation has its own suite. Mixed files retain fixture contracts and loose add-on view/loading cases. LowOptionsTest is unchanged, including its public constructor and option/filter/cache behavior through the real bundled dependency. Historical pre-cleanup matrices, published checkpoints, native faults and source snapshots are preserved under the campaign evidence and Git history; they do not validate this candidate.
+Direct tests of distributed Foundation classes, inherited wrappers, archive members and extraction internals are removed because Foundation has its own suite. Mixed files retain fixture contracts and loose add-on view/loading cases. The native caller error-queue contract checks empty and seeded OpenSSL FIFO preservation while running isolated Foundation workloads. LowOptionsTest is unchanged, including its public constructor and option/filter/cache behavior through the real bundled dependency. Historical pre-cleanup matrices, published checkpoints, native faults and source snapshots are preserved under the campaign evidence and Git history; they do not validate this candidate.
 
 Run the complete configured suite with an explicit Herd binary:
 

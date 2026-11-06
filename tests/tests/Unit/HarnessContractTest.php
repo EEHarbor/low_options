@@ -5,6 +5,21 @@ namespace LowOptionsTests;
 class HarnessContractTest extends TestCase
 {
     /**
+     * Preserve empty and pre-existing crypto error queues in the actual native seam.
+     *
+     * @return void
+     */
+    public function testNativeCryptoPreservesCallerQueue(): void
+    {
+        $expected = array();
+        foreach (array('payload', 'updater', 'version', 'public-key') as $context) {
+            $expected[$context . '/empty'] = true;
+            $expected[$context . '/seeded'] = true;
+        }
+        self::assertSame($expected, $this->cryptoProbe('queue'));
+    }
+
+    /**
      * Match real EE DB_result empty-row, index and named-column behavior.
      *
      * @return void
